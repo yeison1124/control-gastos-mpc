@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuentas - Control de Gastos</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+</head>
+
+<body>
+    <button class="sidebar-toggle"><i class="bi bi-list"></i></button>
+    <div class="sidebar-overlay"></div>
+
+    <aside class="sidebar">
+        <div class="sidebar-logo"><i class="bi bi-wallet2"></i>
+            <h2>Control Gastos</h2>
+        </div>
+        <nav>
+            <ul class="sidebar-nav">
+                <li><a href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+                <li><a href="transactions.html"><i class="bi bi-arrow-left-right"></i> Transacciones</a></li>
+                <li><a href="new-transaction.html"><i class="bi bi-plus-circle"></i> Agregar Gasto</a></li>
+                <li><a href="income.html"><i class="bi bi-arrow-up-circle"></i> Ingresos</a></li>
+                <li><a href="expenses.html"><i class="bi bi-arrow-down-circle"></i> Gastos</a></li>
+                <li><a href="categories.html"><i class="bi bi-tags"></i> Categorías</a></li>
+                <li><a href="budgets.html"><i class="bi bi-pie-chart"></i> Presupuestos</a></li>
+                <li><a href="goals.html"><i class="bi bi-trophy"></i> Metas</a></li>
+                <li><a href="accounts.html" class="active"><i class="bi bi-credit-card"></i> Cuentas</a></li>
+                <li><a href="analytics.html"><i class="bi bi-graph-up"></i> Análisis</a></li>
+                <li><a href="reports.html"><i class="bi bi-bar-chart"></i> Reportes</a></li>
+                <li><a href="export.html"><i class="bi bi-download"></i> Exportar</a></li>
+                <li><a href="notifications.html"><i class="bi bi-bell"></i> Notificaciones</a></li>
+                <li><a href="settings.html"><i class="bi bi-gear"></i> Configuración</a></li>
+                <li><a href="profile.html"><i class="bi bi-person"></i> Perfil</a></li>
+                <li><a href="help.html"><i class="bi bi-question-circle"></i> Ayuda</a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-user">
+            <div class="user-info">
+                <div class="user-avatar" id="user-avatar">U</div>
+                <div class="user-details">
+                    <h4 id="user-name">Usuario</h4>
+                    <p id="user-email">usuario@ejemplo.com</p>
+                </div>
+            </div>
+            <button class="btn-logout" id="logout-btn"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="container-custom">
+            <div class="row mb-4">
+                <div class="col">
+                    <h1>Cuentas</h1>
+                    <p class="text-muted">Gestiona tus cuentas bancarias y activos</p>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#accountModal"
+                        onclick="openAccountModal()">
+                        <i class="bi bi-plus-circle"></i> Nueva Cuenta
+                    </button>
+                </div>
+            </div>
+
+            <!-- Resumen -->
+            <div class="row g-3 mb-4">
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <i class="bi bi-wallet2 text-primary" style="font-size: 2rem;"></i>
+                            <h3 class="mt-2 mb-0" id="total-balance">$0</h3>
+                            <small class="text-muted">Balance Total</small>
+                            <div class="mt-2">
+                                <small class="badge ${month > 0 ? 'bg-success' : 'bg-danger'}">
+                                    +5.4% este mes
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <i class="bi bi-graph-up-arrow text-success" style="font-size: 2rem;"></i>
+                            <h3 class="mt-2 mb-0" id="total-assets">$0</h3>
+                            <small class="text-muted">Total Activos</small>
+                            <div class="mt-2">
+                                <small class="text-muted">+2 Creciendo</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <i class="bi bi-graph-down-arrow text-danger" style="font-size: 2rem;"></i>
+                            <h3 class="mt-2 mb-0" id="total-liabilities">$0</h3>
+                            <small class="text-muted">Total Pasivos</small>
+                            <div class="mt-2">
+                                <small class="text-muted">-2 Deuda</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <i class="bi bi-credit-card text-info" style="font-size: 2rem;"></i>
+                            <h3 class="mt-2 mb-0" id="total-accounts">0</h3>
+                            <small class="text-muted">Total Cuentas</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Acciones Rápidas -->
+            <div class="row g-3 mb-4">
+                <div class="col-12 col-sm-6 col-md-3">
+                    <div class="card" style="cursor: pointer;"
+                        onclick="alert('Transferencia entre cuentas (próximamente)')">
+                        <div class="card-body text-center">
+                            <i class="bi bi-arrow-left-right text-primary" style="font-size: 2rem;"></i>
+                            <h6 class="mt-2 mb-0">Transferir</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lista de Cuentas -->
+            <div class="row g-4" id="accounts-grid">
+                <div class="col-12 text-center py-5">
+                    <div class="spinner-border text-primary"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div class="modal fade" id="accountModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nueva Cuenta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="account-form">
+                        <input type="hidden" id="account-id">
+                        <div class="mb-3">
+                            <label class="form-label">Nombre <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="account-name" required
+                                placeholder="Ej: Cuenta Corriente BCP">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Tipo <span class="text-danger">*</span></label>
+                            <select class="form-select" id="account-type" required>
+                                <option value="bank">Cuenta Bancaria</option>
+                                <option value="cash">Efectivo</option>
+                                <option value="credit">Tarjeta de Crédito</option>
+                                <option value="savings">Cuenta de Ahorros</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Saldo Inicial</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="account-balance" step="0.01" value="0">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Moneda</label>
+                            <select class="form-select" id="account-currency">
+                                <option value="USD">USD - Dólar</option>
+                                <option value="EUR">EUR - Euro</option>
+                                <option value="GBP">GBP - Libra</option>
+                                <option value="MXN">MXN - Peso Mexicano</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveAccount()">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/sidebar.js"></script>
+
+    <script>
+        let currentUser = null;
+        let accounts = [];
+        let editingAccountId = null;
+
+        const accountIcons = {
+            'bank': 'bank',
+            'cash': 'cash-stack',
+            'credit': 'credit-card',
+            'savings': 'piggy-bank'
+        };
+
+        const accountColors = {
+            'bank': '#3b82f6',
+            'cash': '#22c55e',
+            'credit': '#ef4444',
+            'savings': '#8b5cf6'
+        };
+
+        const accountLabels = {
+            'bank': 'Cuenta Bancaria',
+            'cash': 'Efectivo',
+            'credit': 'Tarjeta de Crédito',
+            'savings': 'Cuenta De Ahorros'
+        };
+
+        document.addEventListener('DOMContentLoaded', async function () {
+            if (!await requireAuth()) return;
+            currentUser = await getCurrentUser();
+            await loadAccounts();
+        });
+
+        async function loadAccounts() {
+            try {
+                toggleLoader(true);
+
+                const { data, error } = await supabase
+                    .from('accounts')
+                    .select('*')
+                    .eq('user_id', currentUser.id)
+                    .order('name');
+
+                if (error) throw error;
+
+                accounts = data || [];
+                updateStats();
+                renderAccounts();
+
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error cargando cuentas', 'error');
+            } finally {
+                toggleLoader(false);
+            }
+        }
+
+        function updateStats() {
+            const totalBalance = accounts.reduce((sum, a) => {
+                const balance = parseFloat(a.balance);
+                return a.type === 'credit' ? sum - Math.abs(balance) : sum + balance;
+            }, 0);
+
+            const totalAssets = accounts
+                .filter(a => a.type !== 'credit')
+                .reduce((sum, a) => sum + parseFloat(a.balance), 0);
+
+            const totalLiabilities = accounts
+                .filter(a => a.type === 'credit')
+                .reduce((sum, a) => sum + Math.abs(parseFloat(a.balance)), 0);
+
+            document.getElementById('total-balance').textContent = formatCurrency(totalBalance);
+            document.getElementById('total-assets').textContent = formatCurrency(totalAssets);
+            document.getElementById('total-liabilities').textContent = formatCurrency(totalLiabilities);
+            document.getElementById('total-accounts').textContent = accounts.length;
+        }
+
+        function renderAccounts() {
+            const container = document.getElementById('accounts-grid');
+
+            if (accounts.length === 0) {
+                container.innerHTML = `
+                    <div class="col-12 text-center py-5">
+                        <i class="bi bi-wallet" style="font-size: 4rem; opacity: 0.3;"></i>
+                        <p class="mt-3 text-muted">No hay cuentas registradas</p>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#accountModal" onclick="openAccountModal()">
+                            <i class="bi bi-plus-circle"></i> Crear Primera Cuenta
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = accounts.map(account => {
+                const icon = accountIcons[account.type];
+                const color = accountColors[account.type];
+                const label = accountLabels[account.type];
+                const balance = parseFloat(account.balance);
+                const isNegative = balance < 0 || account.type === 'credit';
+
+                return `
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div style="width: 60px; height: 60px; background-color: ${color}20; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                            <i class="bi bi-${icon}" style="font-size: 1.75rem; color: ${color};"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0">${account.name}</h6>
+                                            <small class="text-muted">${label}</small>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown">
+                                        <button class="btn btn-sm btn-ghost" data-bs-toggle="dropdown">
+                                            <i class="bi bi-three-dots-vertical"></i>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" onclick="editAccount('${account.id}')"><i class="bi bi-pencil"></i> Editar</a></li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li><a class="dropdown-item text-danger" onclick="deleteAccount('${account.id}')"><i class="bi bi-trash"></i> Eliminar</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <small class="text-muted">Saldo Actual</small>
+                                    <h4 class="mb-0 ${isNegative ? 'text-danger' : 'text-success'}">
+                                        ${isNegative && balance > 0 ? '-' : ''}${formatCurrency(Math.abs(balance))} ${account.currency}
+                                    </h4>
+                                </div>
+                                
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-sm btn-outline-primary flex-fill" onclick="alert('Añadir dinero (próximamente)')">
+                                        <i class="bi bi-plus-circle"></i> Añadir
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-secondary flex-fill" onclick="alert('Transferir (próximamente)')">
+                                        <i class="bi bi-arrow-left-right"></i> Transfer
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openAccountModal() {
+            editingAccountId = null;
+            document.getElementById('account-form').reset();
+        }
+
+        async function editAccount(accountId) {
+            const account = accounts.find(a => a.id === accountId);
+            if (!account) return;
+
+            editingAccountId = accountId;
+            document.getElementById('account-name').value = account.name;
+            document.getElementById('account-type').value = account.type;
+            document.getElementById('account-balance').value = account.balance;
+            document.getElementById('account-currency').value = account.currency;
+
+            new bootstrap.Modal(document.getElementById('accountModal')).show();
+        }
+
+        async function saveAccount() {
+            const name = document.getElementById('account-name').value.trim();
+            const type = document.getElementById('account-type').value;
+            const balance = parseFloat(document.getElementById('account-balance').value) || 0;
+            const currency = document.getElementById('account-currency').value;
+
+            if (!name) {
+                showToast('Por favor ingresa un nombre', 'warning');
+                return;
+            }
+
+            try {
+                toggleLoader(true);
+
+                const accountData = {
+                    user_id: currentUser.id,
+                    name,
+                    type,
+                    balance,
+                    currency
+                };
+
+                if (editingAccountId) {
+                    const { error } = await supabase
+                        .from('accounts')
+                        .update(accountData)
+                        .eq('id', editingAccountId);
+
+                    if (error) throw error;
+                    showToast('Cuenta actualizada', 'success');
+                } else {
+                    const { error } = await supabase
+                        .from('accounts')
+                        .insert([accountData]);
+
+                    if (error) throw error;
+                    showToast('Cuenta creada', 'success');
+                }
+
+                bootstrap.Modal.getInstance(document.getElementById('accountModal')).hide();
+                await loadAccounts();
+
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error: ' + error.message, 'error');
+            } finally {
+                toggleLoader(false);
+            }
+        }
+
+        async function deleteAccount(accountId) {
+            if (!confirm('¿Eliminar esta cuenta? Las transacciones asociadas no se eliminarán.')) return;
+
+            try {
+                toggleLoader(true);
+                const { error } = await supabase
+                    .from('accounts')
+                    .delete()
+                    .eq('id', accountId);
+
+                if (error) throw error;
+
+                showToast('Cuenta eliminada', 'success');
+                await loadAccounts();
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error: ' + error.message, 'error');
+            } finally {
+                toggleLoader(false);
+            }
+        }
+    </script>
+</body>
+
+</html>

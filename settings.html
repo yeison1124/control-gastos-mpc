@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuración - Control de Gastos</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+</head>
+
+<body>
+    <button class="sidebar-toggle"><i class="bi bi-list"></i></button>
+    <div class="sidebar-overlay"></div>
+
+    <aside class="sidebar">
+        <div class="sidebar-logo"><i class="bi bi-wallet2"></i>
+            <h2>Control Gastos</h2>
+        </div>
+        <nav>
+            <ul class="sidebar-nav">
+                <li><a href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+                <li><a href="transactions.html"><i class="bi bi-arrow-left-right"></i> Transacciones</a></li>
+                <li><a href="new-transaction.html"><i class="bi bi-plus-circle"></i> Agregar Gasto</a></li>
+                <li><a href="income.html"><i class="bi bi-arrow-up-circle"></i> Ingresos</a></li>
+                <li><a href="expenses.html"><i class="bi bi-arrow-down-circle"></i> Gastos</a></li>
+                <li><a href="categories.html"><i class="bi bi-tags"></i> Categorías</a></li>
+                <li><a href="budgets.html"><i class="bi bi-pie-chart"></i> Presupuestos</a></li>
+                <li><a href="goals.html"><i class="bi bi-trophy"></i> Metas</a></li>
+                <li><a href="accounts.html"><i class="bi bi-credit-card"></i> Cuentas</a></li>
+                <li><a href="analytics.html"><i class="bi bi-graph-up"></i> Análisis</a></li>
+                <li><a href="reports.html"><i class="bi bi-bar-chart"></i> Reportes</a></li>
+                <li><a href="export.html"><i class="bi bi-download"></i> Exportar</a></li>
+                <li><a href="notifications.html"><i class="bi bi-bell"></i> Notificaciones</a></li>
+                <li><a href="settings.html" class="active"><i class="bi bi-gear"></i> Configuración</a></li>
+                <li><a href="profile.html"><i class="bi bi-person"></i> Perfil</a></li>
+                <li><a href="help.html"><i class="bi bi-question-circle"></i> Ayuda</a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-user">
+            <div class="user-info">
+                <div class="user-avatar" id="user-avatar">U</div>
+                <div class="user-details">
+                    <h4 id="user-name">Usuario</h4>
+                    <p id="user-email">usuario@ejemplo.com</p>
+                </div>
+            </div>
+            <button class="btn-logout" id="logout-btn"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="container-custom">
+            <div class="row mb-4">
+                <div class="col">
+                    <h1>Configuración</h1>
+                    <p class="text-muted">Personaliza tu experiencia en la aplicación</p>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-primary" onclick="saveAllSettings()">
+                        <i class="bi bi-save"></i> Guardar Cambios
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <ul class="nav nav-tabs mb-4" role="tablist">
+                <li class="nav-item">
+                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#general">
+                        <i class="bi bi-sliders"></i> General
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#notifications-tab">
+                        <i class="bi bi-bell"></i> Notificaciones
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#appearance">
+                        <i class="bi bi-palette"></i> Apariencia
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#security">
+                        <i class="bi bi-shield-check"></i> Seguridad
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#data">
+                        <i class="bi bi-download"></i> Datos
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <!-- Tab General -->
+                <div class="tab-pane fade show active" id="general">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="mb-0">Configuración Regional</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label">Moneda</label>
+                                    <select class="form-select" id="currency">
+                                        <option value="USD">USD - Dólar Estadounidense</option>
+                                        <option value="EUR">EUR - Euro</option>
+                                        <option value="GBP">GBP - Libra Esterlina</option>
+                                        <option value="MXN">MXN - Peso Mexicano</option>
+                                        <option value="COP">COP - Peso Colombiano</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label">Idioma</label>
+                                    <select class="form-select" id="language">
+                                        <option value="es">Español</option>
+                                        <option value="en">English</option>
+                                        <option value="pt">Português</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label">Zona Horaria</label>
+                                    <select class="form-select" id="timezone">
+                                        <option value="America/Mexico_City">Ciudad de México (GMT-6)</option>
+                                        <option value="America/New_York">Nueva York (GMT-5)</option>
+                                        <option value="America/Los_Angeles">Los Ángeles (GMT-8)</option>
+                                        <option value="Europe/Madrid">Madrid (GMT+1)</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label">Formato de Fecha</label>
+                                    <select class="form-select" id="date-format">
+                                        <option value="DD/MM/YYYY">DD/MM/YYYY</option>
+                                        <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+                                        <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mt-3">
+                        <div class="card-header">
+                            <h6 class="mb-0">Configuración de Cuenta</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                                <div>
+                                    <i class="bi bi-person"></i> Editar Perfil
+                                    <p class="small text-muted mb-0">Cambia tu nombre, email y foto</p>
+                                </div>
+                                <button class="btn btn-outline-primary btn-sm"
+                                    onclick="alert('Editar perfil (próximamente)')">
+                                    Editar
+                                </button>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center py-2">
+                                <div>
+                                    <i class="bi bi-key"></i> Cambiar Contraseña
+                                    <p class="small text-muted mb-0">Actualiza tu contraseña de acceso</p>
+                                </div>
+                                <button class="btn btn-outline-primary btn-sm" onclick="changePassword()">
+                                    Cambiar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Notificaciones -->
+                <div class="tab-pane fade" id="notifications-tab">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="mb-0">Preferencias de Notificaciones</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="notif-budget" checked>
+                                <label class="form-check-label" for="notif-budget">
+                                    <strong>Alertas de Presupuesto</strong>
+                                    <p class="small text-muted mb-0">Recibir notificaciones cuando superes el 80% de un
+                                        presupuesto</p>
+                                </label>
+                            </div>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="notif-goals" checked>
+                                <label class="form-check-label" for="notif-goals">
+                                    <strong>Metas de Ahorro</strong>
+                                    <p class="small text-muted mb-0">Notificar cuando alcances hitos en tus metas</p>
+                                </label>
+                            </div>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="notif-transactions">
+                                <label class="form-check-label" for="notif-transactions">
+                                    <strong>Nuevas Transacciones</strong>
+                                    <p class="small text-muted mb-0">Confirmar cada transacción agregada</p>
+                                </label>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="notif-reports" checked>
+                                <label class="form-check-label" for="notif-reports">
+                                    <strong>Reportes Mensuales</strong>
+                                    <p class="small text-muted mb-0">Recibir resumen mensual de finanzas</p>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Apariencia -->
+                <div class="tab-pane fade" id="appearance">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="mb-0">Personalización</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-4">
+                                <label class="form-label">Tema</label>
+                                <div class="btn-group w-100" role="group">
+                                    <input type="radio" class="btn-check" name="theme" id="theme-light" value="light"
+                                        checked>
+                                    <label class="btn btn-outline-primary" for="theme-light">
+                                        <i class="bi bi-sun"></i> Claro
+                                    </label>
+
+                                    <input type="radio" class="btn-check" name="theme" id="theme-dark" value="dark">
+                                    <label class="btn btn-outline-primary" for="theme-dark">
+                                        <i class="bi bi-moon"></i> Oscuro
+                                    </label>
+
+                                    <input type="radio" class="btn-check" name="theme" id="theme-auto" value="auto">
+                                    <label class="btn btn-outline-primary" for="theme-auto">
+                                        <i class="bi bi-circle-half"></i> Auto
+                                    </label>
+                                </div>
+                                <small class="text-muted">El tema oscuro está en desarrollo</small>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Vista Predeterminada</label>
+                                <select class="form-select">
+                                    <option value="dashboard">Dashboard</option>
+                                    <option value="transactions">Transacciones</option>
+                                    <option value="analytics">Análisis</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Seguridad -->
+                <div class="tab-pane fade" id="security">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="mb-0">Seguridad de la Cuenta</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="alert alert-success">
+                                <i class="bi bi-shield-check"></i> Tu cuenta está protegida
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                                <div>
+                                    <strong>Autenticación de Dos Factores</strong>
+                                    <p class="small text-muted mb-0">Añade una capa extra de seguridad</p>
+                                </div>
+                                <span class="badge bg-secondary">Próximamente</span>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                                <div>
+                                    <strong>Sesiones Activas</strong>
+                                    <p class="small text-muted mb-0">Ver y gestionar dispositivos conectados</p>
+                                </div>
+                                <button class="btn btn-outline-primary btn-sm"
+                                    onclick="alert('Ver sesiones (próximamente)')">
+                                    Ver
+                                </button>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center py-2">
+                                <div>
+                                    <strong>Cerrar Sesión en Todos los Dispositivos</strong>
+                                    <p class="small text-muted mb-0">Cierra sesión excepto en este dispositivo</p>
+                                </div>
+                                <button class="btn btn-outline-danger btn-sm" onclick="logoutAllDevices()">
+                                    Cerrar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Datos -->
+                <div class="tab-pane fade" id="data">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="mb-0">Gestión de Datos</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                                <div>
+                                    <i class="bi bi-download"></i> Exportar Datos
+                                    <p class="small text-muted mb-0">Descarga todos tus datos en formato CSV o JSON</p>
+                                </div>
+                                <button class="btn btn-outline-primary btn-sm" onclick="navigateTo('export.html')">
+                                    Exportar
+                                </button>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                                <div>
+                                    <i class="bi bi-upload"></i> Importar Datos
+                                    <p class="small text-muted mb-0">Importa transacciones desde CSV</p>
+                                </div>
+                                <button class="btn btn-outline-primary btn-sm"
+                                    onclick="alert('Importar datos (próximamente)')">
+                                    Importar
+                                </button>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                                <div>
+                                    <i class="bi bi-trash"></i> Eliminar Cuenta
+                                    <p class="small text-muted mb-0 text-danger">Esta acción no se puede deshacer</p>
+                                </div>
+                                <button class="btn btn-outline-danger btn-sm" onclick="deleteAccount()">
+                                    Eliminar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/sidebar.js"></script>
+
+    <script>
+        let currentUser = null;
+
+        document.addEventListener('DOMContentLoaded', async function () {
+            if (!await requireAuth()) return;
+            currentUser = await getCurrentUser();
+            await loadSettings();
+        });
+
+        async function loadSettings() {
+            try {
+                const profile = await getUserProfile(currentUser.id);
+                if (profile && profile.currency) {
+                    document.getElementById('currency').value = profile.currency;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        async function saveAllSettings() {
+            try {
+                toggleLoader(true);
+
+                const currency = document.getElementById('currency').value;
+
+                const { error } = await supabase
+                    .from('profiles')
+                    .update({ currency })
+                    .eq('id', currentUser.id);
+
+                if (error) throw error;
+
+                showToast('Configuración guardada exitosamente', 'success');
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error: ' + error.message, 'error');
+            } finally {
+                toggleLoader(false);
+            }
+        }
+
+        function changePassword() {
+            const newPassword = prompt('Ingresa tu nueva contraseña (mínimo 6 caracteres):');
+            if (!newPassword || newPassword.length < 6) {
+                showToast('La contraseña debe tener al menos 6 caracteres', 'warning');
+                return;
+            }
+
+            supabase.auth.updateUser({ password: newPassword })
+                .then(() => showToast('Contraseña actualizada', 'success'))
+                .catch(err => showToast('Error: ' + err.message, 'error'));
+        }
+
+        function logoutAllDevices() {
+            if (confirm('¿Cerrar sesión en todos los dispositivos?')) {
+                supabase.auth.signOut().then(() => {
+                    showToast('Sesión cerrada en todos los dispositivos', 'success');
+                    setTimeout(() => navigateTo('index.html'), 1500);
+                });
+            }
+        }
+
+        function deleteAccount() {
+            const confirmation = prompt('Esta acción eliminará TODOS tus datos permanentemente. Escribe "ELIMINAR" para confirmar:');
+            if (confirmation === 'ELIMINAR') {
+                alert('Función de eliminación de cuenta en desarrollo. Por favor contacta al soporte.');
+            }
+        }
+    </script>
+</body>
+
+</html>

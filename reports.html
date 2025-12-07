@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportes y Análisis - Control de Gastos</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+</head>
+
+<body>
+    <button class="sidebar-toggle"><i class="bi bi-list"></i></button>
+    <div class="sidebar-overlay"></div>
+
+    <aside class="sidebar">
+        <div class="sidebar-logo"><i class="bi bi-wallet2"></i>
+            <h2>Control Gastos</h2>
+        </div>
+        <nav>
+            <ul class="sidebar-nav">
+                <li><a href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+                <li><a href="transactions.html"><i class="bi bi-arrow-left-right"></i> Transacciones</a></li>
+                <li><a href="new-transaction.html"><i class="bi bi-plus-circle"></i> Agregar Gasto</a></li>
+                <li><a href="income.html"><i class="bi bi-arrow-up-circle"></i> Ingresos</a></li>
+                <li><a href="expenses.html"><i class="bi bi-arrow-down-circle"></i> Gastos</a></li>
+                <li><a href="categories.html"><i class="bi bi-tags"></i> Categorías</a></li>
+                <li><a href="budgets.html"><i class="bi bi-pie-chart"></i> Presupuestos</a></li>
+                <li><a href="goals.html"><i class="bi bi-trophy"></i> Metas</a></li>
+                <li><a href="accounts.html"><i class="bi bi-credit-card"></i> Cuentas</a></li>
+                <li><a href="analytics.html"><i class="bi bi-graph-up"></i> Análisis</a></li>
+                <li><a href="reports.html" class="active"><i class="bi bi-bar-chart"></i> Reportes</a></li>
+                <li><a href="export.html"><i class="bi bi-download"></i> Exportar</a></li>
+                <li><a href="notifications.html"><i class="bi bi-bell"></i> Notificaciones</a></li>
+                <li><a href="settings.html"><i class="bi bi-gear"></i> Configuración</a></li>
+                <li><a href="profile.html"><i class="bi bi-person"></i> Perfil</a></li>
+                <li><a href="help.html"><i class="bi bi-question-circle"></i> Ayuda</a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-user">
+            <div class="user-info">
+                <div class="user-avatar" id="user-avatar">U</div>
+                <div class="user-details">
+                    <h4 id="user-name">Usuario</h4>
+                    <p id="user-email">usuario@ejemplo.com</p>
+                </div>
+            </div>
+            <button class="btn-logout" id="logout-btn"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="container-custom">
+            <div class="row mb-4">
+                <div class="col">
+                    <h1>Reportes y Análisis</h1>
+                    <p class="text-muted">Visualiza tus patrones de gastos e ingresos</p>
+                </div>
+                <div class="col-auto">
+                    <select class="form-select" id="month-selector">
+                        <option value="this">Este Mes</option>
+                        <option value="last">Mes Anterior</option>
+                        <option value="all">Todo el Tiempo</option>
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-outline-primary" onclick="navigateTo('export.html')">
+                        <i class="bi bi-download"></i> Exportar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Métricas Principales -->
+            <div class="row g-3 mb-4">
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <small class="text-muted d-block mb-2">Ingresos Totales</small>
+                            <h3 class="mb-2 text-success" id="total-income">$3250</h3>
+                            <small class="text-success">
+                                <i class="bi bi-arrow-up"></i> +12.3% vs mes anterior
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <small class="text-muted d-block mb-2">Gastos Totales</small>
+                            <h3 class="mb-2 text-danger" id="total-expenses">$1890</h3>
+                            <small class="text-danger">
+                                <i class="bi bi-arrow-down"></i> -5.1% vs mes anterior
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <small class="text-muted d-block mb-2">Ingreso Neto</small>
+                            <h3 class="mb-2 text-primary" id="net-income">$1360</h3>
+                            <small class="text-primary">
+                                <i class="bi bi-arrow-up"></i> +22.8% vs mes anterior
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <small class="text-muted d-block mb-2">Promedio Diario</small>
+                            <h3 class="mb-2 text-info" id="avg-daily">$61</h3>
+                            <small class="text-muted">Gasto promedio por día</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <ul class="nav nav-pills mb-4">
+                <li class="nav-item">
+                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#resumen">
+                        Resumen
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tendencias">
+                        Tendencias
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#categorias-tab">
+                        Categorías
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#presupuestos-tab">
+                        Presupuestos
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <!-- Tab Resumen -->
+                <div class="tab-pane fade show active" id="resumen">
+                    <!-- Gráfico Principal -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h6 class="mb-0">Ingresos vs Gastos por Mes</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="text-center py-5">
+                                <i class="bi bi-bar-chart" style="font-size: 4rem; opacity: 0.3;"></i>
+                                <p class="mt-3 text-muted">Gráfico de barras - Ingresos vs Gastos</p>
+                                <small class="text-muted">(Implementar con recharts)</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tarjetas Inferiores -->
+                    <div class="row g-4">
+                        <div class="col-12 col-md-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <small class="text-muted">Categoría Más Gastada</small>
+                                    <h3 class="mt-2">Alimentación</h3>
+                                    <h4 class="text-danger">$450.00</h4>
+                                    <small class="text-muted">este mes</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <small class="text-muted">Uso de Presupuesto</small>
+                                    <h3 class="mt-2">68%</h3>
+                                    <small class="text-success">Dentro del límite</small>
+                                    <div class="progress mt-3" style="height: 10px;">
+                                        <div class="progress-bar bg-warning" style="width: 68%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <small class="text-muted">Días para Fin de Mes</small>
+                                    <h3 class="mt-2">20</h3>
+                                    <small class="text-muted">Días restantes</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Tendencias -->
+                <div class="tab-pane fade" id="tendencias">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="mb-0">Tendencia de Gastos (Últimos 6 Meses)</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="text-center py-5">
+                                <i class="bi bi-graph-up" style="font-size: 4rem; opacity: 0.3;"></i>
+                                <p class="mt-3 text-muted">Gráfico de líneas - Tendencias</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Categorías -->
+                <div class="tab-pane fade" id="categorias-tab">
+                    <div class="row g-4">
+                        <div class="col-12 col-lg-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Distribución por Categoría</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="text-center py-5">
+                                        <i class="bi bi-pie-chart" style="font-size: 4rem; opacity: 0.3;"></i>
+                                        <p class="mt-3 text-muted">Gráfico circular</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Top Categorías</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3 pb-3 border-bottom">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <strong>Alimentación</strong>
+                                                <p class="small text-muted mb-0">45 transacciones</p>
+                                            </div>
+                                            <h6 class="mb-0 text-danger">$450.00</h6>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 pb-3 border-bottom">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <strong>Transporte</strong>
+                                                <p class="small text-muted mb-0">28 transacciones</p>
+                                            </div>
+                                            <h6 class="mb-0 text-danger">$320.00</h6>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 pb-3 border-bottom">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <strong>Servicios</strong>
+                                                <p class="small text-muted mb-0">15 transacciones</p>
+                                            </div>
+                                            <h6 class="mb-0 text-danger">$280.00</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Presupuestos -->
+                <div class="tab-pane fade" id="presupuestos-tab">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="mb-0">Estado de Presupuestos</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <div>
+                                        <strong>Alimentación</strong>
+                                        <span class="text-muted"> - $450 / $600</span>
+                                    </div>
+                                    <span class="badge bg-warning">75%</span>
+                                </div>
+                                <div class="progress" style="height: 10px;">
+                                    <div class="progress-bar bg-warning" style="width: 75%;"></div>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <div>
+                                        <strong>Transporte</strong>
+                                        <span class="text-muted"> - $320 / $400</span>
+                                    </div>
+                                    <span class="badge bg-success">80%</span>
+                                </div>
+                                <div class="progress" style="height: 10px;">
+                                    <div class="progress-bar bg-success" style="width: 80%;"></div>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <div>
+                                        <strong>Entretenimiento</strong>
+                                        <span class="text-muted"> - $180 / $200</span>
+                                    </div>
+                                    <span class="badge bg-danger">90%</span>
+                                </div>
+                                <div class="progress" style="height: 10px;">
+                                    <div class="progress-bar bg-danger" style="width: 90%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/sidebar.js"></script>
+
+    <script>
+        let currentUser = null;
+        let incomeVsExpensesChart = null;
+        let trendsChart = null;
+        let distributionChart = null;
+
+        document.addEventListener('DOMContentLoaded', async function () {
+            if (!await requireAuth()) return;
+            currentUser = await getCurrentUser();
+
+            await loadReports();
+
+            document.getElementById('month-selector').addEventListener('change', loadReports);
+        });
+
+        async function loadReports() {
+            try {
+                toggleLoader(true);
+
+                const period = document.getElementById('month-selector').value;
+                let startDate, endDate;
+                const now = new Date();
+
+                if (period === 'this') {
+                    startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+                    endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+                } else if (period === 'last') {
+                    startDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+                    endDate = new Date(now.getFullYear(), now.getMonth(), 0);
+                } else {
+                    startDate = new Date(2020, 0, 1);
+                    endDate = now;
+                }
+
+                const [transactionsResponse, budgetsResponse] = await Promise.all([
+                    supabase
+                        .from('transactions')
+                        .select(`*, categories(name, color, icon)`)
+                        .eq('user_id', currentUser.id)
+                        .gte('date', startDate.toISOString().split('T')[0])
+                        .lte('date', endDate.toISOString().split('T')[0]),
+                    supabase
+                        .from('budgets')
+                        .select('*, categories(name)')
+                        .eq('user_id', currentUser.id)
+                        .gte('start_date', startDate.toISOString().split('T')[0])
+                        .lte('end_date', endDate.toISOString().split('T')[0])
+                ]);
+
+                if (transactionsResponse.error) throw transactionsResponse.error;
+
+                processReports(transactionsResponse.data || [], budgetsResponse.data || []);
+
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error cargando reportes', 'error');
+            } finally {
+                toggleLoader(false);
+            }
+        }
+
+        function processReports(transactions, budgets) {
+            const income = transactions.filter(t => t.type === 'income');
+            const expenses = transactions.filter(t => t.type === 'expense');
+
+            const totalIncome = income.reduce((sum, t) => sum + parseFloat(t.amount), 0);
+            const totalExpenses = expenses.reduce((sum, t) => sum + parseFloat(t.amount), 0);
+            const netIncome = totalIncome - totalExpenses;
+            const totalBudget = budgets.reduce((sum, b) => sum + parseFloat(b.amount), 0);
+
+            // Actualizar tarjetas superiores
+            document.getElementById('total-income').textContent = formatCurrency(totalIncome);
+            document.getElementById('total-expenses').textContent = formatCurrency(totalExpenses);
+            document.getElementById('net-income').textContent = formatCurrency(netIncome);
+
+            const now = new Date();
+            const avgDaily = now.getDate() > 0 ? totalExpenses / now.getDate() : 0;
+            document.getElementById('avg-daily').textContent = formatCurrency(avgDaily);
+
+            // 1. Resumen Tab
+            // Gráfico Ingresos vs Gastos
+            renderIncomeVsExpensesChart(income, expenses);
+
+            // Tarjetas inferiores del resumen
+            // Top Categoría
+            updateTopCategoryCard(expenses);
+
+            // Uso de Presupuesto
+            updateBudgetUsageCard(totalExpenses, totalBudget);
+
+            // Días restantes
+            const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+            const daysLeft = daysInMonth - now.getDate();
+            const daysCard = document.querySelectorAll('.card-body h3')[3]; // Hacky selector based on structure, better to add ID
+            // Better: update the specific card in the HTML structure if it had an ID. 
+            // In the HTML provided, the "Days Left" is the last card in the 'row g-4' inside 'resumen' tab.
+            // Let's assume the user hasn't changed structure.
+            document.querySelectorAll('#resumen .card h3')[2].textContent = daysLeft;
+
+            // 2. Tendencias Tab
+            renderTrendsChart(expenses);
+
+            // 3. Categorías Tab
+            renderCategoriesTab(expenses);
+
+            // 4. Presupuestos Tab
+            renderBudgetsTab(expenses, budgets);
+        }
+
+        function updateTopCategoryCard(expenses) {
+            const categoryTotals = {};
+            let topCategory = { name: 'N/A', amount: 0 };
+
+            expenses.forEach(t => {
+                const catName = t.categories?.name || 'Sin categoría';
+                categoryTotals[catName] = (categoryTotals[catName] || 0) + parseFloat(t.amount);
+                if (categoryTotals[catName] > topCategory.amount) {
+                    topCategory = { name: catName, amount: categoryTotals[catName] };
+                }
+            });
+
+            const card = document.querySelectorAll('#resumen .card-body')[1]; // Second card in summary row
+            if (card) {
+                card.querySelector('h3').textContent = topCategory.name;
+                card.querySelector('h4').textContent = formatCurrency(topCategory.amount);
+            }
+        }
+
+        function updateBudgetUsageCard(totalExpenses, totalBudget) {
+            const percentage = totalBudget > 0 ? Math.round((totalExpenses / totalBudget) * 100) : 0;
+            const card = document.querySelectorAll('#resumen .card-body')[2]; // Third card
+            if (card) {
+                card.querySelector('h3').textContent = totalBudget > 0 ? `${percentage}%` : 'N/A';
+                card.querySelector('small.text-success').textContent = totalBudget > 0 ? 'Del presupuesto total' : 'Sin presupuesto';
+                const bar = card.querySelector('.progress-bar');
+                bar.style.width = `${Math.min(percentage, 100)}%`;
+                bar.className = `progress-bar ${percentage >= 100 ? 'bg-danger' : percentage >= 80 ? 'bg-warning' : 'bg-success'}`;
+            }
+        }
+
+        function renderIncomeVsExpensesChart(income, expenses) {
+            const container = document.querySelector('#resumen .card-body .text-center');
+            if (container) {
+                container.innerHTML = '<canvas id="reports-income-expenses-chart"></canvas>';
+                const ctx = document.getElementById('reports-income-expenses-chart').getContext('2d');
+
+                // Agrupar por fecha
+                const incomeTotal = income.reduce((s, t) => s + parseFloat(t.amount), 0);
+                const expenseTotal = expenses.reduce((s, t) => s + parseFloat(t.amount), 0);
+
+                if (incomeVsExpensesChart) incomeVsExpensesChart.destroy();
+
+                incomeVsExpensesChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Ingresos', 'Gastos'],
+                        datasets: [{
+                            label: 'Monto',
+                            data: [incomeTotal, expenseTotal],
+                            backgroundColor: ['rgba(34, 197, 94, 0.7)', 'rgba(239, 68, 68, 0.7)'],
+                            borderColor: ['rgba(34, 197, 94, 1)', 'rgba(239, 68, 68, 1)'],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: { responsive: true }
+                });
+            }
+        }
+
+        function renderTrendsChart(expenses) {
+            const container = document.querySelector('#tendencias .card-body .text-center');
+            if (container) {
+                container.innerHTML = '<canvas id="reports-trends-chart"></canvas>';
+                const ctx = document.getElementById('reports-trends-chart').getContext('2d');
+
+                // Agrupar por día
+                const dailyExpenses = {};
+                expenses.forEach(t => {
+                    const date = t.date;
+                    dailyExpenses[date] = (dailyExpenses[date] || 0) + parseFloat(t.amount);
+                });
+
+                const labels = Object.keys(dailyExpenses).sort();
+                const data = labels.map(d => dailyExpenses[d]);
+
+                if (trendsChart) trendsChart.destroy();
+
+                trendsChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels.map(l => formatDate(l)),
+                        datasets: [{
+                            label: 'Gastos Diarios',
+                            data: data,
+                            borderColor: '#6366f1',
+                            tension: 0.4,
+                            fill: true,
+                            backgroundColor: 'rgba(99, 102, 241, 0.1)'
+                        }]
+                    },
+                    options: { responsive: true }
+                });
+            }
+        }
+
+        function renderCategoriesTab(expenses) {
+            const container = document.querySelector('#categorias-tab .text-center');
+            if (container) {
+                container.innerHTML = '<canvas id="reports-distribution-chart" style="max-height: 300px;"></canvas>';
+                const ctx = document.getElementById('reports-distribution-chart').getContext('2d');
+
+                const categoryTotals = {};
+                expenses.forEach(t => {
+                    const name = t.categories?.name || 'Otros';
+                    categoryTotals[name] = (categoryTotals[name] || 0) + parseFloat(t.amount);
+                });
+
+                if (distributionChart) distributionChart.destroy();
+
+                distributionChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: Object.keys(categoryTotals),
+                        datasets: [{
+                            data: Object.values(categoryTotals),
+                            backgroundColor: [
+                                '#6366f1', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899'
+                            ]
+                        }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false }
+                });
+            }
+
+            // Top Categorías lista
+            const topListContainer = document.querySelector('#categorias-tab .card:nth-child(2) .card-body');
+            if (topListContainer) {
+                const categoryTotals = {};
+                expenses.forEach(t => {
+                    const name = t.categories?.name || 'Otros';
+                    if (!categoryTotals[name]) categoryTotals[name] = { count: 0, amount: 0 };
+                    categoryTotals[name].count++;
+                    categoryTotals[name].amount += parseFloat(t.amount);
+                });
+
+                const sorted = Object.entries(categoryTotals).sort((a, b) => b[1].amount - a[1].amount);
+
+                topListContainer.innerHTML = sorted.map(([name, data]) => `
+                    <div class="mb-3 pb-3 border-bottom">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>${name}</strong>
+                                <p class="small text-muted mb-0">${data.count} transacciones</p>
+                            </div>
+                            <h6 class="mb-0 text-danger">${formatCurrency(data.amount)}</h6>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function renderBudgetsTab(expenses, budgets) {
+            const container = document.querySelector('#presupuestos-tab .card-body');
+            if (!container) return;
+
+            if (budgets.length === 0) {
+                container.innerHTML = '<p class="text-center text-muted">No hay presupuestos configurados</p>';
+                return;
+            }
+
+            const expensesByCategory = {};
+            expenses.forEach(t => {
+                expensesByCategory[t.category_id] = (expensesByCategory[t.category_id] || 0) + parseFloat(t.amount);
+            });
+
+            container.innerHTML = budgets.map(b => {
+                const spent = expensesByCategory[b.category_id] || 0;
+                const percentage = Math.round((spent / b.amount) * 100);
+                const color = percentage >= 100 ? 'bg-danger' : percentage >= 80 ? 'bg-warning' : 'bg-success';
+
+                return `
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between mb-2">
+                            <div>
+                                <strong>${b.categories?.name || 'Presupuesto'}</strong>
+                                <span class="text-muted"> - ${formatCurrency(spent)} / ${formatCurrency(b.amount)}</span>
+                            </div>
+                            <span class="badge ${color}">${percentage}%</span>
+                        </div>
+                        <div class="progress" style="height: 10px;">
+                            <div class="progress-bar ${color}" style="width: ${Math.min(percentage, 100)}%;"></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Cuenta - Control de Gastos</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/main.css">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .auth-container {
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .auth-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: #6366f1;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 1.8rem;
+        }
+
+        .btn-register {
+            width: 100%;
+            padding: 12px;
+            background: #6366f1;
+            /* Different color for register to distinguish */
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            margin-top: 1rem;
+            transition: all 0.3s;
+        }
+
+        .btn-register:hover {
+            background: #4f46e5;
+            transform: translateY(-2px);
+        }
+
+        .social-btn {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            color: #475569;
+            font-weight: 500;
+            transition: all 0.2s;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+
+        .social-btn:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 1.5rem 0;
+            color: #94a3b8;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .divider span {
+            padding: 0 10px;
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            padding: 12px;
+            background: #f1f5f9;
+            border: 1px solid transparent;
+            border-radius: 10px;
+        }
+
+        .form-control:focus {
+            background: white;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .auth-link {
+            color: #6366f1;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .auth-link:hover {
+            text-decoration: underline;
+        }
+
+        .password-strength {
+            height: 4px;
+            border-radius: 2px;
+            background: #e2e8f0;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .strength-bar {
+            height: 100%;
+            width: 0%;
+            transition: all 0.3s;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="text-center mb-4">
+                <div class="logo-icon"><i class="bi bi-person-plus"></i></div>
+                <h2 class="fw-bold text-dark">Crear Cuenta</h2>
+                <p class="text-muted">Regístrate para controlar tus gastos</p>
+            </div>
+
+            <form id="register-form">
+                <div class="mb-3">
+                    <label class="form-label text-muted small fw-bold">Nombre Completo</label>
+                    <input type="text" class="form-control" id="fullName" placeholder="Juan Pérez" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label text-muted small fw-bold">Correo Electrónico</label>
+                    <input type="email" class="form-control" id="email" placeholder="tu@email.com" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label text-muted small fw-bold">Contraseña</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="password" placeholder="••••••••" required
+                            oninput="checkStrength(this.value)">
+                        <button class="btn btn-light border" type="button"
+                            onclick="togglePassword('password', 'toggleIcon1')">
+                            <i class="bi bi-eye" id="toggleIcon1"></i>
+                        </button>
+                    </div>
+                    <div class="password-strength">
+                        <div class="strength-bar" id="strengthBar"></div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label text-muted small fw-bold">Confirmar Contraseña</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="confirmPassword" placeholder="••••••••"
+                            required>
+                        <button class="btn btn-light border" type="button"
+                            onclick="togglePassword('confirmPassword', 'toggleIcon2')">
+                            <i class="bi bi-eye" id="toggleIcon2"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-check mb-4">
+                    <input class="form-check-input" type="checkbox" id="terms" required>
+                    <label class="form-check-label small text-muted" for="terms">
+                        Acepto los <a href="#" class="auth-link">Términos y Condiciones</a>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-register">Crear Cuenta</button>
+            </form>
+
+            <div class="divider"><span>o</span></div>
+
+            <button class="social-btn">
+                <i class="bi bi-google me-2 text-danger"></i> Registrarse con Google
+            </button>
+            <button class="social-btn">
+                <i class="bi bi-facebook me-2 text-primary"></i> Registrarse con Facebook
+            </button>
+
+            <div class="text-center mt-4 small">
+                ¿Ya tienes una cuenta? <a href="index.html" class="auth-link text-dark fw-bold">Inicia sesión aquí</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/auth.js"></script>
+
+    <script>
+        redirectIfAuthenticated();
+
+        function togglePassword(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'bi bi-eye-slash';
+            } else {
+                input.type = 'password';
+                icon.className = 'bi bi-eye';
+            }
+        }
+
+        function checkStrength(val) {
+            const bar = document.getElementById('strengthBar');
+            let strength = 0;
+            if (val.length > 5) strength += 33;
+            if (val.length > 8) strength += 33;
+            if (/[A-Z]/.test(val) && /[0-9]/.test(val)) strength += 34;
+
+            bar.style.width = strength + '%';
+            if (strength < 40) bar.style.backgroundColor = '#ef4444';
+            else if (strength < 80) bar.style.backgroundColor = '#f59e0b';
+            else bar.style.backgroundColor = '#22c55e';
+        }
+
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password !== confirmPassword) return showToast('Las contraseñas no coinciden', 'error');
+            if (password.length < 6) return showToast('La contraseña es muy corta', 'warning');
+
+            await handleRegister(email, password, fullName);
+        });
+    </script>
+</body>
+
+</html>

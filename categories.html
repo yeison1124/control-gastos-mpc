@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categorías - Control de Gastos</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+</head>
+
+<body>
+    <button class="sidebar-toggle"><i class="bi bi-list"></i></button>
+    <div class="sidebar-overlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <i class="bi bi-wallet2"></i>
+            <h2>Control Gastos</h2>
+        </div>
+        <nav>
+            <ul class="sidebar-nav">
+                <li><a href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+                <li><a href="transactions.html"><i class="bi bi-arrow-left-right"></i> Transacciones</a></li>
+                <li><a href="new-transaction.html"><i class="bi bi-plus-circle"></i> Agregar Gasto</a></li>
+                <li><a href="income.html"><i class="bi bi-arrow-up-circle"></i> Ingresos</a></li>
+                <li><a href="expenses.html"><i class="bi bi-arrow-down-circle"></i> Gastos</a></li>
+                <li><a href="categories.html" class="active"><i class="bi bi-tags"></i> Categorías</a></li>
+                <li><a href="budgets.html"><i class="bi bi-pie-chart"></i> Presupuestos</a></li>
+                <li><a href="goals.html"><i class="bi bi-trophy"></i> Metas</a></li>
+                <li><a href="accounts.html"><i class="bi bi-credit-card"></i> Cuentas</a></li>
+                <li><a href="analytics.html"><i class="bi bi-graph-up"></i> Análisis</a></li>
+                <li><a href="reports.html"><i class="bi bi-bar-chart"></i> Reportes</a></li>
+                <li><a href="export.html"><i class="bi bi-download"></i> Exportar</a></li>
+                <li><a href="notifications.html"><i class="bi bi-bell"></i> Notificaciones</a></li>
+                <li><a href="settings.html"><i class="bi bi-gear"></i> Configuración</a></li>
+                <li><a href="profile.html"><i class="bi bi-person"></i> Perfil</a></li>
+                <li><a href="help.html"><i class="bi bi-question-circle"></i> Ayuda</a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-user">
+            <div class="user-info">
+                <div class="user-avatar" id="user-avatar">U</div>
+                <div class="user-details">
+                    <h4 id="user-name">Usuario</h4>
+                    <p id="user-email">usuario@ejemplo.com</p>
+                </div>
+            </div>
+            <button class="btn-logout" id="logout-btn">
+                <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container-custom">
+            <div class="row mb-4">
+                <div class="col">
+                    <h1>Categorías</h1>
+                    <p class="text-muted">Gestión de categorías para tus transacciones</p>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-primary" onclick="openCategoryModal()">
+                        <i class="bi bi-plus-circle"></i> Nueva Categoría
+                    </button>
+                </div>
+            </div>
+
+            <!-- Estadísticas rápidas -->
+            <div class="row g-3 mb-4">
+                <div class="col-12 col-md-4">
+                    <div class="card bg-primary text-white">
+                        <div class="card-body">
+                            <h6>Total Categorías</h6>
+                            <h2 id="total-stats">0</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="card bg-success text-white">
+                        <div class="card-body">
+                            <h6>Ingresos</h6>
+                            <h2 id="income-stats">0</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="card bg-danger text-white">
+                        <div class="card-body">
+                            <h6>Gastos</h6>
+                            <h2 id="expense-stats">0</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtros -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <input type="text" id="search-categories" class="form-control"
+                                placeholder="Buscar categoría...">
+                        </div>
+                        <div class="col-md-6">
+                            <div class="btn-group w-100" role="group">
+                                <input type="radio" class="btn-check" name="typeFilter" id="filter-all" value="all"
+                                    checked>
+                                <label class="btn btn-outline-primary" for="filter-all">Todas</label>
+                                <input type="radio" class="btn-check" name="typeFilter" id="filter-income"
+                                    value="income">
+                                <label class="btn btn-outline-success" for="filter-income">Ingresos</label>
+                                <input type="radio" class="btn-check" name="typeFilter" id="filter-expense"
+                                    value="expense">
+                                <label class="btn btn-outline-danger" for="filter-expense">Gastos</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grid de Categorías -->
+            <div id="categories-grid" class="row g-4">
+                <!-- Se llenará dinámicamente -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Categoría -->
+    <div class="modal fade" id="categoryModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Nueva Categoría</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="category-form">
+                        <input type="hidden" id="category-id">
+
+                        <div class="mb-3">
+                            <label class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="category-name" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Tipo</label>
+                            <select class="form-select" id="category-type" onchange="updateIconSelector()">
+                                <option value="expense">Gasto</option>
+                                <option value="income">Ingreso</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Icono</label>
+                            <div class="card p-3 bg-light">
+                                <!-- Selector de iconos rápidos -->
+                                <div id="quick-icons-expense" class="d-flex flex-wrap gap-2 mb-3">
+                                    <button type="button" class="btn btn-outline-secondary icon-btn"
+                                        onclick="selectIcon('shopping-cart')"><i
+                                            class="fa-solid fa-shopping-cart"></i></button>
+                                    <button type="button" class="btn btn-outline-secondary icon-btn"
+                                        onclick="selectIcon('car')"><i class="fa-solid fa-car"></i></button>
+                                    <button type="button" class="btn btn-outline-secondary icon-btn"
+                                        onclick="selectIcon('house')"><i class="fa-solid fa-house"></i></button>
+                                    <button type="button" class="btn btn-outline-secondary icon-btn"
+                                        onclick="selectIcon('utensils')"><i class="fa-solid fa-utensils"></i></button>
+                                    <button type="button" class="btn btn-outline-secondary icon-btn"
+                                        onclick="selectIcon('plane')"><i class="fa-solid fa-plane"></i></button>
+                                    <button type="button" class="btn btn-outline-secondary icon-btn"
+                                        onclick="selectIcon('heart-pulse')"><i
+                                            class="fa-solid fa-heart-pulse"></i></button>
+                                    <button type="button" class="btn btn-outline-secondary icon-btn"
+                                        onclick="selectIcon('shirt')"><i class="fa-solid fa-shirt"></i></button>
+                                    <button type="button" class="btn btn-outline-secondary icon-btn"
+                                        onclick="selectIcon('film')"><i class="fa-solid fa-film"></i></button>
+                                    <button type="button" class="btn btn-outline-secondary icon-btn"
+                                        onclick="selectIcon('graduation-cap')"><i
+                                            class="fa-solid fa-graduation-cap"></i></button>
+                                    <button type="button" class="btn btn-outline-secondary icon-btn"
+                                        onclick="selectIcon('paw')"><i class="fa-solid fa-paw"></i></button>
+                                    <button type="button" class="btn btn-outline-secondary icon-btn"
+                                        onclick="selectIcon('gift')"><i class="fa-solid fa-gift"></i></button>
+                                    <button type="button" class="btn btn-outline-secondary icon-btn"
+                                        onclick="selectIcon('bolt')"><i class="fa-solid fa-bolt"></i></button>
+                                </div>
+                                <div id="quick-icons-income" class="d-flex flex-wrap gap-2 mb-3"
+                                    style="display: none !important;">
+                                    <button type="button" class="btn btn-outline-secondary icon-btn"
+                                        onclick="selectIcon('dollar-sign')"><i
+                                            class="fa-solid fa-dollar-sign"></i></button>
+                                    <button type="button" class="btn btn-outline-secondary icon-btn"
+                                        onclick="selectIcon('money-bill-wave')"><i
+                                            class="fa-solid fa-money-bill-wave"></i></button>
+                                    <button type="button" class="btn btn-outline-secondary icon-btn"
+                                        onclick="selectIcon('chart-line')"><i
+                                            class="fa-solid fa-chart-line"></i></button>
+                                    <button type="button" class="btn btn-outline-secondary icon-btn"
+                                        onclick="selectIcon('briefcase')"><i class="fa-solid fa-briefcase"></i></button>
+                                    <button type="button" class="btn btn-outline-secondary icon-btn"
+                                        onclick="selectIcon('shop')"><i class="fa-solid fa-shop"></i></button>
+                                    <button type="button" class="btn btn-outline-secondary icon-btn"
+                                        onclick="selectIcon('trophy')"><i class="fa-solid fa-trophy"></i></button>
+                                    <button type="button" class="btn btn-outline-secondary icon-btn"
+                                        onclick="selectIcon('piggy-bank')"><i
+                                            class="fa-solid fa-piggy-bank"></i></button>
+                                    <button type="button" class="btn btn-outline-secondary icon-btn"
+                                        onclick="selectIcon('hand-holding-dollar')"><i
+                                            class="fa-solid fa-hand-holding-dollar"></i></button>
+                                    <button type="button" class="btn btn-outline-secondary icon-btn"
+                                        onclick="selectIcon('laptop-code')"><i
+                                            class="fa-solid fa-laptop-code"></i></button>
+                                    <button type="button" class="btn btn-outline-secondary icon-btn"
+                                        onclick="selectIcon('building')"><i class="fa-solid fa-building"></i></button>
+                                    <button type="button" class="btn btn-outline-secondary icon-btn"
+                                        onclick="selectIcon('star')"><i class="fa-solid fa-star"></i></button>
+                                    <button type="button" class="btn btn-outline-secondary icon-btn"
+                                        onclick="selectIcon('award')"><i class="fa-solid fa-award"></i></button>
+                                </div>
+
+                                <!-- Entrada manual para icono personalizado -->
+                                <div class="input-group">
+                                    <span class="input-group-text"><i id="custom-icon-preview"
+                                            class="fa-solid fa-circle-question"></i></span>
+                                    <input type="text" class="form-control" id="custom-icon-input"
+                                        placeholder="Nombre icono FontAwesome (ej: code)"
+                                        oninput="previewCustomIcon(this.value)">
+                                </div>
+                                <div class="form-text">Si no encuentras el icono, escribe su nombre de Font Awesome <a
+                                        href="https://fontawesome.com/icons?d=gallery&m=free" target="_blank">aquí</a>.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Color</label>
+                            <input type="color" class="form-control form-control-color w-100" id="category-color"
+                                value="#3b82f6">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveCategory()">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/sidebar.js"></script>
+
+    <script>
+        let allCategories = [];
+        let currentUser = null;
+        let selectedIconValue = 'cart-shopping'; // Default
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (!await requireAuth()) return;
+            currentUser = await getCurrentUser();
+            await loadCategories();
+
+            // Listeners
+            document.getElementById('search-categories').addEventListener('input', filterCategories);
+            document.querySelectorAll('input[name="typeFilter"]').forEach(el => el.addEventListener('change', filterCategories));
+        });
+
+        async function loadCategories() {
+            try {
+                toggleLoader(true);
+                const { data, error } = await supabase
+                    .from('categories')
+                    .select('*')
+                    .eq('user_id', currentUser.id)
+                    .order('name');
+                if (error) throw error;
+                allCategories = data || [];
+                renderCategories();
+            } catch (e) {
+                console.error(e);
+                showToast('Error cargando categorías', 'error');
+            } finally {
+                toggleLoader(false);
+            }
+        }
+
+        function renderCategories() {
+            const grid = document.getElementById('categories-grid');
+            const search = document.getElementById('search-categories').value.toLowerCase();
+            const filter = document.querySelector('input[name="typeFilter"]:checked').value;
+
+            // Stats
+            document.getElementById('total-stats').innerText = allCategories.length;
+            document.getElementById('income-stats').innerText = allCategories.filter(c => c.type === 'income').length;
+            document.getElementById('expense-stats').innerText = allCategories.filter(c => c.type === 'expense').length;
+
+            const filtered = allCategories.filter(c => {
+                const matchSearch = c.name.toLowerCase().includes(search);
+                const matchType = filter === 'all' || c.type === filter;
+                return matchSearch && matchType;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '<div class="col-12 text-center py-5 text-muted">No se encontraron categorías</div>';
+                return;
+            }
+
+            grid.innerHTML = filtered.map(cat => `
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="d-flex align-items-center justify-content-center rounded-3" 
+                                         style="width: 48px; height: 48px; background-color: ${cat.color}20; color: ${cat.color}">
+                                        <i class="fa-solid fa-${cat.icon} fs-4"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0 fw-bold">${cat.name}</h6>
+                                        <small class="text-uppercase text-${cat.type === 'income' ? 'success' : 'danger'} fw-bold" style="font-size: 0.7rem;">
+                                            ${cat.type === 'income' ? 'Ingreso' : 'Gasto'}
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="dropdown">
+                                    <button class="btn btn-link text-muted p-0" data-bs-toggle="dropdown"><i class="bi bi-three-dots-vertical"></i></button>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li><a class="dropdown-item" href="#" onclick="editCategory('${cat.id}')"><i class="bi bi-pencil me-2"></i>Editar</a></li>
+                                        <li><a class="dropdown-item text-danger" href="#" onclick="deleteCategory('${cat.id}')"><i class="bi bi-trash me-2"></i>Eliminar</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterCategories() { renderCategories(); }
+
+        // Modal Logic
+        function openCategoryModal() {
+            document.getElementById('category-form').reset();
+            document.getElementById('category-id').value = '';
+            document.getElementById('modalTitle').innerText = 'Nueva Categoría';
+            document.getElementById('category-color').value = randomColor();
+            updateIconSelector();
+            selectIcon('shopping-cart'); // Default icon
+            new bootstrap.Modal(document.getElementById('categoryModal')).show();
+        }
+
+        function updateIconSelector() {
+            const type = document.getElementById('category-type').value;
+            const expenseIcons = document.getElementById('quick-icons-expense');
+            const incomeIcons = document.getElementById('quick-icons-income');
+
+            if (type === 'expense') {
+                expenseIcons.style.setProperty('display', 'flex', 'important');
+                incomeIcons.style.setProperty('display', 'none', 'important');
+            } else {
+                expenseIcons.style.setProperty('display', 'none', 'important');
+                incomeIcons.style.setProperty('display', 'flex', 'important');
+            }
+        }
+
+        window.selectIcon = function (iconName) {
+            selectedIconValue = iconName;
+            document.getElementById('custom-icon-input').value = iconName;
+            previewCustomIcon(iconName);
+
+            // Highlight button
+            document.querySelectorAll('.icon-btn').forEach(btn => {
+                btn.classList.remove('btn-primary', 'text-white');
+                btn.classList.add('btn-outline-secondary');
+                if (btn.querySelector('i').classList.contains('fa-' + iconName)) {
+                    btn.classList.remove('btn-outline-secondary');
+                    btn.classList.add('btn-primary', 'text-white');
+                }
+            });
+        }
+
+        window.previewCustomIcon = function (val) {
+            selectedIconValue = val;
+            const preview = document.getElementById('custom-icon-preview');
+            preview.className = `fa-solid fa-${val}`;
+        }
+
+        window.editCategory = function (id) {
+            const cat = allCategories.find(c => c.id === id);
+            if (!cat) return;
+
+            document.getElementById('category-id').value = cat.id;
+            document.getElementById('category-name').value = cat.name;
+            document.getElementById('category-type').value = cat.type;
+            document.getElementById('category-color').value = cat.color;
+            document.getElementById('modalTitle').innerText = 'Editar Categoría';
+
+            updateIconSelector();
+            selectIcon(cat.icon); // Load icon
+
+            new bootstrap.Modal(document.getElementById('categoryModal')).show();
+        }
+
+        window.saveCategory = async function () {
+            console.log('Intentando guardar...');
+            const id = document.getElementById('category-id').value;
+            const name = document.getElementById('category-name').value;
+            const type = document.getElementById('category-type').value;
+            const color = document.getElementById('category-color').value;
+            const icon = document.getElementById('custom-icon-input').value || selectedIconValue;
+
+            console.log('Datos:', { name, type, color, icon, currentUser });
+
+            if (!name) return showToast('Nombre requerido', 'warning');
+
+            if (!currentUser || !currentUser.id || currentUser.id.includes('fake')) {
+                alert('Error: No estás autenticado correctamente o falta configuración de Supabase. ID de usuario inválido.');
+                return;
+            }
+
+            const payload = {
+                name,
+                type,
+                color,
+                icon,
+                user_id: currentUser.id
+            };
+
+            try {
+                toggleLoader(true);
+                let error;
+                if (id) {
+                    ({ error } = await supabase.from('categories').update(payload).eq('id', id));
+                } else {
+                    ({ error } = await supabase.from('categories').insert([payload]));
+                }
+
+                if (error) {
+                    console.error('Supabase error:', error);
+                    throw error;
+                }
+
+                bootstrap.Modal.getInstance(document.getElementById('categoryModal')).hide();
+                showToast('Guardado correctamente', 'success');
+                await loadCategories();
+            } catch (e) {
+                console.error('Error catch:', e);
+                alert('Error al guardar: ' + e.message + '\n\nVerifica tu conexión y credenciales en config.js');
+                showToast(e.message, 'error');
+            } finally {
+                toggleLoader(false);
+            }
+        }
+
+        window.deleteCategory = async function (id) {
+            if (!confirm('¿Borrar categoría?')) return;
+            try {
+                toggleLoader(true);
+                const { error } = await supabase.from('categories').delete().eq('id', id);
+                if (error) throw error;
+                loadCategories();
+                showToast('Categoría eliminada', 'infos');
+            } catch (e) {
+                showToast(e.message, 'error');
+            } finally {
+                toggleLoader(false);
+            }
+        }
+    </script>
+    <style>
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</body>
+
+</html>

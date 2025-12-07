@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis - Control de Gastos</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+</head>
+
+<body>
+    <button class="sidebar-toggle"><i class="bi bi-list"></i></button>
+    <div class="sidebar-overlay"></div>
+
+    <aside class="sidebar">
+        <div class="sidebar-logo"><i class="bi bi-wallet2"></i>
+            <h2>Control Gastos</h2>
+        </div>
+        <nav>
+            <ul class="sidebar-nav">
+                <li><a href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+                <li><a href="transactions.html"><i class="bi bi-arrow-left-right"></i> Transacciones</a></li>
+                <li><a href="new-transaction.html"><i class="bi bi-plus-circle"></i> Agregar Gasto</a></li>
+                <li><a href="income.html"><i class="bi bi-arrow-up-circle"></i> Ingresos</a></li>
+                <li><a href="expenses.html"><i class="bi bi-arrow-down-circle"></i> Gastos</a></li>
+                <li><a href="categories.html"><i class="bi bi-tags"></i> Categorías</a></li>
+                <li><a href="budgets.html"><i class="bi bi-pie-chart"></i> Presupuestos</a></li>
+                <li><a href="goals.html"><i class="bi bi-trophy"></i> Metas</a></li>
+                <li><a href="accounts.html"><i class="bi bi-credit-card"></i> Cuentas</a></li>
+                <li><a href="analytics.html" class="active"><i class="bi bi-graph-up"></i> Análisis</a></li>
+                <li><a href="reports.html"><i class="bi bi-bar-chart"></i> Reportes</a></li>
+                <li><a href="export.html"><i class="bi bi-download"></i> Exportar</a></li>
+                <li><a href="notifications.html"><i class="bi bi-bell"></i> Notificaciones</a></li>
+                <li><a href="settings.html"><i class="bi bi-gear"></i> Configuración</a></li>
+                <li><a href="profile.html"><i class="bi bi-person"></i> Perfil</a></li>
+                <li><a href="help.html"><i class="bi bi-question-circle"></i> Ayuda</a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-user">
+            <div class="user-info">
+                <div class="user-avatar" id="user-avatar">U</div>
+                <div class="user-details">
+                    <h4 id="user-name">Usuario</h4>
+                    <p id="user-email">usuario@ejemplo.com</p>
+                </div>
+            </div>
+            <button class="btn-logout" id="logout-btn"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="container-custom">
+            <div class="row mb-4">
+                <div class="col">
+                    <h1>Reportes y Análisis</h1>
+                    <p class="text-muted">Visualiza tus patrones de gastos e ingresos</p>
+                </div>
+                <div class="col-auto">
+                    <select class="form-select" id="month-selector">
+                        <option value="this">Este Mes</option>
+                        <option value="last">Mes Anterior</option>
+                        <option value="all">Todo el Tiempo</option>
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-outline-primary" onclick="navigateTo('export.html')">
+                        <i class="bi bi-download"></i> Exportar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Métricas Principales -->
+            <div class="row g-3 mb-4">
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <i class="bi bi-arrow-up-circle text-success" style="font-size: 2rem;"></i>
+                            <h3 class="mt-2 mb-0 text-success" id="total-income">$0</h3>
+                            <small class="text-muted">Ingresos Totales</small>
+                            <div class="mt-2">
+                                <small class="badge bg-success" id="income-change">+12% vs mes anterior</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <i class="bi bi-arrow-down-circle text-danger" style="font-size: 2rem;"></i>
+                            <h3 class="mt-2 mb-0 text-danger" id="total-expenses">$0</h3>
+                            <small class="text-muted">Gastos Totales</small>
+                            <div class="mt-2">
+                                <small class="badge bg-danger" id="expense-change">-5.1% vs mes anterior</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <i class="bi bi-cash-coin text-primary" style="font-size: 2rem;"></i>
+                            <h3 class="mt-2 mb-0" id="net-income">$0</h3>
+                            <small class="text-muted">Ingreso Neto</small>
+                            <div class="mt-2">
+                                <small class="badge bg-info" id="net-change">+22.8% vs mes anterior</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <i class="bi bi-calendar-day text-warning" style="font-size: 2rem;"></i>
+                            <h3 class="mt-2 mb-0" id="avg-daily">$0</h3>
+                            <small class="text-muted">Promedio Diario</small>
+                            <div class="mt-2">
+                                <small class="text-muted">Gasto promedio por día</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <ul class="nav nav-tabs mb-4" role="tablist">
+                <li class="nav-item">
+                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#overview">
+                        Resumen
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#trends">
+                        Tendencias
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#categories-tab">
+                        Categorías
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#budgets-tab">
+                        Presupuestos
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <!-- Tab Resumen -->
+                <div class="tab-pane fade show active" id="overview">
+                    <div class="row g-4">
+                        <div class="col-12 col-lg-8">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Ingresos vs Gastos por Mes</h6>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="incomeVsExpensesChart" height="80"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Categoría Más Gastada</h6>
+                                </div>
+                                <div class="card-body text-center">
+                                    <div id="top-category">
+                                        <i class="bi bi-wallet" style="font-size: 3rem; color: #6366f1;"></i>
+                                        <h4 class="mt-3">Alimentación</h4>
+                                        <h2 class="text-danger">$450.00</h2>
+                                        <small class="text-muted">$450.00 este mes</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Uso de Presupuesto</h6>
+                                </div>
+                                <div class="card-body text-center">
+                                    <h1 id="budget-percentage">68%</h1>
+                                    <small class="text-muted">Dentro del límite</small>
+                                    <div class="progress mt-3" style="height: 15px;">
+                                        <div class="progress-bar bg-warning" style="width: 68%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Días para Fin de Mes</h6>
+                                </div>
+                                <div class="card-body text-center">
+                                    <h1 id="days-left">20</h1>
+                                    <small class="text-muted">Días restantes</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Tendencias -->
+                <div class="tab-pane fade" id="trends">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="mb-0">Tendencia de Gastos (Últimos 6 Meses)</h6>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="trendsChart" height="80"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Categorías -->
+                <div class="tab-pane fade" id="categories-tab">
+                    <div class="row g-4">
+                        <div class="col-12 col-lg-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Gastos por Categoría</h6>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="categoriesChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Detalle por Categoría</h6>
+                                </div>
+                                <div class="card-body" id="categories-detail">
+                                    <p class="text-muted text-center">Cargando...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Presupuestos -->
+                <div class="tab-pane fade" id="budgets-tab">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="mb-0">Estado de Presupuestos</h6>
+                        </div>
+                        <div class="card-body" id="budgets-overview">
+                            <p class="text-muted text-center">Cargando...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/sidebar.js"></script>
+
+    <script>
+        let currentUser = null;
+        let incomeVsExpensesChart = null;
+        let trendsChart = null;
+        let categoriesChart = null;
+
+        document.addEventListener('DOMContentLoaded', async function () {
+            if (!await requireAuth()) return;
+            currentUser = await getCurrentUser();
+
+            await loadAnalytics();
+
+            document.getElementById('month-selector').addEventListener('change', loadAnalytics);
+        });
+
+        async function loadAnalytics() {
+            try {
+                toggleLoader(true);
+
+                const period = document.getElementById('month-selector').value;
+                let startDate, endDate;
+                const now = new Date();
+
+                if (period === 'this') {
+                    startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+                    endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+                } else if (period === 'last') {
+                    startDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+                    endDate = new Date(now.getFullYear(), now.getMonth(), 0);
+                } else {
+                    startDate = new Date(2020, 0, 1);
+                    endDate = now;
+                }
+
+                // Cargar transacciones y presupuestos en paralelo
+                const [transactionsResponse, budgetsResponse] = await Promise.all([
+                    supabase
+                        .from('transactions')
+                        .select(`*, categories(name, color, icon)`)
+                        .eq('user_id', currentUser.id)
+                        .gte('date', startDate.toISOString().split('T')[0])
+                        .lte('date', endDate.toISOString().split('T')[0]),
+                    supabase
+                        .from('budgets')
+                        .select('amount')
+                        .eq('user_id', currentUser.id)
+                        .gte('start_date', startDate.toISOString().split('T')[0])
+                        .lte('end_date', endDate.toISOString().split('T')[0])
+                ]);
+
+                if (transactionsResponse.error) throw transactionsResponse.error;
+
+                // Procesar datos
+                processAnalytics(transactionsResponse.data || [], budgetsResponse.data || []);
+
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error cargando análisis', 'error');
+            } finally {
+                toggleLoader(false);
+            }
+        }
+
+        function processAnalytics(transactions, budgets) {
+            const income = transactions.filter(t => t.type === 'income');
+            const expenses = transactions.filter(t => t.type === 'expense');
+
+            const totalIncome = income.reduce((sum, t) => sum + parseFloat(t.amount), 0);
+            const totalExpenses = expenses.reduce((sum, t) => sum + parseFloat(t.amount), 0);
+            const netIncome = totalIncome - totalExpenses;
+            const totalBudget = budgets ? budgets.reduce((sum, b) => sum + parseFloat(b.amount), 0) : 0;
+
+            // Calcular días del mes y promedio diario
+            const now = new Date();
+            const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+            const daysLeft = daysInMonth - now.getDate();
+            const avgDaily = now.getDate() > 0 ? totalExpenses / now.getDate() : 0;
+
+            // Actualizar métricas principales
+            document.getElementById('total-income').textContent = formatCurrency(totalIncome);
+            document.getElementById('total-expenses').textContent = formatCurrency(totalExpenses);
+            document.getElementById('net-income').textContent = formatCurrency(netIncome);
+            document.getElementById('avg-daily').textContent = formatCurrency(avgDaily);
+            document.getElementById('days-left').textContent = daysLeft;
+
+            // --- Lógica de Categoría Más Gastada ---
+            const categoryTotals = {};
+            let topCategory = { name: 'N/A', amount: 0, color: '#6366f1', icon: 'wallet' };
+
+            expenses.forEach(t => {
+                const catName = t.categories?.name || 'Sin categoría';
+                const catId = t.category_id;
+
+                if (!categoryTotals[catId]) {
+                    categoryTotals[catId] = {
+                        name: catName,
+                        amount: 0,
+                        color: t.categories?.color || '#6366f1',
+                        icon: t.categories?.icon || 'wallet'
+                    };
+                }
+                categoryTotals[catId].amount += parseFloat(t.amount);
+
+                if (categoryTotals[catId].amount > topCategory.amount) {
+                    topCategory = categoryTotals[catId];
+                }
+            });
+
+            const topCatContainer = document.getElementById('top-category');
+            if (expenses.length > 0) {
+                topCatContainer.innerHTML = `
+                    <i class="bi bi-${topCategory.icon}" style="font-size: 3rem; color: ${topCategory.color};"></i>
+                    <h4 class="mt-3">${topCategory.name}</h4>
+                    <h2 class="text-danger">${formatCurrency(topCategory.amount)}</h2>
+                    <small class="text-muted">La categoría más alta</small>
+                `;
+            } else {
+                topCatContainer.innerHTML = `
+                    <i class="bi bi-wallet" style="font-size: 3rem; opacity: 0.3;"></i>
+                    <h4 class="mt-3 text-muted">Sin datos</h4>
+                    <p>No hay gastos registrados</p>
+                `;
+            }
+
+            // --- Lógica de Uso de Presupuesto ---
+            const budgetPercentage = totalBudget > 0 ? Math.round((totalExpenses / totalBudget) * 100) : 0;
+            const budgetColor = budgetPercentage >= 100 ? 'bg-danger' : budgetPercentage >= 80 ? 'bg-warning' : 'bg-success';
+
+            document.getElementById('budget-percentage').textContent = totalBudget > 0 ? `${budgetPercentage}%` : 'N/A';
+            document.getElementById('budget-percentage').parentElement.querySelector('small').textContent = totalBudget > 0 ?
+                (budgetPercentage > 100 ? 'Presupuesto excedido' : 'Dentro del límite') : 'Sin presupuesto';
+
+            const progressBar = document.getElementById('budget-percentage').parentElement.querySelector('.progress-bar');
+            progressBar.style.width = `${Math.min(budgetPercentage, 100)}%`;
+            progressBar.className = `progress-bar ${budgetColor}`;
+
+            // Crear gráficos
+            createIncomeVsExpensesChart(transactions);
+            createTrendsChart(transactions);
+            createCategoriesChart(expenses);
+            renderCategoriesDetail(expenses);
+        }
+
+        function createIncomeVsExpensesChart(transactions) {
+            const canvas = document.getElementById('incomeVsExpensesChart');
+            if (!canvas) return;
+
+            // Agrupar por mes
+            const monthlyData = {};
+            transactions.forEach(t => {
+                const date = new Date(t.date);
+                const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+
+                if (!monthlyData[monthKey]) {
+                    monthlyData[monthKey] = { income: 0, expenses: 0 };
+                }
+
+                if (t.type === 'income') {
+                    monthlyData[monthKey].income += parseFloat(t.amount);
+                } else {
+                    monthlyData[monthKey].expenses += parseFloat(t.amount);
+                }
+            });
+
+            const labels = Object.keys(monthlyData).sort();
+            const incomeData = labels.map(l => monthlyData[l].income);
+            const expensesData = labels.map(l => monthlyData[l].expenses);
+
+            if (incomeVsExpensesChart) {
+                incomeVsExpensesChart.destroy();
+            }
+
+            incomeVsExpensesChart = new Chart(canvas, {
+                type: 'bar',
+                data: {
+                    labels: labels.map(l => {
+                        const [year, month] = l.split('-');
+                        return new Date(year, month - 1).toLocaleDateString('es', { month: 'short', year: 'numeric' });
+                    }),
+                    datasets: [{
+                        label: 'Ingresos',
+                        data: incomeData,
+                        backgroundColor: 'rgba(34, 197, 94, 0.8)',
+                        borderColor: 'rgba(34, 197, 94, 1)',
+                        borderWidth: 2
+                    }, {
+                        label: 'Gastos',
+                        data: expensesData,
+                        backgroundColor: 'rgba(239, 68, 68, 0.8)',
+                        borderColor: 'rgba(239, 68, 68, 1)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: { position: 'top' }
+                    }
+                }
+            });
+        }
+
+        function createTrendsChart(transactions) {
+            const canvas = document.getElementById('trendsChart');
+            if (!canvas) return;
+
+            const expenses = transactions.filter(t => t.type === 'expense');
+            const monthlyExpenses = {};
+
+            expenses.forEach(t => {
+                const date = new Date(t.date);
+                const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+                monthlyExpenses[monthKey] = (monthlyExpenses[monthKey] || 0) + parseFloat(t.amount);
+            });
+
+            const labels = Object.keys(monthlyExpenses).sort().slice(-6);
+            const data = labels.map(l => monthlyExpenses[l]);
+
+            if (trendsChart) {
+                trendsChart.destroy();
+            }
+
+            trendsChart = new Chart(canvas, {
+                type: 'line',
+                data: {
+                    labels: labels.map(l => {
+                        const [year, month] = l.split('-');
+                        return new Date(year, month - 1).toLocaleDateString('es', { month: 'short' });
+                    }),
+                    datasets: [{
+                        label: 'Gastos Mensuales',
+                        data: data,
+                        backgroundColor: 'rgba(239, 68, 68, 0.2)',
+                        borderColor: 'rgba(239, 68, 68, 1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: { position: 'top' }
+                    }
+                }
+            });
+        }
+
+        function createCategoriesChart(expenses) {
+            const canvas = document.getElementById('categoriesChart');
+            if (!canvas) return;
+
+            const categoryTotals = {};
+            const categoryColors = {};
+
+            expenses.forEach(t => {
+                const catName = t.categories?.name || 'Sin categoría';
+                const catColor = t.categories?.color || '#6b7280';
+                categoryTotals[catName] = (categoryTotals[catName] || 0) + parseFloat(t.amount);
+                categoryColors[catName] = catColor;
+            });
+
+            const labels = Object.keys(categoryTotals);
+            const data = Object.values(categoryTotals);
+            const colors = labels.map(l => categoryColors[l]);
+
+            if (categoriesChart) {
+                categoriesChart.destroy();
+            }
+
+            categoriesChart = new Chart(canvas, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: colors,
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'right' }
+                    }
+                }
+            });
+        }
+
+        function renderCategoriesDetail(expenses) {
+            const container = document.getElementById('categories-detail');
+
+            const categoryData = {};
+            expenses.forEach(t => {
+                const catName = t.categories?.name || 'Sin categoría';
+                const catColor = t.categories?.color || '#6b7280';
+                if (!categoryData[catName]) {
+                    categoryData[catName] = { total: 0, count: 0, color: catColor };
+                }
+                categoryData[catName].total += parseFloat(t.amount);
+                categoryData[catName].count++;
+            });
+
+            const sorted = Object.entries(categoryData).sort((a, b) => b[1].total - a[1].total);
+
+            container.innerHTML = sorted.map(([name, data]) => `
+                <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
+                    <div>
+                        <div class="d-flex align-items-center gap-2 mb-1">
+                            <div style="width: 12px; height: 12px; border-radius: 50%; background-color: ${data.color};"></div>
+                            <strong>${name}</strong>
+                        </div>
+                        <small class="text-muted">${data.count} transacciones</small>
+                    </div>
+                    <div class="text-end">
+                        <h6 class="mb-0 text-danger">${formatCurrency(data.total)}</h6>
+                    </div>
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+
+</html>

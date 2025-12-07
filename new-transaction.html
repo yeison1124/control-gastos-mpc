@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nueva Transacción - Control de Gastos</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+</head>
+
+<body>
+    <!-- Sidebar Toggle (Mobile) -->
+    <button class="sidebar-toggle">
+        <i class="bi bi-list"></i>
+    </button>
+
+    <!-- Sidebar Overlay (Mobile) -->
+    <div class="sidebar-overlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <i class="bi bi-wallet2"></i>
+            <h2>Control Gastos</h2>
+        </div>
+
+        <nav>
+            <ul class="sidebar-nav">
+                <li><a href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+                <li><a href="transactions.html"><i class="bi bi-arrow-left-right"></i> Transacciones</a></li>
+                <li><a href="new-transaction.html" class="active"><i class="bi bi-plus-circle"></i> Agregar Gasto</a>
+                </li>
+                <li><a href="income.html"><i class="bi bi-arrow-up-circle"></i> Ingresos</a></li>
+                <li><a href="expenses.html"><i class="bi bi-arrow-down-circle"></i> Gastos</a></li>
+                <li><a href="categories.html"><i class="bi bi-tags"></i> Categorías</a></li>
+                <li><a href="budgets.html"><i class="bi bi-pie-chart"></i> Presupuestos</a></li>
+                <li><a href="goals.html"><i class="bi bi-trophy"></i> Metas</a></li>
+                <li><a href="accounts.html"><i class="bi bi-credit-card"></i> Cuentas</a></li>
+                <li><a href="analytics.html"><i class="bi bi-graph-up"></i> Análisis</a></li>
+                <li><a href="reports.html"><i class="bi bi-bar-chart"></i> Reportes</a></li>
+                <li><a href="export.html"><i class="bi bi-download"></i> Exportar</a></li>
+                <li><a href="notifications.html"><i class="bi bi-bell"></i> Notificaciones</a></li>
+                <li><a href="settings.html"><i class="bi bi-gear"></i> Configuración</a></li>
+                <li><a href="profile.html"><i class="bi bi-person"></i> Perfil</a></li>
+                <li><a href="help.html"><i class="bi bi-question-circle"></i> Ayuda</a></li>
+            </ul>
+        </nav>
+
+        <div class="sidebar-user">
+            <div class="user-info">
+                <div class="user-avatar" id="user-avatar">U</div>
+                <div class="user-details">
+                    <h4 id="user-name">Usuario</h4>
+                    <p id="user-email">usuario@ejemplo.com</p>
+                </div>
+            </div>
+            <button class="btn-logout" id="logout-btn">
+                <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container-custom">
+            <div class="row mb-4">
+                <div class="col">
+                    <button class="btn btn-link p-0 mb-2" onclick="history.back()">
+                        <i class="bi bi-arrow-left"></i> Volver
+                    </button>
+                    <h1 id="page-title">Nueva Transacción</h1>
+                    <p class="text-muted">Registra un nuevo ingreso o gasto</p>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <!-- Formulario -->
+                <div class="col-12 col-lg-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <form id="transaction-form">
+                                <!-- Tipo de Transacción -->
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold">Tipo de Transacción</label>
+                                    <div class="btn-group w-100" role="group">
+                                        <input type="radio" class="btn-check" name="type" id="type-expense"
+                                            value="expense" checked>
+                                        <label class="btn btn-outline-danger" for="type-expense">
+                                            <i class="bi bi-arrow-down-circle"></i> Gasto
+                                        </label>
+
+                                        <input type="radio" class="btn-check" name="type" id="type-income"
+                                            value="income">
+                                        <label class="btn btn-outline-success" for="type-income">
+                                            <i class="bi bi-arrow-up-circle"></i> Ingreso
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Monto -->
+                                <div class="mb-3">
+                                    <label for="amount" class="form-label fw-bold">
+                                        Monto <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="input-group input-group-lg">
+                                        <span class="input-group-text">$</span>
+                                        <input type="number" class="form-control" id="amount" placeholder="0.00"
+                                            step="0.01" min="0" required>
+                                    </div>
+                                </div>
+
+                                <!-- Descripción -->
+                                <div class="mb-3">
+                                    <label for="description" class="form-label fw-bold">
+                                        Descripción <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" id="description"
+                                        placeholder="Ej: Supermercado, Salario, etc." required>
+                                </div>
+
+                                <!-- Categoría -->
+                                <div class="mb-3">
+                                    <label for="category" class="form-label fw-bold">
+                                        Categoría <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-select" id="category" required>
+                                        <option value="">Selecciona una categoría</option>
+                                    </select>
+                                </div>
+
+                                <!-- Cuenta/Método de Pago -->
+                                <div class="mb-3">
+                                    <label for="account" class="form-label fw-bold">
+                                        Cuenta/Método de Pago
+                                    </label>
+                                    <select class="form-select" id="account">
+                                        <option value="">Selecciona una cuenta</option>
+                                    </select>
+                                    <small class="text-muted">Opcional: ¿De dónde sale/entra el dinero?</small>
+                                </div>
+
+                                <!-- Fecha -->
+                                <div class="mb-3">
+                                    <label for="date" class="form-label fw-bold">
+                                        Fecha <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="date" class="form-control" id="date" required>
+                                </div>
+
+                                <!-- Notas -->
+                                <div class="mb-3">
+                                    <label for="notes" class="form-label fw-bold">Notas (Opcional)</label>
+                                    <textarea class="form-control" id="notes" rows="3"
+                                        placeholder="Agrega cualquier información adicional..."></textarea>
+                                </div>
+
+                                <!-- Transacción Recurrente -->
+                                <div class="mb-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="is-recurring">
+                                        <label class="form-check-label" for="is-recurring">
+                                            Transacción recurrente
+                                        </label>
+                                    </div>
+                                    <small class="text-muted">Marca esta opción si esta transacción se repite
+                                        mensualmente</small>
+                                </div>
+
+                                <!-- Botones -->
+                                <div class="d-flex gap-2">
+                                    <button type="submit" class="btn btn-primary btn-lg flex-fill" id="submit-btn">
+                                        <i class="bi bi-save"></i> Guardar Transacción
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary btn-lg"
+                                        onclick="navigateTo('transactions.html')">
+                                        <i class="bi bi-x-circle"></i> Cancelar
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panel Lateral con Consejos -->
+                <div class="col-12 col-lg-4">
+                    <!-- Consejos Rápidos -->
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h6 class="mb-0"><i class="bi bi-lightbulb"></i> Consejos Rápidos</h6>
+                        </div>
+                        <div class="card-body">
+                            <ul class="small mb-0">
+                                <li class="mb-2">
+                                    <i class="bi bi-check-circle text-success"></i>
+                                    Sé específico en la descripción para facilitar el seguimiento
+                                </li>
+                                <li class="mb-2">
+                                    <i class="bi bi-check-circle text-success"></i>
+                                    Categoriza correctamente para interpretar reportes
+                                </li>
+                                <li class="mb-2">
+                                    <i class="bi bi-check-circle text-success"></i>
+                                    Usa transacciones fijas para gastos recurrentes
+                                </li>
+                                <li>
+                                    <i class="bi bi-check-circle text-success"></i>
+                                    Registra las transacciones lo antes posible
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Categorías Recientes -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="mb-0"><i class="bi bi-clock-history"></i> Categorías Recientes</h6>
+                        </div>
+                        <div class="card-body">
+                            <div id="recent-categories">
+                                <p class="small text-muted mb-0">Aún no has registrado transacciones</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom Scripts -->
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/sidebar.js"></script>
+
+    <script>
+        let currentUser = null;
+        let categories = [];
+        let accounts = [];
+        let editMode = false;
+        let editingTransactionId = null;
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', async function () {
+            // Verificar autenticación
+            if (!await requireAuth()) return;
+
+            currentUser = await getCurrentUser();
+
+            // Verificar si estamos en modo edición
+            const urlParams = new URLSearchParams(window.location.search);
+            editingTransactionId = urlParams.get('edit');
+            const typeParam = urlParams.get('type');
+
+            // Configurar fecha por defecto (hoy)
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('date').value = today;
+
+            // Cargar datos
+            await loadCategories();
+            await loadAccounts();
+            await loadRecentCategories();
+
+            // Si hay tipo predeterminado, seleccionarlo
+            if (typeParam && (typeParam === 'income' || typeParam === 'expense')) {
+                document.getElementById(`type-${typeParam}`).checked = true;
+                filterCategoriesByType(typeParam);
+            } else {
+                filterCategoriesByType('expense');
+            }
+
+            // Si estamos editando, cargar la transacción
+            if (editingTransactionId) {
+                editMode = true;
+                await loadTransactionForEdit(editingTransactionId);
+                document.getElementById('page-title').textContent = 'Editar Transacción';
+                document.getElementById('submit-btn').innerHTML = '<i class="bi bi-save"></i> Actualizar Transacción';
+            }
+
+            // Event listeners
+            document.querySelectorAll('input[name="type"]').forEach(radio => {
+                radio.addEventListener('change', function () {
+                    filterCategoriesByType(this.value);
+                });
+            });
+
+            document.getElementById('transaction-form').addEventListener('submit', handleSubmit);
+        });
+
+        /**
+         * Carga las categorías
+         */
+        async function loadCategories() {
+            try {
+                const { data, error } = await supabase
+                    .from('categories')
+                    .select('*')
+                    .eq('user_id', currentUser.id)
+                    .order('name');
+
+                if (error) throw error;
+
+                categories = data || [];
+
+            } catch (error) {
+                console.error('Error cargando categorías:', error);
+                showToast('Error cargando categorías', 'error');
+            }
+        }
+
+        /**
+         * Carga las cuentas
+         */
+        async function loadAccounts() {
+            try {
+                const { data, error } = await supabase
+                    .from('accounts')
+                    .select('*')
+                    .eq('user_id', currentUser.id)
+                    .order('name');
+
+                if (error) throw error;
+
+                accounts = data || [];
+
+                // Popular select de cuentas
+                const accountSelect = document.getElementById('account');
+                accountSelect.innerHTML = '<option value="">Selecciona una cuenta</option>';
+                accounts.forEach(acc => {
+                    accountSelect.innerHTML += `<option value="${acc.id}">${acc.name} (${acc.type})</option>`;
+                });
+
+            } catch (error) {
+                console.error('Error cargando cuentas:', error);
+            }
+        }
+
+        /**
+         * Filtra categorías por tipo
+         */
+        function filterCategoriesByType(type) {
+            const categorySelect = document.getElementById('category');
+            const filtered = categories.filter(c => c.type === type);
+
+            categorySelect.innerHTML = '<option value="">Selecciona una categoría</option>';
+            filtered.forEach(cat => {
+                categorySelect.innerHTML += `
+                    <option value="${cat.id}">
+                        ${cat.name}
+                    </option>
+                `;
+            });
+        }
+
+        /**
+         * Carga categorías recientes
+         */
+        async function loadRecentCategories() {
+            try {
+                const { data, error } = await supabase
+                    .from('transactions')
+                    .select('categories(id, name, icon, color)')
+                    .eq('user_id', currentUser.id)
+                    .order('created_at', { ascending: false })
+                    .limit(5);
+
+                if (error) throw error;
+
+                if (!data || data.length === 0) {
+                    return;
+                }
+
+                // Eliminar duplicados
+                const uniqueCategories = [];
+                const seen = new Set();
+
+                data.forEach(t => {
+                    if (t.categories && !seen.has(t.categories.id)) {
+                        seen.add(t.categories.id);
+                        uniqueCategories.push(t.categories);
+                    }
+                });
+
+                const container = document.getElementById('recent-categories');
+                container.innerHTML = uniqueCategories.slice(0, 5).map(cat => `
+                    <div class="d-flex align-items-center gap-2 mb-2 p-2 rounded" 
+                         style="background-color: ${cat.color}20; cursor: pointer;"
+                         onclick="document.getElementById('category').value='${cat.id}'">
+                        <i class="bi bi-${cat.icon}" style="color: ${cat.color};"></i>
+                        <small>${cat.name}</small>
+                    </div>
+                `).join('');
+
+            } catch (error) {
+                console.error('Error cargando categorías recientes:', error);
+            }
+        }
+
+        /**
+         * Carga transacción para editar
+         */
+        async function loadTransactionForEdit(transactionId) {
+            try {
+                toggleLoader(true);
+
+                const { data, error } = await supabase
+                    .from('transactions')
+                    .select('*')
+                    .eq('id', transactionId)
+                    .eq('user_id', currentUser.id)
+                    .single();
+
+                if (error) throw error;
+
+                if (!data) {
+                    showToast('Transacción no encontrada', 'error');
+                    navigateTo('transactions.html');
+                    return;
+                }
+
+                // Llenar formulario
+                document.getElementById(`type-${data.type}`).checked = true;
+                document.getElementById('amount').value = data.amount;
+                document.getElementById('description').value = data.description;
+                document.getElementById('date').value = data.date;
+                document.getElementById('notes').value = data.notes || '';
+                document.getElementById('is-recurring').checked = data.is_recurring || false;
+
+                if (data.account_id) {
+                    document.getElementById('account').value = data.account_id;
+                }
+
+                // Filtrar categorías y seleccionar
+                filterCategoriesByType(data.type);
+                setTimeout(() => {
+                    document.getElementById('category').value = data.category_id;
+                }, 100);
+
+            } catch (error) {
+                console.error('Error cargando transacción:', error);
+                showToast('Error cargando transacción: ' + error.message, 'error');
+            } finally {
+                toggleLoader(false);
+            }
+        }
+
+        /**
+         * Maneja el envío del formulario
+         */
+        async function handleSubmit(e) {
+            e.preventDefault();
+
+            const formData = {
+                type: document.querySelector('input[name="type"]:checked').value,
+                amount: parseFloat(document.getElementById('amount').value),
+                description: document.getElementById('description').value.trim(),
+                category_id: document.getElementById('category').value,
+                account_id: document.getElementById('account').value || null,
+                date: document.getElementById('date').value,
+                notes: document.getElementById('notes').value.trim() || null,
+                is_recurring: document.getElementById('is-recurring').checked,
+                user_id: currentUser.id
+            };
+
+            // Validaciones
+            if (!formData.category_id) {
+                showToast('Por favor selecciona una categoría', 'warning');
+                return;
+            }
+
+            if (formData.amount <= 0) {
+                showToast('El monto debe ser mayor a 0', 'warning');
+                return;
+            }
+
+            try {
+                toggleLoader(true);
+
+                if (editMode) {
+                    // Actualizar transacción existente
+                    const { error } = await supabase
+                        .from('transactions')
+                        .update(formData)
+                        .eq('id', editingTransactionId)
+                        .eq('user_id', currentUser.id);
+
+                    if (error) throw error;
+
+                    showToast('Transacción actualizada exitosamente', 'success');
+                } else {
+                    // Crear nueva transacción
+                    const { error } = await supabase
+                        .from('transactions')
+                        .insert([formData]);
+
+                    if (error) throw error;
+
+                    showToast('Transacción guardada exitosamente', 'success');
+                }
+
+                // Redirigir a transacciones
+                setTimeout(() => {
+                    navigateTo('transactions.html');
+                }, 1000);
+
+            } catch (error) {
+                console.error('Error guardando transacción:', error);
+                showToast('Error: ' + error.message, 'error');
+            } finally {
+                toggleLoader(false);
+            }
+        }
+    </script>
+</body>
+
+</html>

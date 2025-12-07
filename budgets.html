@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presupuestos - Control de Gastos</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+</head>
+
+<body>
+    <button class="sidebar-toggle"><i class="bi bi-list"></i></button>
+    <div class="sidebar-overlay"></div>
+
+    <aside class="sidebar">
+        <div class="sidebar-logo"><i class="bi bi-wallet2"></i>
+            <h2>Control Gastos</h2>
+        </div>
+        <nav>
+            <ul class="sidebar-nav">
+                <li><a href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+                <li><a href="transactions.html"><i class="bi bi-arrow-left-right"></i> Transacciones</a></li>
+                <li><a href="new-transaction.html"><i class="bi bi-plus-circle"></i> Agregar Gasto</a></li>
+                <li><a href="income.html"><i class="bi bi-arrow-up-circle"></i> Ingresos</a></li>
+                <li><a href="expenses.html"><i class="bi bi-arrow-down-circle"></i> Gastos</a></li>
+                <li><a href="categories.html"><i class="bi bi-tags"></i> Categorías</a></li>
+                <li><a href="budgets.html" class="active"><i class="bi bi-pie-chart"></i> Presupuestos</a></li>
+                <li><a href="goals.html"><i class="bi bi-trophy"></i> Metas</a></li>
+                <li><a href="accounts.html"><i class="bi bi-credit-card"></i> Cuentas</a></li>
+                <li><a href="analytics.html"><i class="bi bi-graph-up"></i> Análisis</a></li>
+                <li><a href="reports.html"><i class="bi bi-bar-chart"></i> Reportes</a></li>
+                <li><a href="export.html"><i class="bi bi-download"></i> Exportar</a></li>
+                <li><a href="notifications.html"><i class="bi bi-bell"></i> Notificaciones</a></li>
+                <li><a href="settings.html"><i class="bi bi-gear"></i> Configuración</a></li>
+                <li><a href="profile.html"><i class="bi bi-person"></i> Perfil</a></li>
+                <li><a href="help.html"><i class="bi bi-question-circle"></i> Ayuda</a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-user">
+            <div class="user-info">
+                <div class="user-avatar" id="user-avatar">U</div>
+                <div class="user-details">
+                    <h4 id="user-name">Usuario</h4>
+                    <p id="user-email">usuario@ejemplo.com</p>
+                </div>
+            </div>
+            <button class="btn-logout" id="logout-btn"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="container-custom">
+            <div class="row mb-4">
+                <div class="col">
+                    <h1>Presupuestos</h1>
+                    <p class="text-muted">Controla tus gastos estableciendo límites por categoría</p>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#budgetModal"
+                        onclick="openBudgetModal()">
+                        <i class="bi bi-plus-circle"></i> Nuevo Presupuesto
+                    </button>
+                </div>
+            </div>
+
+            <!-- Resumen General -->
+            <div class="row g-3 mb-4">
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <i class="bi bi-cash-coin text-primary" style="font-size: 2rem;"></i>
+                            <h3 class="mt-2 mb-0" id="total-budget">$0.00</h3>
+                            <small class="text-muted">Presupuesto Total</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <i class="bi bi-arrow-down-circle text-danger" style="font-size: 2rem;"></i>
+                            <h3 class="mt-2 mb-0" id="total-spent">$0.00</h3>
+                            <small class="text-muted">Total Gastado</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <i class="bi bi-piggy-bank text-success" style="font-size: 2rem;"></i>
+                            <h3 class="mt-2 mb-0" id="available">$0.00</h3>
+                            <small class="text-muted">Disponible</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <i class="bi bi-percent text-warning" style="font-size: 2rem;"></i>
+                            <h3 class="mt-2 mb-0" id="usage-percentage">0%</h3>
+                            <small class="text-muted">Uso Promedio</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Barra de Progreso General -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="mb-0">Resumen General</h6>
+                </div>
+                <div class="card-body">
+                    <div class="mb-2">
+                        <div class="d-flex justify-content-between">
+                            <span>Progreso Total del Presupuesto</span>
+                            <span class="fw-bold" id="overall-percentage">0% utilizado</span>
+                        </div>
+                    </div>
+                    <div class="progress" style="height: 20px;">
+                        <div class="progress-bar" id="overall-progress" style="width: 0%"></div>
+                    </div>
+                    <div class="d-flex justify-content-between mt-2">
+                        <small id="spent-label">$0 gastado</small>
+                        <small id="budget-label">$0 presupuestado</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Presupuestos Individuales -->
+            <div id="budgets-list">
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Cargando...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div class="modal fade" id="budgetModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Nuevo Presupuesto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="budget-form">
+                        <input type="hidden" id="budget-id">
+                        <div class="mb-3">
+                            <label class="form-label">Categoría <span class="text-danger">*</span></label>
+                            <select class="form-select" id="budget-category" required></select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Monto <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="budget-amount" step="0.01" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Período <span class="text-danger">*</span></label>
+                            <select class="form-select" id="budget-period" required>
+                                <option value="monthly">Mensual</option>
+                                <option value="weekly">Semanal</option>
+                            </select>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label class="form-label">Fecha Inicio</label>
+                                <input type="date" class="form-control" id="budget-start" required>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label class="form-label">Fecha Fin</label>
+                                <input type="date" class="form-control" id="budget-end" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveBudget()">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/sidebar.js"></script>
+
+    <script>
+        let currentUser = null;
+        let budgets = [];
+        let categories = [];
+        let editingBudgetId = null;
+
+        document.addEventListener('DOMContentLoaded', async function () {
+            if (!await requireAuth()) return;
+            currentUser = await getCurrentUser();
+
+            await loadCategories();
+            await loadBudgets();
+        });
+
+        async function loadCategories() {
+            const { data } = await supabase
+                .from('categories')
+                .select('*')
+                .eq('user_id', currentUser.id)
+                .eq('type', 'expense')
+                .order('name');
+
+            categories = data || [];
+
+            const select = document.getElementById('budget-category');
+            select.innerHTML = '<option value="">Selecciona una categoría</option>';
+            categories.forEach(cat => {
+                select.innerHTML += `<option value="${cat.id}">${cat.name}</option>`;
+            });
+        }
+
+        async function loadBudgets() {
+            try {
+                toggleLoader(true);
+
+                const now = new Date();
+                const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+                const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+
+                const { data, error } = await supabase
+                    .from('budgets')
+                    .select(`*, categories(name, color, icon)`)
+                    .eq('user_id', currentUser.id)
+                    .gte('start_date', firstDay.toISOString().split('T')[0])
+                    .lte('end_date', lastDay.toISOString().split('T')[0]);
+
+                if (error) throw error;
+
+                budgets = data || [];
+
+                // Obtener gastos del mes
+                const { data: expenses } = await supabase
+                    .from('transactions')
+                    .select('category_id, amount')
+                    .eq('user_id', currentUser.id)
+                    .eq('type', 'expense')
+                    .gte('date', firstDay.toISOString().split('T')[0])
+                    .lte('date', lastDay.toISOString().split('T')[0]);
+
+                const spentByCategory = {};
+                expenses?.forEach(e => {
+                    spentByCategory[e.category_id] = (spentByCategory[e.category_id] || 0) + parseFloat(e.amount);
+                });
+
+                updateSummary(spentByCategory);
+                renderBudgets(spentByCategory);
+
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error cargando presupuestos', 'error');
+            } finally {
+                toggleLoader(false);
+            }
+        }
+
+        function updateSummary(spentByCategory) {
+            const totalBudget = budgets.reduce((sum, b) => sum + parseFloat(b.amount), 0);
+            const totalSpent = Object.values(spentByCategory).reduce((sum, v) => sum + v, 0);
+            const available = totalBudget - totalSpent;
+            const usagePercentage = totalBudget > 0 ? Math.round((totalSpent / totalBudget) * 100) : 0;
+
+            document.getElementById('total-budget').textContent = formatCurrency(totalBudget);
+            document.getElementById('total-spent').textContent = formatCurrency(totalSpent);
+            document.getElementById('available').textContent = formatCurrency(available);
+            document.getElementById('usage-percentage').textContent = usagePercentage + '%';
+
+            document.getElementById('overall-percentage').textContent = usagePercentage + '% utilizado';
+            document.getElementById('overall-progress').style.width = Math.min(usagePercentage, 100) + '%';
+            document.getElementById('overall-progress').className = 'progress-bar ' +
+                (usagePercentage >= 100 ? 'bg-danger' : usagePercentage >= 80 ? 'bg-warning' : 'bg-success');
+
+            document.getElementById('spent-label').textContent = formatCurrency(totalSpent) + ' gastado';
+            document.getElementById('budget-label').textContent = formatCurrency(totalBudget) + ' presupuestado';
+        }
+
+        function renderBudgets(spentByCategory) {
+            const container = document.getElementById('budgets-list');
+
+            if (budgets.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-5">
+                        <i class="bi bi-pie-chart" style="font-size: 4rem; opacity: 0.3;"></i>
+                        <p class="mt-3 text-muted">No hay presupuestos configurados</p>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#budgetModal" onclick="openBudgetModal()">
+                            <i class="bi bi-plus-circle"></i> Crear Primer Presupuesto
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = budgets.map(budget => {
+                const spent = spentByCategory[budget.category_id] || 0;
+                const percentage = calculatePercentage(spent, budget.amount);
+                const remaining = budget.amount - spent;
+                const statusIcon = percentage >= 100 ? '❌' : percentage >= 80 ? '⚠️' : '✅';
+
+                return `
+                    <div class="card mb-3">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center gap-2">
+                                <span>${statusIcon}</span>
+                                <h6 class="mb-0">Presupuesto ${budget.categories?.name}</h6>
+                                <small class="text-muted">${budget.categories?.name}</small>
+                            </div>
+                            <div>
+                                <button class="btn btn-sm btn-outline-primary" onclick="editBudget('${budget.id}')">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger" onclick="deleteBudget('${budget.id}')">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-2">
+                                <div class="d-flex justify-content-between">
+                                    <span>Progreso</span>
+                                    <span class="fw-bold">${percentage}%</span>
+                                </div>
+                            </div>
+                            <div class="progress" style="height: 15px;">
+                                <div class="progress-bar ${percentage >= 100 ? 'bg-danger' : percentage >= 80 ? 'bg-warning' : 'bg-success'}" 
+                                     style="width: ${Math.min(percentage, 100)}%"></div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-6">
+                                    <small class="text-muted">Gastado</small>
+                                    <div class="fw-bold">${formatCurrency(spent)}</div>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <small class="text-muted">Presupuesto</small>
+                                    <div class="fw-bold">${formatCurrency(budget.amount)}</div>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <small class="text-muted">Restante</small>
+                                <div class="fw-bold ${remaining >= 0 ? 'text-success' : 'text-danger'}">
+                                    ${formatCurrency(Math.abs(remaining))} ${remaining < 0 ? '(excedido)' : ''}
+                                </div>
+                                <small class="text-muted">Período: ${budget.period === 'monthly' ? 'Mensual' : 'Semanal'}</small>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openBudgetModal() {
+            editingBudgetId = null;
+            document.getElementById('modalTitle').textContent = 'Nuevo Presupuesto';
+            document.getElementById('budget-form').reset();
+
+            const now = new Date();
+            const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+            const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+
+            document.getElementById('budget-start').value = firstDay.toISOString().split('T')[0];
+            document.getElementById('budget-end').value = lastDay.toISOString().split('T')[0];
+        }
+
+        async function editBudget(budgetId) {
+            const budget = budgets.find(b => b.id === budgetId);
+            if (!budget) return;
+
+            editingBudgetId = budgetId;
+            document.getElementById('modalTitle').textContent = 'Editar Presupuesto';
+            document.getElementById('budget-category').value = budget.category_id;
+            document.getElementById('budget-amount').value = budget.amount;
+            document.getElementById('budget-period').value = budget.period;
+            document.getElementById('budget-start').value = budget.start_date;
+            document.getElementById('budget-end').value = budget.end_date;
+
+            new bootstrap.Modal(document.getElementById('budgetModal')).show();
+        }
+
+        async function saveBudget() {
+            const categoryId = document.getElementById('budget-category').value;
+            const amount = parseFloat(document.getElementById('budget-amount').value);
+            const period = document.getElementById('budget-period').value;
+            const startDate = document.getElementById('budget-start').value;
+            const endDate = document.getElementById('budget-end').value;
+
+            if (!categoryId || !amount || amount <= 0) {
+                showToast('Por favor completa todos los campos', 'warning');
+                return;
+            }
+
+            try {
+                toggleLoader(true);
+
+                const budgetData = {
+                    user_id: currentUser.id,
+                    category_id: categoryId,
+                    amount,
+                    period,
+                    start_date: startDate,
+                    end_date: endDate
+                };
+
+                if (editingBudgetId) {
+                    const { error } = await supabase
+                        .from('budgets')
+                        .update(budgetData)
+                        .eq('id', editingBudgetId);
+
+                    if (error) throw error;
+                    showToast('Presupuesto actualizado', 'success');
+                } else {
+                    const { error } = await supabase
+                        .from('budgets')
+                        .insert([budgetData]);
+
+                    if (error) throw error;
+                    showToast('Presupuesto creado', 'success');
+                }
+
+                bootstrap.Modal.getInstance(document.getElementById('budgetModal')).hide();
+                await loadBudgets();
+
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error: ' + error.message, 'error');
+            } finally {
+                toggleLoader(false);
+            }
+        }
+
+        async function deleteBudget(budgetId) {
+            if (!confirm('¿Eliminar este presupuesto?')) return;
+
+            try {
+                toggleLoader(true);
+                const { error } = await supabase
+                    .from('budgets')
+                    .delete()
+                    .eq('id', budgetId);
+
+                if (error) throw error;
+
+                showToast('Presupuesto eliminado', 'success');
+                await loadBudgets();
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error: ' + error.message, 'error');
+            } finally {
+                toggleLoader(false);
+            }
+        }
+    </script>
+</body>
+
+</html>

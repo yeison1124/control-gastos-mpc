@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - Control de Gastos</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+</head>
+
+<body>
+    <button class="sidebar-toggle"><i class="bi bi-list"></i></button>
+    <div class="sidebar-overlay"></div>
+
+    <aside class="sidebar">
+        <div class="sidebar-logo"><i class="bi bi-wallet2"></i>
+            <h2>Control Gastos</h2>
+        </div>
+        <nav>
+            <ul class="sidebar-nav">
+                <li><a href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+                <li><a href="transactions.html"><i class="bi bi-arrow-left-right"></i> Transacciones</a></li>
+                <li><a href="new-transaction.html"><i class="bi bi-plus-circle"></i> Agregar Gasto</a></li>
+                <li><a href="income.html"><i class="bi bi-arrow-up-circle"></i> Ingresos</a></li>
+                <li><a href="expenses.html"><i class="bi bi-arrow-down-circle"></i> Gastos</a></li>
+                <li><a href="categories.html"><i class="bi bi-tags"></i> Categorías</a></li>
+                <li><a href="budgets.html"><i class="bi bi-pie-chart"></i> Presupuestos</a></li>
+                <li><a href="goals.html"><i class="bi bi-trophy"></i> Metas</a></li>
+                <li><a href="accounts.html"><i class="bi bi-credit-card"></i> Cuentas</a></li>
+                <li><a href="analytics.html"><i class="bi bi-graph-up"></i> Análisis</a></li>
+                <li><a href="reports.html"><i class="bi bi-bar-chart"></i> Reportes</a></li>
+                <li><a href="export.html"><i class="bi bi-download"></i> Exportar</a></li>
+                <li><a href="notifications.html"><i class="bi bi-bell"></i> Notificaciones</a></li>
+                <li><a href="settings.html"><i class="bi bi-gear"></i> Configuración</a></li>
+                <li><a href="help.html"><i class="bi bi-question-circle"></i> Ayuda</a></li>
+                <li><a href="profile.html" class="active"><i class="bi bi-person"></i> Perfil</a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-user">
+            <div class="user-info">
+                <div class="user-avatar" id="user-avatar">U</div>
+                <div class="user-details">
+                    <h4 id="user-name">Usuario</h4>
+                    <p id="user-email">usuario@ejemplo.com</p>
+                </div>
+            </div>
+            <button class="btn-logout" id="logout-btn"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="container-custom">
+            <div class="row mb-4">
+                <div class="col">
+                    <h1>Mi Perfil</h1>
+                    <p class="text-muted">Administra tu información personal y ve tu progreso</p>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                        <i class="bi bi-pencil"></i> Editar Perfil
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <ul class="nav nav-tabs mb-4" role="tablist">
+                <li class="nav-item">
+                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#personal-info">
+                        Información Personal
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#statistics">
+                        Estadísticas
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#achievements">
+                        Logros
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <!-- Tab Información Personal -->
+                <div class="tab-pane fade show active" id="personal-info">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <!-- Avatar y Info Principal -->
+                                <div class="col-12 col-lg-4 text-center mb-4 mb-lg-0">
+                                    <div id="profile-avatar"
+                                        style="width: 150px; height: 150px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 4rem; color: white; font-weight: 700;">
+                                        JP
+                                    </div>
+                                    <h4 id="profile-fullname">Juan Pérez</h4>
+                                    <p class="text-muted" id="profile-occupation">Desarrollador de Software</p>
+                                    <span class="badge bg-primary">Miembro desde 2024</span>
+                                </div>
+
+                                <!-- Información Detallada -->
+                                <div class="col-12 col-lg-8">
+                                    <div class="row g-4">
+                                        <div class="col-12 col-md-6">
+                                            <label class="small text-muted mb-1">Nombre</label>
+                                            <div class="fw-bold" id="display-firstname">Juan</div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <label class="small text-muted mb-1">Apellido</label>
+                                            <div class="fw-bold" id="display-lastname">Pérez</div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <label class="small text-muted mb-1">Correo Electrónico</label>
+                                            <div class="fw-bold" id="display-email">
+                                                <i class="bi bi-envelope text-primary"></i> juan.perez@email.com
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <label class="small text-muted mb-1">Teléfono</label>
+                                            <div class="fw-bold" id="display-phone">
+                                                <i class="bi bi-telephone text-primary"></i> +52 55 1234 5678
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <label class="small text-muted mb-1">Ubicación</label>
+                                            <div class="fw-bold" id="display-location">
+                                                <i class="bi bi-geo-alt text-primary"></i> Ciudad de México, México
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <label class="small text-muted mb-1">Fecha de Nacimiento</label>
+                                            <div class="fw-bold" id="display-birthdate">
+                                                <i class="bi bi-calendar text-primary"></i> 15/05/1990
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <label class="small text-muted mb-1">Ocupación</label>
+                                            <div class="fw-bold" id="display-occupation-detail">Desarrollador de
+                                                Software</div>
+                                        </div>
+                                        <div class="col-12">
+                                            <label class="small text-muted mb-1">Biografía</label>
+                                            <div class="text-muted" id="display-bio">
+                                                Entusiasta de las finanzas personales. Me gusta mantener un control
+                                                detallado de mis gastos y ahorros.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Estadísticas -->
+                <div class="tab-pane fade" id="statistics">
+                    <div class="row g-4">
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="card text-center">
+                                <div class="card-body">
+                                    <i class="bi bi-receipt text-primary" style="font-size: 2.5rem;"></i>
+                                    <h3 class="mt-3 mb-0">0</h3>
+                                    <small class="text-muted">Transacciones Totales</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="card text-center">
+                                <div class="card-body">
+                                    <i class="bi bi-tags text-success" style="font-size: 2.5rem;"></i>
+                                    <h3 class="mt-3 mb-0">0</h3>
+                                    <small class="text-muted">Categorías Creadas</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="card text-center">
+                                <div class="card-body">
+                                    <i class="bi bi-trophy text-warning" style="font-size: 2.5rem;"></i>
+                                    <h3 class="mt-3 mb-0">0</h3>
+                                    <small class="text-muted">Metas Alcanzadas</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="card text-center">
+                                <div class="card-body">
+                                    <i class="bi bi-calendar-check text-info" style="font-size: 2.5rem;"></i>
+                                    <h3 class="mt-3 mb-0">0</h3>
+                                    <small class="text-muted">Días de Uso</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Tu Actividad</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <small class="text-muted">Racha actual</small>
+                                        <div class="d-flex align-items-center gap-2 mt-1">
+                                            <div class="progress flex-grow-1" style="height: 10px;">
+                                                <div class="progress-bar bg-success" style="width: 0%"></div>
+                                            </div>
+                                            <span class="fw-bold">0 días</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <small class="text-muted">Tasa de cumplimiento de presupuesto</small>
+                                        <div class="d-flex align-items-center gap-2 mt-1">
+                                            <div class="progress flex-grow-1" style="height: 10px;">
+                                                <div class="progress-bar bg-primary" style="width: 0%"></div>
+                                            </div>
+                                            <span class="fw-bold">0%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Logros -->
+                <div class="tab-pane fade" id="achievements">
+                    <div class="row g-4">
+                        <div class="col-12 col-sm-6 col-md-4">
+                            <div class="card text-center h-100">
+                                <div class="card-body">
+                                    <div
+                                        style="width: 80px; height: 80px; background: #f3f4f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                                        <i class="bi bi-lock" style="font-size: 2rem; color: #9ca3af;"></i>
+                                    </div>
+                                    <h6>Primera Transacción</h6>
+                                    <small class="text-muted">Registra tu primera transacción</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4">
+                            <div class="card text-center h-100">
+                                <div class="card-body">
+                                    <div
+                                        style="width: 80px; height: 80px; background: #f3f4f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                                        <i class="bi bi-lock" style="font-size: 2rem; color: #9ca3af;"></i>
+                                    </div>
+                                    <h6>Ahorrador</h6>
+                                    <small class="text-muted">Completa tu primera meta de ahorro</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4">
+                            <div class="card text-center h-100">
+                                <div class="card-body">
+                                    <div
+                                        style="width: 80px; height: 80px; background: #f3f4f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                                        <i class="bi bi-lock" style="font-size: 2rem; color: #9ca3af;"></i>
+                                    </div>
+                                    <h6>Presupuesto Maestro</h6>
+                                    <small class="text-muted">Cumple 3 presupuestos consecutivos</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4">
+                            <div class="card text-center h-100">
+                                <div class="card-body">
+                                    <div
+                                        style="width: 80px; height: 80px; background: #f3f4f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                                        <i class="bi bi-lock" style="font-size: 2rem; color: #9ca3af;"></i>
+                                    </div>
+                                    <h6>Racha de 7 Días</h6>
+                                    <small class="text-muted">Registra transacciones 7 días seguidos</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4">
+                            <div class="card text-center h-100">
+                                <div class="card-body">
+                                    <div
+                                        style="width: 80px; height: 80px; background: #f3f4f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                                        <i class="bi bi-lock" style="font-size: 2rem; color: #9ca3af;"></i>
+                                    </div>
+                                    <h6>Organizador</h6>
+                                    <small class="text-muted">Crea 10 categorías personalizadas</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4">
+                            <div class="card text-center h-100">
+                                <div class="card-body">
+                                    <div
+                                        style="width: 80px; height: 80px; background: #f3f4f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                                        <i class="bi bi-lock" style="font-size: 2rem; color: #9ca3af;"></i>
+                                    </div>
+                                    <h6>Centenario</h6>
+                                    <small class="text-muted">Registra 100 transacciones</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Editar Perfil -->
+    <div class="modal fade" id="editProfileModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar Perfil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="profile-form">
+                        <div class="row g-3">
+                            <div class="col-12 col-md-6">
+                                <label class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="edit-firstname" value="Juan">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label">Apellido</label>
+                                <input type="text" class="form-control" id="edit-lastname" value="Pérez">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" id="edit-email" value="juan.perez@email.com"
+                                    readonly>
+                                <small class="text-muted">El email no se puede cambiar</small>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label">Teléfono</label>
+                                <input type="tel" class="form-control" id="edit-phone" value="+52 55 1234 5678">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label">Ubicación</label>
+                                <input type="text" class="form-control" id="edit-location"
+                                    value="Ciudad de México, México">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label">Fecha de Nacimiento</label>
+                                <input type="date" class="form-control" id="edit-birthdate" value="1990-05-15">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Ocupación</label>
+                                <input type="text" class="form-control" id="edit-occupation"
+                                    value="Desarrollador de Software">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Biografía</label>
+                                <textarea class="form-control" id="edit-bio"
+                                    rows="3">Entusiasta de las finanzas personales. Me gusta mantener un control detallado de mis gastos y ahorros.</textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveProfile()">Guardar Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/sidebar.js"></script>
+
+    <script>
+        let currentUser = null;
+
+        document.addEventListener('DOMContentLoaded', async function () {
+            if (!await requireAuth()) return;
+            currentUser = await getCurrentUser();
+            loadProfile();
+        });
+
+        function loadProfile() {
+            if (!currentUser) return;
+
+            // Obtener iniciales para avatar
+            const fullName = currentUser.user_metadata?.full_name || 'Usuario Demo';
+            const initials = fullName.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+
+            document.getElementById('profile-avatar').textContent = initials;
+            document.getElementById('profile-fullname').textContent = fullName;
+            document.getElementById('display-email').innerHTML = `<i class="bi bi-envelope text-primary"></i> ${currentUser.email}`;
+            document.getElementById('edit-email').value = currentUser.email;
+        }
+
+        function saveProfile() {
+            const firstname = document.getElementById('edit-firstname').value;
+            const lastname = document.getElementById('edit-lastname').value;
+            const phone = document.getElementById('edit-phone').value;
+            const location = document.getElementById('edit-location').value;
+            const birthdate = document.getElementById('edit-birthdate').value;
+            const occupation = document.getElementById('edit-occupation').value;
+            const bio = document.getElementById('edit-bio').value;
+
+            // Actualizar vista
+            document.getElementById('display-firstname').textContent = firstname;
+            document.getElementById('display-lastname').textContent = lastname;
+            document.getElementById('profile-fullname').textContent = `${firstname} ${lastname}`;
+            document.getElementById('display-phone').innerHTML = `<i class="bi bi-telephone text-primary"></i> ${phone}`;
+            document.getElementById('display-location').innerHTML = `<i class="bi bi-geo-alt text-primary"></i> ${location}`;
+            document.getElementById('display-birthdate').innerHTML = `<i class="bi bi-calendar text-primary"></i> ${formatDate(birthdate)}`;
+            document.getElementById('display-occupation-detail').textContent = occupation;
+            document.getElementById('profile-occupation').textContent = occupation;
+            document.getElementById('display-bio').textContent = bio;
+
+            // Actualizar avatar
+            const initials = `${firstname[0]}${lastname[0]}`.toUpperCase();
+            document.getElementById('profile-avatar').textContent = initials;
+
+            bootstrap.Modal.getInstance(document.getElementById('editProfileModal')).hide();
+            showToast('Perfil actualizado exitosamente', 'success');
+        }
+    </script>
+</body>
+
+</html>

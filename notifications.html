@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notificaciones - Control de Gastos</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+</head>
+
+<body>
+    <button class="sidebar-toggle"><i class="bi bi-list"></i></button>
+    <div class="sidebar-overlay"></div>
+
+    <aside class="sidebar">
+        <div class="sidebar-logo"><i class="bi bi-wallet2"></i>
+            <h2>Control Gastos</h2>
+        </div>
+        <nav>
+            <ul class="sidebar-nav">
+                <li><a href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+                <li><a href="transactions.html"><i class="bi bi-arrow-left-right"></i> Transacciones</a></li>
+                <li><a href="new-transaction.html"><i class="bi bi-plus-circle"></i> Agregar Gasto</a></li>
+                <li><a href="income.html"><i class="bi bi-arrow-up-circle"></i> Ingresos</a></li>
+                <li><a href="expenses.html"><i class="bi bi-arrow-down-circle"></i> Gastos</a></li>
+                <li><a href="categories.html"><i class="bi bi-tags"></i> Categorías</a></li>
+                <li><a href="budgets.html"><i class="bi bi-pie-chart"></i> Presupuestos</a></li>
+                <li><a href="goals.html"><i class="bi bi-trophy"></i> Metas</a></li>
+                <li><a href="accounts.html"><i class="bi bi-credit-card"></i> Cuentas</a></li>
+                <li><a href="analytics.html"><i class="bi bi-graph-up"></i> Análisis</a></li>
+                <li><a href="reports.html"><i class="bi bi-bar-chart"></i> Reportes</a></li>
+                <li><a href="export.html"><i class="bi bi-download"></i> Exportar</a></li>
+                <li><a href="notifications.html" class="active"><i class="bi bi-bell"></i> Notificaciones</a></li>
+                <li><a href="settings.html"><i class="bi bi-gear"></i> Configuración</a></li>
+                <li><a href="profile.html"><i class="bi bi-person"></i> Perfil</a></li>
+                <li><a href="help.html"><i class="bi bi-question-circle"></i> Ayuda</a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-user">
+            <div class="user-info">
+                <div class="user-avatar" id="user-avatar">U</div>
+                <div class="user-details">
+                    <h4 id="user-name">Usuario</h4>
+                    <p id="user-email">usuario@ejemplo.com</p>
+                </div>
+            </div>
+            <button class="btn-logout" id="logout-btn"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="container-custom">
+            <div class="row mb-4">
+                <div class="col">
+                    <h1>Notificaciones <span class="badge bg-danger" id="unread-count">4 nuevas</span></h1>
+                    <p class="text-muted">Mantente al día con tus finanzas</p>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-outline-primary" onclick="markAllAsRead()">
+                        <i class="bi bi-check-all"></i> Marcar todas como leídas
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filtros -->
+            <ul class="nav nav-pills mb-4">
+                <li class="nav-item">
+                    <button class="nav-link active" data-filter="all"
+                        onclick="filterNotifications('all')">Todas</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-filter="budget"
+                        onclick="filterNotifications('budget')">Presupuestos</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-filter="goal" onclick="filterNotifications('goal')">Metas</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-filter="transaction"
+                        onclick="filterNotifications('transaction')">Transacciones</button>
+                </li>
+                <li class="nav-item ms-auto">
+                    <button class="nav-link" onclick="navigateTo('settings.html')">
+                        <i class="bi bi-gear"></i> Config
+                    </button>
+                </li>
+            </ul>
+
+            <!-- Lista de Notificaciones -->
+            <div id="notifications-list">
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/sidebar.js"></script>
+
+    <script>
+        let currentUser = null;
+        let allNotifications = [];
+        let currentFilter = 'all';
+
+        const notificationIcons = {
+            'budget': { icon: 'exclamation-triangle', color: '#f59e0b', bg: '#fef3c7' },
+            'goal': { icon: 'check-circle', color: '#22c55e', bg: '#d1fae5' },
+            'transaction': { icon: 'info-circle', color: '#3b82f6', bg: '#dbeafe' }
+        };
+
+        document.addEventListener('DOMContentLoaded', async function () {
+            if (!await requireAuth()) return;
+            currentUser = await getCurrentUser();
+            await loadNotifications();
+        });
+
+        async function loadNotifications() {
+            try {
+                toggleLoader(true);
+
+                const { data, error } = await supabase
+                    .from('notifications')
+                    .select('*')
+                    .eq('user_id', currentUser.id)
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                allNotifications = data || [];
+                updateUnreadCount();
+                renderNotifications();
+
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error cargando notificaciones', 'error');
+            } finally {
+                toggleLoader(false);
+            }
+        }
+
+        function updateUnreadCount() {
+            const unread = allNotifications.filter(n => !n.is_read).length;
+            const badge = document.getElementById('unread-count');
+
+            if (unread > 0) {
+                badge.textContent = `${unread} nueva${unread > 1 ? 's' : ''}`;
+                badge.style.display = 'inline-block';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        function renderNotifications() {
+            const container = document.getElementById('notifications-list');
+
+            let filtered = allNotifications;
+            if (currentFilter !== 'all') {
+                filtered = allNotifications.filter(n => n.type === currentFilter);
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-5">
+                        <i class="bi bi-bell-slash" style="font-size: 4rem; opacity: 0.3;"></i>
+                        <p class="mt-3 text-muted">No hay notificaciones</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filtered.map(notif => {
+                const config = notificationIcons[notif.type] || notificationIcons['transaction'];
+                const isNew = !notif.is_read;
+                const timeAgo = getTimeAgo(notif.created_at);
+
+                return `
+                    <div class="card mb-3 ${isNew ? 'border-primary' : ''}" style="border-left: 4px solid ${config.color};">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-auto">
+                                    <div style="width: 50px; height: 50px; background-color: ${config.bg}; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                        <i class="bi bi-${config.icon}" style="font-size: 1.5rem; color: ${config.color};"></i>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <h6 class="mb-1">${notif.title} ${isNew ? '<span class="badge bg-primary">Nueva</span>' : ''}</h6>
+                                            <p class="mb-1 text-muted">${notif.message}</p>
+                                            <small class="text-muted">${timeAgo}</small>
+                                        </div>
+                                        <div class="d-flex gap-2">
+                                            ${isNew ? `<button class="btn btn-sm btn-outline-primary" onclick="markAsRead('${notif.id}')">Marcar como leída</button>` : ''}
+                                            <button class="btn btn-sm btn-outline-danger" onclick="deleteNotification('${notif.id}')">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterNotifications(type) {
+            currentFilter = type;
+
+            // Actualizar pills activos
+            document.querySelectorAll('.nav-link[data-filter]').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-filter="${type}"]`).classList.add('active');
+
+            renderNotifications();
+        }
+
+        async function markAsRead(notifId) {
+            try {
+                const { error } = await supabase
+                    .from('notifications')
+                    .update({ is_read: true })
+                    .eq('id', notifId);
+
+                if (error) throw error;
+
+                await loadNotifications();
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error: ' + error.message, 'error');
+            }
+        }
+
+        async function markAllAsRead() {
+            try {
+                toggleLoader(true);
+
+                const { error } = await supabase
+                    .from('notifications')
+                    .update({ is_read: true })
+                    .eq('user_id', currentUser.id)
+                    .eq('is_read', false);
+
+                if (error) throw error;
+
+                showToast('Todas las notificaciones marcadas como leídas', 'success');
+                await loadNotifications();
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error: ' + error.message, 'error');
+            } finally {
+                toggleLoader(false);
+            }
+        }
+
+        async function deleteNotification(notifId) {
+            if (!confirm('¿Eliminar esta notificación?')) return;
+
+            try {
+                const { error } = await supabase
+                    .from('notifications')
+                    .delete()
+                    .eq('id', notifId);
+
+                if (error) throw error;
+
+                showToast('Notificación eliminada', 'success');
+                await loadNotifications();
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error: ' + error.message, 'error');
+            }
+        }
+
+        function getTimeAgo(timestamp) {
+            const now = new Date();
+            const past = new Date(timestamp);
+            const diff = Math.floor((now - past) / 1000); // segundos
+
+            if (diff < 60) return 'Hace un momento';
+            if (diff < 3600) return `Hace ${Math.floor(diff / 60)} minutos`;
+            if (diff < 86400) return `Hace ${Math.floor(diff / 3600)} horas`;
+            if (diff < 604800) return `Hace ${Math.floor(diff / 86400)} días`;
+            return formatDate(timestamp);
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metas de Ahorro - Control de Gastos</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+</head>
+
+<body>
+    <button class="sidebar-toggle"><i class="bi bi-list"></i></button>
+    <div class="sidebar-overlay"></div>
+
+    <aside class="sidebar">
+        <div class="sidebar-logo"><i class="bi bi-wallet2"></i>
+            <h2>Control Gastos</h2>
+        </div>
+        <nav>
+            <ul class="sidebar-nav">
+                <li><a href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+                <li><a href="transactions.html"><i class="bi bi-arrow-left-right"></i> Transacciones</a></li>
+                <li><a href="new-transaction.html"><i class="bi bi-plus-circle"></i> Agregar Gasto</a></li>
+                <li><a href="income.html"><i class="bi bi-arrow-up-circle"></i> Ingresos</a></li>
+                <li><a href="expenses.html"><i class="bi bi-arrow-down-circle"></i> Gastos</a></li>
+                <li><a href="categories.html"><i class="bi bi-tags"></i> Categorías</a></li>
+                <li><a href="budgets.html"><i class="bi bi-pie-chart"></i> Presupuestos</a></li>
+                <li><a href="goals.html" class="active"><i class="bi bi-trophy"></i> Metas</a></li>
+                <li><a href="accounts.html"><i class="bi bi-credit-card"></i> Cuentas</a></li>
+                <li><a href="analytics.html"><i class="bi bi-graph-up"></i> Análisis</a></li>
+                <li><a href="reports.html"><i class="bi bi-bar-chart"></i> Reportes</a></li>
+                <li><a href="export.html"><i class="bi bi-download"></i> Exportar</a></li>
+                <li><a href="notifications.html"><i class="bi bi-bell"></i> Notificaciones</a></li>
+                <li><a href="settings.html"><i class="bi bi-gear"></i> Configuración</a></li>
+                <li><a href="profile.html"><i class="bi bi-person"></i> Perfil</a></li>
+                <li><a href="help.html"><i class="bi bi-question-circle"></i> Ayuda</a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-user">
+            <div class="user-info">
+                <div class="user-avatar" id="user-avatar">U</div>
+                <div class="user-details">
+                    <h4 id="user-name">Usuario</h4>
+                    <p id="user-email">usuario@ejemplo.com</p>
+                </div>
+            </div>
+            <button class="btn-logout" id="logout-btn"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="container-custom">
+            <div class="row mb-4">
+                <div class="col">
+                    <h1>Metas de Ahorro</h1>
+                    <p class="text-muted">Gestiona tus objetivos financieros</p>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#goalModal"
+                        onclick="openGoalModal()">
+                        <i class="bi bi-plus-circle"></i> Nueva Meta
+                    </button>
+                </div>
+            </div>
+
+            <!-- Estadísticas -->
+            <div class="row g-3 mb-4">
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <i class="bi bi-piggy-bank text-success" style="font-size: 2rem;"></i>
+                            <h3 class="mt-2 mb-0" id="total-saved">$0</h3>
+                            <small class="text-muted">Total Ahorrado</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <i class="bi bi-bullseye text-primary" style="font-size: 2rem;"></i>
+                            <h3 class="mt-2 mb-0" id="total-target">$0</h3>
+                            <small class="text-muted">Objetivo Total</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <i class="bi bi-graph-up-arrow text-info" style="font-size: 2rem;"></i>
+                            <h3 class="mt-2 mb-0" id="overall-progress">0%</h3>
+                            <small class="text-muted">Progreso General</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <i class="bi bi-flag text-warning" style="font-size: 2rem;"></i>
+                            <h3 class="mt-2 mb-0" id="active-goals">0</h3>
+                            <small class="text-muted">Metas Activas</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Metas -->
+            <div class="row g-4" id="goals-grid">
+                <div class="col-12 text-center py-5">
+                    <div class="spinner-border text-primary"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div class="modal fade" id="goalModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nueva Meta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="goal-form">
+                        <input type="hidden" id="goal-id">
+                        <div class="mb-3">
+                            <label class="form-label">Nombre <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="goal-name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Monto Objetivo <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="goal-target" step="0.01" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Monto Actual</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="goal-current" step="0.01" value="0">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Fecha Límite</label>
+                            <input type="date" class="form-control" id="goal-deadline">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Prioridad</label>
+                            <select class="form-select" id="goal-priority">
+                                <option value="high">Alta</option>
+                                <option value="medium" selected>Media</option>
+                                <option value="low">Baja</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveGoal()">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Añadir Dinero -->
+    <div class="modal fade" id="addMoneyModal" tabindex="-1">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Añadir Dinero</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Monto a añadir</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control" id="add-amount" step="0.01">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success" onclick="addMoney()">Añadir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/sidebar.js"></script>
+
+    <script>
+        let currentUser = null;
+        let goals = [];
+        let editingGoalId = null;
+        let addingToGoalId = null;
+
+        document.addEventListener('DOMContentLoaded', async function () {
+            if (!await requireAuth()) return;
+            currentUser = await getCurrentUser();
+            await loadGoals();
+        });
+
+        async function loadGoals() {
+            try {
+                toggleLoader(true);
+
+                const { data, error } = await supabase
+                    .from('goals')
+                    .select('*')
+                    .eq('user_id', currentUser.id)
+                    .order('priority')
+                    .order('deadline');
+
+                if (error) throw error;
+
+                goals = data || [];
+                updateStats();
+                renderGoals();
+
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error cargando metas', 'error');
+            } finally {
+                toggleLoader(false);
+            }
+        }
+
+        function updateStats() {
+            const activeGoals = goals.filter(g => g.status === 'active');
+            const totalSaved = goals.reduce((sum, g) => sum + parseFloat(g.current_amount || 0), 0);
+            const totalTarget = activeGoals.reduce((sum, g) => sum + parseFloat(g.target_amount), 0);
+            const overallProgress = totalTarget > 0 ? Math.round((totalSaved / totalTarget) * 100) : 0;
+
+            document.getElementById('total-saved').textContent = formatCurrency(totalSaved);
+            document.getElementById('total-target').textContent = formatCurrency(totalTarget);
+            document.getElementById('overall-progress').textContent = overallProgress + '%';
+            document.getElementById('active-goals').textContent = activeGoals.length;
+        }
+
+        function renderGoals() {
+            const container = document.getElementById('goals-grid');
+
+            if (goals.length === 0) {
+                container.innerHTML = `
+                    <div class="col-12 text-center py-5">
+                        <i class="bi bi-trophy" style="font-size: 4rem; opacity: 0.3;"></i>
+                        <p class="mt-3 text-muted">No hay metas configuradas</p>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#goalModal" onclick="openGoalModal()">
+                            <i class="bi bi-plus-circle"></i> Crear Primera Meta
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            const priorityColors = {
+                'high': '#ef4444',
+                'medium': '#f59e0b',
+                'low': '#22c55e'
+            };
+
+            const priorityLabels = {
+                'high': 'Alta',
+                'medium': 'Media',
+                'low': 'Baja'
+            };
+
+            const priorityIcons = {
+                'high': '🔴',
+                'medium': '🟡',
+                'low': '🟢'
+            };
+
+            container.innerHTML = goals.map(goal => {
+                const percentage = calculatePercentage(goal.current_amount, goal.target_amount);
+                const remaining = goal.target_amount - goal.current_amount;
+                const isCompleted = goal.status === 'completed';
+                const color = priorityColors[goal.priority];
+
+                return `
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="card h-100 ${isCompleted ? 'border-success' : ''}">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <div>
+                                        <h6 class="mb-1">${goal.name}</h6>
+                                        <span class="badge" style="background-color: ${color}20; color: ${color};">
+                                            ${priorityIcons[goal.priority]} ${priorityLabels[goal.priority]}
+                                        </span>
+                                    </div>
+                                    ${isCompleted ? '<span class="badge bg-success">✓ Completada</span>' : ''}
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <small class="text-muted">Progreso</small>
+                                        <strong>${percentage}%</strong>
+                                    </div>
+                                    <div class="progress" style="height: 12px;">
+                                        <div class="progress-bar" style="background-color: ${color}; width: ${percentage}%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-6">
+                                        <small class="text-muted">Ahorrado</small>
+                                        <div class="fw-bold text-success">${formatCurrency(goal.current_amount)}</div>
+                                    </div>
+                                    <div class="col-6 text-end">
+                                        <small class="text-muted">Meta</small>
+                                        <div class="fw-bold">${formatCurrency(goal.target_amount)}</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <small class="text-muted">Faltan</small>
+                                    <div class="fw-bold ${remaining > 0 ? 'text-warning' : 'text-success'}">
+                                        ${remaining > 0 ? formatCurrency(remaining) : '¡Meta alcanzada!'}
+                                    </div>
+                                </div>
+                                
+                                ${goal.deadline ? `
+                                    <div class="mb-3">
+                                        <small class="text-muted">
+                                            <i class="bi bi-calendar"></i> Fecha límite alcanzada
+                                        </small>
+                                        <div class="small">${formatDate(goal.deadline)}</div>
+                                    </div>
+                                ` : ''}
+                                
+                                <div class="d-flex gap-2">
+                                    ${!isCompleted ? `
+                                        <button class="btn btn-sm btn-success flex-fill" onclick="openAddMoney('${goal.id}')">
+                                            <i class="bi bi-plus-circle"></i> Añadir Dinero
+                                        </button>
+                                    ` : ''}
+                                    <button class="btn btn-sm btn-outline-primary" onclick="editGoal('${goal.id}')">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteGoal('${goal.id}')">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openGoalModal() {
+            editingGoalId = null;
+            document.getElementById('goal-form').reset();
+        }
+
+        async function editGoal(goalId) {
+            const goal = goals.find(g => g.id === goalId);
+            if (!goal) return;
+
+            editingGoalId = goalId;
+            document.getElementById('goal-name').value = goal.name;
+            document.getElementById('goal-target').value = goal.target_amount;
+            document.getElementById('goal-current').value = goal.current_amount;
+            document.getElementById('goal-deadline').value = goal.deadline || '';
+            document.getElementById('goal-priority').value = goal.priority;
+
+            new bootstrap.Modal(document.getElementById('goalModal')).show();
+        }
+
+        async function saveGoal() {
+            const name = document.getElementById('goal-name').value.trim();
+            const targetAmount = parseFloat(document.getElementById('goal-target').value);
+            const currentAmount = parseFloat(document.getElementById('goal-current').value) || 0;
+            const deadline = document.getElementById('goal-deadline').value || null;
+            const priority = document.getElementById('goal-priority').value;
+
+            if (!name || !targetAmount || targetAmount <= 0) {
+                showToast('Por favor completa los campos requeridos', 'warning');
+                return;
+            }
+
+            try {
+                toggleLoader(true);
+
+                const goalData = {
+                    user_id: currentUser.id,
+                    name,
+                    target_amount: targetAmount,
+                    current_amount: currentAmount,
+                    deadline,
+                    priority,
+                    status: currentAmount >= targetAmount ? 'completed' : 'active'
+                };
+
+                if (editingGoalId) {
+                    const { error } = await supabase
+                        .from('goals')
+                        .update(goalData)
+                        .eq('id', editingGoalId);
+
+                    if (error) throw error;
+                    showToast('Meta actualizada', 'success');
+                } else {
+                    const { error } = await supabase
+                        .from('goals')
+                        .insert([goalData]);
+
+                    if (error) throw error;
+                    showToast('Meta creada', 'success');
+                }
+
+                bootstrap.Modal.getInstance(document.getElementById('goalModal')).hide();
+                await loadGoals();
+
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error: ' + error.message, 'error');
+            } finally {
+                toggleLoader(false);
+            }
+        }
+
+        function openAddMoney(goalId) {
+            addingToGoalId = goalId;
+            document.getElementById('add-amount').value = '';
+            new bootstrap.Modal(document.getElementById('addMoneyModal')).show();
+        }
+
+        async function addMoney() {
+            const amount = parseFloat(document.getElementById('add-amount').value);
+
+            if (!amount || amount <= 0) {
+                showToast('Ingresa un monto válido', 'warning');
+                return;
+            }
+
+            const goal = goals.find(g => g.id === addingToGoalId);
+            if (!goal) return;
+
+            try {
+                toggleLoader(true);
+
+                const newAmount = parseFloat(goal.current_amount) + amount;
+                const status = newAmount >= goal.target_amount ? 'completed' : 'active';
+
+                const { error } = await supabase
+                    .from('goals')
+                    .update({
+                        current_amount: newAmount,
+                        status
+                    })
+                    .eq('id', addingToGoalId);
+
+                if (error) throw error;
+
+                if (status === 'completed') {
+                    showToast('¡Felicidades! Meta completada 🎉', 'success');
+                } else {
+                    showToast('Dinero añadido exitosamente', 'success');
+                }
+
+                bootstrap.Modal.getInstance(document.getElementById('addMoneyModal')).hide();
+                await loadGoals();
+
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error: ' + error.message, 'error');
+            } finally {
+                toggleLoader(false);
+            }
+        }
+
+        async function deleteGoal(goalId) {
+            if (!confirm('¿Eliminar esta meta?')) return;
+
+            try {
+                toggleLoader(true);
+                const { error } = await supabase
+                    .from('goals')
+                    .delete()
+                    .eq('id', goalId);
+
+                if (error) throw error;
+
+                showToast('Meta eliminada', 'success');
+                await loadGoals();
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error: ' + error.message, 'error');
+            } finally {
+                toggleLoader(false);
+            }
+        }
+    </script>
+</body>
+
+</html>
