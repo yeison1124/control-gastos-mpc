@@ -12,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/main.css">
     <link rel="stylesheet" href="assets/css/sidebar.css">
+    <link rel="stylesheet" href="assets/css/dark-mode.css">
 </head>
 
 <body>
@@ -223,8 +224,7 @@
                             <div class="mb-4">
                                 <label class="form-label">Tema</label>
                                 <div class="btn-group w-100" role="group">
-                                    <input type="radio" class="btn-check" name="theme" id="theme-light" value="light"
-                                        checked>
+                                    <input type="radio" class="btn-check" name="theme" id="theme-light" value="light">
                                     <label class="btn btn-outline-primary" for="theme-light">
                                         <i class="bi bi-sun"></i> Claro
                                     </label>
@@ -239,7 +239,8 @@
                                         <i class="bi bi-circle-half"></i> Auto
                                     </label>
                                 </div>
-                                <small class="text-muted">El tema oscuro está en desarrollo</small>
+                                <small class="text-muted">El modo oscuro ahorra batería y es mejor para tus ojos de
+                                    noche</small>
                             </div>
 
                             <div class="mb-3">
@@ -346,6 +347,7 @@
     <script src="assets/js/config.js"></script>
     <script src="assets/js/utils.js"></script>
     <script src="assets/js/auth.js"></script>
+    <script src="assets/js/dark-mode.js"></script>
     <script src="assets/js/sidebar.js"></script>
 
     <script>
@@ -355,6 +357,7 @@
             if (!await requireAuth()) return;
             currentUser = await getCurrentUser();
             await loadSettings();
+            initializeThemeControls();
         });
 
         async function loadSettings() {
@@ -363,9 +366,34 @@
                 if (profile && profile.currency) {
                     document.getElementById('currency').value = profile.currency;
                 }
+
+                // Cargar tema actual
+                const currentTheme = DarkModeManager.getTheme();
+                document.getElementById(`theme-${currentTheme}`).checked = true;
             } catch (error) {
                 console.error('Error:', error);
             }
+        }
+
+        function initializeThemeControls() {
+            // Escuchar cambios en los radio buttons del tema
+            document.querySelectorAll('input[name="theme"]').forEach(radio => {
+                radio.addEventListener('change', function () {
+                    const theme = this.value;
+
+                    if (theme === 'auto') {
+                        // Modo auto: usar preferencia del sistema
+                        const systemTheme = DarkModeManager.getSystemTheme();
+                        DarkModeManager.setTheme(systemTheme);
+                        localStorage.removeItem(DarkModeManager.STORAGE_KEY);
+                    } else {
+                        // Modo manual: light o dark
+                        DarkModeManager.setTheme(theme);
+                    }
+
+                    showToast(`Tema cambiado a: ${theme === 'light' ? 'Claro' : theme === 'dark' ? 'Oscuro' : 'Automático'}`, 'success');
+                });
+            });
         }
 
         async function saveAllSettings() {
