@@ -8,7 +8,38 @@ const SUPABASE_URL = 'https://zczvobqrmucwrbrlksye.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpjenZvYnFybXVjd3Jicmxrc3llIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUwNTcyMjAsImV4cCI6MjA4MDYzMzIyMH0.AhRbPtGRUlvW5_Yj-CTKhMFp0w1BvSIUVAO2ucFKbuM';
 
 // Inicializar cliente de Supabase
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+let supabase;
+
+// Función para inicializar Supabase cuando esté disponible
+function initSupabase() {
+    if (typeof window.supabase !== 'undefined' && window.supabase.createClient) {
+        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        console.log('✅ Supabase inicializado correctamente');
+        return true;
+    }
+    return false;
+}
+
+// Intentar inicializar inmediatamente
+if (!initSupabase()) {
+    // Si no está disponible, esperar a que se cargue
+    console.log('⏳ Esperando a que Supabase CDN se cargue...');
+
+    // Intentar cada 100ms hasta que esté disponible (máximo 5 segundos)
+    let attempts = 0;
+    const maxAttempts = 50;
+
+    const checkInterval = setInterval(() => {
+        attempts++;
+
+        if (initSupabase()) {
+            clearInterval(checkInterval);
+        } else if (attempts >= maxAttempts) {
+            clearInterval(checkInterval);
+            console.error('❌ Error: No se pudo cargar Supabase CDN después de 5 segundos');
+        }
+    }, 100);
+}
 
 // ============================================
 // CONSTANTES GLOBALES
