@@ -107,6 +107,104 @@ async function createDefaultCategories(userId) {
 }
 
 /**
+ * Maneja el inicio de sesión con Google
+ */
+async function handleGoogleLogin() {
+    try {
+        toggleLoader(true);
+
+        const { data, error } = await supabase.auth.signInWithOAuth({
+            provider: 'google',
+            options: {
+                redirectTo: window.location.origin + '/dashboard.html',
+                queryParams: {
+                    access_type: 'offline',
+                    prompt: 'consent',
+                }
+            }
+        });
+
+        if (error) throw error;
+
+        // La redirección se maneja automáticamente por Supabase
+        showToast('Redirigiendo a Google...', 'info');
+
+    } catch (error) {
+        console.error('Error en login con Google:', error);
+        showToast('Error al iniciar sesión con Google: ' + error.message, 'error');
+        toggleLoader(false);
+        throw error;
+    }
+}
+
+/**
+ * Maneja el inicio de sesión con Facebook
+ */
+async function handleFacebookLogin() {
+    try {
+        toggleLoader(true);
+
+        const { data, error } = await supabase.auth.signInWithOAuth({
+            provider: 'facebook',
+            options: {
+                redirectTo: window.location.origin + '/dashboard.html',
+                scopes: 'email'
+            }
+        });
+
+        if (error) throw error;
+
+        // La redirección se maneja automáticamente por Supabase
+        showToast('Redirigiendo a Facebook...', 'info');
+
+    } catch (error) {
+        console.error('Error en login con Facebook:', error);
+        showToast('Error al iniciar sesión con Facebook: ' + error.message, 'error');
+        toggleLoader(false);
+        throw error;
+    }
+}
+
+/**
+ * Maneja el callback de OAuth después de la autenticación
+ * Llama a esta función en las páginas donde se redirige después del OAuth
+ */
+async function handleOAuthCallback() {
+    try {
+        // Obtener el usuario actual
+        const { data: { user }, error } = await supabase.auth.getUser();
+
+        if (error) throw error;
+
+        if (user) {
+            // Verificar si es un nuevo usuario (primera vez que inicia sesión)
+            const { data: profile } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', user.id)
+                .single();
+
+            // Si el perfil no existe o no tiene categorías, crear categorías predeterminadas
+            if (profile) {
+                const { data: categories } = await supabase
+                    .from('categories')
+                    .select('id')
+                    .eq('user_id', user.id)
+                    .limit(1);
+
+                if (!categories || categories.length === 0) {
+                    await createDefaultCategories(user.id);
+                }
+            }
+
+            showToast('¡Bienvenido!', 'success');
+        }
+    } catch (error) {
+        console.error('Error en callback de OAuth:', error);
+    }
+}
+
+/**
  * Maneja la recuperación de contraseña
  */
 async function handlePasswordReset(email) {
