@@ -1,11 +1,18 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Simple - Control de Gastos</title>
+    <title>Iniciar Sesión - Control de Gastos</title>
+
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/dark-mode.css">
+
     <style>
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -16,243 +23,247 @@
             padding: 20px;
         }
 
-        .login-card {
+        .auth-container {
             max-width: 450px;
             width: 100%;
+        }
+
+        .auth-card {
             background: white;
             border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 2.5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: #6366f1;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 1.8rem;
         }
 
         .btn-login {
             width: 100%;
             padding: 12px;
-            background: #6366f1;
+            background: #0f172a;
             color: white;
             border: none;
             border-radius: 10px;
             font-weight: 600;
+            margin-top: 1rem;
+            transition: all 0.3s;
         }
 
         .btn-login:hover {
-            background: #4f46e5;
+            background: #1e293b;
+            transform: translateY(-2px);
         }
 
-        #status {
-            margin-top: 20px;
-            padding: 15px;
+        .social-btn {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #e2e8f0;
+            background: white;
             border-radius: 10px;
-            display: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            color: #475569;
+            font-weight: 500;
+            transition: all 0.2s;
+            text-decoration: none;
         }
 
-        #status.show {
-            display: block;
+        .social-btn:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
         }
 
-        #status.error {
-            background: #fee;
-            color: #c00;
-            border: 1px solid #fcc;
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 1.5rem 0;
+            color: #94a3b8;
         }
 
-        #status.success {
-            background: #efe;
-            color: #0a0;
-            border: 1px solid #cfc;
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e2e8f0;
         }
 
-        #status.info {
-            background: #eef;
-            color: #00a;
-            border: 1px solid #ccf;
+        .divider span {
+            padding: 0 10px;
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            padding: 12px;
+            background: #f1f5f9;
+            border: 1px solid transparent;
+            border-radius: 10px;
+        }
+
+        .form-control:focus {
+            background: white;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .auth-link {
+            color: #6366f1;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .auth-link:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 
 <body>
-    <div class="login-card">
-        <h2 class="text-center mb-4">Control de Gastos</h2>
-        <p class="text-center text-muted mb-4">Versión Simple de Login</p>
-
-        <form id="loginForm">
-            <div class="mb-3">
-                <label class="form-label">Email:</label>
-                <input type="email" class="form-control" id="emailInput" placeholder="tu@email.com" autocomplete="email"
-                    required>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="text-center mb-4">
+                <div class="logo-icon"><i class="bi bi-currency-dollar"></i></div>
+                <h2 class="fw-bold text-dark">Control de Gastos</h2>
+                <p class="text-muted">Inicia sesión en tu cuenta</p>
             </div>
 
-            <div class="mb-3">
-                <label class="form-label">Contraseña:</label>
-                <input type="password" class="form-control" id="passwordInput" placeholder="Tu contraseña"
-                    autocomplete="current-password" required>
-            </div>
+            <form id="login-form">
+                <div class="mb-3">
+                    <label class="form-label text-muted small fw-bold">Correo Electrónico</label>
+                    <input type="email" class="form-control" id="email" placeholder="tu@email.com" required>
+                </div>
 
-            <button type="submit" class="btn-login" id="loginBtn">
-                Iniciar Sesión
+                <div class="mb-3">
+                    <label class="form-label text-muted small fw-bold">Contraseña</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="password" placeholder="••••••••" required>
+                        <button class="btn btn-light border" type="button" onclick="togglePassword()">
+                            <i class="bi bi-eye" id="toggleIcon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="remember">
+                        <label class="form-check-label small" for="remember">Recordarme</label>
+                    </div>
+                    <a href="#" class="small auth-link text-muted">¿Olvidaste tu contraseña?</a>
+                </div>
+
+                <button type="submit" class="btn-login">Iniciar Sesión</button>
+            </form>
+
+            <div class="divider"><span>o</span></div>
+
+            <button class="social-btn" onclick="handleFacebookLogin()">
+                <i class="bi bi-facebook me-2 text-primary"></i> Continuar con Facebook
             </button>
-        </form>
 
-        <div id="status"></div>
-
-        <div class="text-center mt-3">
-            <small class="text-muted">
-                ¿No tienes cuenta? <a href="register.html">Regístrate</a>
-            </small>
+            <div class="text-center mt-4 small">
+                ¿No tienes una cuenta? <a href="register.html" class="auth-link text-dark fw-bold">Regístrate aquí</a>
+            </div>
         </div>
     </div>
 
-    <!-- Supabase CDN -->
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/dark-mode.js"></script>
 
     <script>
-        // Configuración de Supabase
-        const SUPABASE_URL = 'https://zczvobqrmucwrbrlksye.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpjenZvYnFybXVjd3Jicmxrc3llIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUwNTcyMjAsImV4cCI6MjA4MDYzMzIyMH0.AhRbPtGRUlvW5_Yj-CTKhMFp0w1BvSIUVAO2ucFKbuM';
-
-        let supabaseClient = null;
-
-        // Función para mostrar estado
-        function showStatus(message, type = 'info') {
-            const statusDiv = document.getElementById('status');
-            statusDiv.textContent = message;
-            statusDiv.className = 'show ' + type;
-            console.log(`[${type.toUpperCase()}] ${message}`);
-        }
-
-        // Función para inicializar Supabase
-        function initSupabase() {
-            showStatus('Inicializando Supabase...', 'info');
-
-            if (typeof window.supabase === 'undefined') {
-                showStatus('❌ Error: Supabase CDN no está cargado', 'error');
-                console.error('window.supabase no está definido');
+        // Esperar a que todo esté cargado
+        document.addEventListener('DOMContentLoaded', function() {
+            // Función para verificar si Supabase está listo
+            function checkSupabaseReady() {
+                if (typeof supabase !== 'undefined' && supabase && supabase.auth) {
+                    console.log('✅ Supabase está listo para usar');
+                    return true;
+                }
+                console.warn('⚠️ Supabase aún no está listo');
                 return false;
             }
 
-            try {
-                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-                showStatus('✅ Supabase inicializado correctamente', 'success');
-                console.log('Supabase cliente creado:', supabaseClient);
-                return true;
-            } catch (error) {
-                showStatus('❌ Error al crear cliente: ' + error.message, 'error');
-                console.error('Error creando cliente Supabase:', error);
-                return false;
-            }
-        }
+            // Esperar a que Supabase esté listo antes de hacer cualquier cosa
+            let attempts = 0;
+            const maxAttempts = 50; // 5 segundos
 
-        // Función de login
-        async function handleLogin(email, password) {
-            console.log('=== INICIO LOGIN ===');
-            console.log('Email:', email);
-            console.log('Password length:', password.length);
-
-            // Verificar que supabaseClient existe
-            if (!supabaseClient) {
-                showStatus('❌ Error: Supabase no está inicializado', 'error');
-                console.error('supabaseClient es null');
-                return;
-            }
-
-            console.log('supabaseClient existe:', !!supabaseClient);
-            console.log('supabaseClient.auth existe:', !!supabaseClient.auth);
-            console.log('signInWithPassword existe:', !!supabaseClient.auth?.signInWithPassword);
-
-            showStatus('⏳ Procesando login...', 'info');
-
-            try {
-                // Deshabilitar botón
-                document.getElementById('loginBtn').disabled = true;
-                document.getElementById('loginBtn').textContent = 'Procesando...';
-
-                const { data, error } = await supabaseClient.auth.signInWithPassword({
-                    email: email,
-                    password: password
-                });
-
-                console.log('Respuesta de Supabase:', { data, error });
-
-                if (error) {
-                    showStatus('❌ Error: ' + error.message, 'error');
-                    console.error('Error de autenticación:', error);
+            function initPage() {
+                attempts++;
+                
+                if (checkSupabaseReady()) {
+                    // Supabase está listo, inicializar página
+                    console.log('🚀 Inicializando página de login');
+                    redirectIfAuthenticated();
+                } else if (attempts < maxAttempts) {
+                    // Reintentar después de 100ms
+                    setTimeout(initPage, 100);
                 } else {
-                    showStatus('✅ Login exitoso! Redirigiendo...', 'success');
-                    console.log('Login exitoso:', data);
+                    // Después de 5 segundos, mostrar error
+                    console.error('❌ No se pudo cargar Supabase después de 5 segundos');
+                    alert('Error: No se pudo cargar el sistema de autenticación. Por favor recarga la página.');
+                }
+            }
+
+            // Iniciar proceso de verificación
+            initPage();
+
+            function togglePassword() {
+                const input = document.getElementById('password');
+                const icon = document.getElementById('toggleIcon');
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.className = 'bi bi-eye-slash';
+                } else {
+                    input.type = 'password';
+                    icon.className = 'bi bi-eye';
+                }
+            }
+
+            // Hacer togglePassword global para que funcione desde onclick
+            window.togglePassword = togglePassword;
+
+            document.getElementById('login-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                // Verificar que supabase esté disponible ANTES de intentar login
+                if (!checkSupabaseReady()) {
+                    showToast('Sistema de autenticación no disponible. Por favor espera unos segundos.', 'warning');
+                    
+                    // Esperar 2 segundos y reintentar
                     setTimeout(() => {
-                        window.location.href = 'dashboard.html';
-                    }, 1500);
-                }
-            } catch (error) {
-                showStatus('❌ Error inesperado: ' + error.message, 'error');
-                console.error('Error de JavaScript:', error);
-            } finally {
-                // Rehabilitar botón
-                document.getElementById('loginBtn').disabled = false;
-                document.getElementById('loginBtn').textContent = 'Iniciar Sesión';
-            }
-
-            console.log('=== FIN LOGIN ===');
-        }
-
-        // Inicializar cuando la página cargue
-        window.addEventListener('load', function () {
-            console.log('Página cargada');
-
-            // Esperar 500ms para que Supabase CDN se cargue completamente
-            setTimeout(() => {
-                if (initSupabase()) {
-                    // Supabase inicializado correctamente
-                    console.log('✅ Todo listo para hacer login');
-                } else {
-                    // Reintentar cada segundo, máximo 5 veces
-                    let attempts = 0;
-                    const interval = setInterval(() => {
-                        attempts++;
-                        console.log(`Reintento ${attempts}/5...`);
-
-                        if (initSupabase()) {
-                            clearInterval(interval);
-                        } else if (attempts >= 5) {
-                            clearInterval(interval);
-                            showStatus('❌ No se pudo cargar Supabase. Recarga la página.', 'error');
+                        if (checkSupabaseReady()) {
+                            showToast('Sistema listo. Por favor intenta de nuevo.', 'success');
+                        } else {
+                            showToast('Por favor recarga la página.', 'error');
                         }
-                    }, 1000);
+                    }, 2000);
+                    return;
                 }
-            }, 500);
-        });
 
-        // Manejar submit del formulario
-        document.getElementById('loginForm').addEventListener('submit', function (e) {
-            e.preventDefault();
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
 
-            const email = document.getElementById('emailInput').value.trim();
-            const password = document.getElementById('passwordInput').value;
+                if (!email || !password) return showToast('Completa todos los campos', 'warning');
 
-            console.log('Formulario enviado');
-            console.log('Email ingresado:', email);
-            console.log('Password ingresado:', password ? '***' : '(vacío)');
-
-            if (!email || !password) {
-                showStatus('❌ Por favor completa todos los campos', 'error');
-                return;
-            }
-
-            if (!supabaseClient) {
-                showStatus('❌ Supabase no está listo. Espera unos segundos.', 'error');
-                return;
-            }
-
-            handleLogin(email, password);
-        });
-
-        // Test: Ver si los campos son editables
-        document.getElementById('emailInput').addEventListener('focus', function () {
-            console.log('✅ Campo email recibió focus');
-        });
-
-        document.getElementById('emailInput').addEventListener('input', function (e) {
-            console.log('✅ Campo email input:', e.target.value);
+                await handleLogin(email, password);
+            });
         });
     </script>
 </body>
