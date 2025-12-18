@@ -76,27 +76,18 @@ function highlightActivePage(currentPage) {
  */
 async function loadUserInfo() {
     try {
+        // Verificar que supabase esté disponible
+        if (typeof supabase === 'undefined') {
+            console.warn('Supabase no está disponible aún');
+            setDemoUserInfo();
+            return;
+        }
+
         const { data: { user } } = await supabase.auth.getUser();
 
         // Si no hay usuario (modo demo), usar datos por defecto
         if (!user) {
-            // Actualizar nombre de usuario
-            const userNameElement = document.getElementById('user-name');
-            if (userNameElement) {
-                userNameElement.textContent = 'Usuario Demo';
-            }
-
-            // Actualizar email
-            const userEmailElement = document.getElementById('user-email');
-            if (userEmailElement) {
-                userEmailElement.textContent = 'demo@preview.com';
-            }
-
-            // Actualizar avatar (iniciales)
-            const userAvatarElement = document.getElementById('user-avatar');
-            if (userAvatarElement) {
-                userAvatarElement.textContent = 'UD';
-            }
+            setDemoUserInfo();
             return;
         }
 
@@ -129,16 +120,22 @@ async function loadUserInfo() {
 
     } catch (error) {
         console.error('Error cargando información del usuario:', error);
-        // En caso de error, mostrar datos demo
-        const userNameElement = document.getElementById('user-name');
-        if (userNameElement) userNameElement.textContent = 'Usuario Demo';
-
-        const userEmailElement = document.getElementById('user-email');
-        if (userEmailElement) userEmailElement.textContent = 'demo@preview.com';
-
-        const userAvatarElement = document.getElementById('user-avatar');
-        if (userAvatarElement) userAvatarElement.textContent = 'UD';
+        setDemoUserInfo();
     }
+}
+
+/**
+ * Establece información de usuario demo
+ */
+function setDemoUserInfo() {
+    const userNameElement = document.getElementById('user-name');
+    if (userNameElement) userNameElement.textContent = 'Usuario Demo';
+
+    const userEmailElement = document.getElementById('user-email');
+    if (userEmailElement) userEmailElement.textContent = 'demo@preview.com';
+
+    const userAvatarElement = document.getElementById('user-avatar');
+    if (userAvatarElement) userAvatarElement.textContent = 'UD';
 }
 
 /**
@@ -146,6 +143,13 @@ async function loadUserInfo() {
  */
 async function handleLogout() {
     try {
+        // Verificar que supabase esté disponible
+        if (typeof supabase === 'undefined') {
+            console.error('Supabase no está disponible');
+            showToast('Error: Sistema de autenticación no disponible', 'error');
+            return;
+        }
+
         toggleLoader(true);
 
         const { error } = await supabase.auth.signOut();
