@@ -188,29 +188,35 @@
     <script src="assets/js/dark-mode.js"></script>
 
     <script>
-        // Redirect if already logged in
-        redirectIfAuthenticated();
+        // Esperar a que todo esté cargado
+        document.addEventListener('DOMContentLoaded', function () {
+            // Redirect if already logged in
+            redirectIfAuthenticated();
 
-        function togglePassword() {
-            const input = document.getElementById('password');
-            const icon = document.getElementById('toggleIcon');
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.className = 'bi bi-eye-slash';
-            } else {
-                input.type = 'password';
-                icon.className = 'bi bi-eye';
+            function togglePassword() {
+                const input = document.getElementById('password');
+                const icon = document.getElementById('toggleIcon');
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.className = 'bi bi-eye-slash';
+                } else {
+                    input.type = 'password';
+                    icon.className = 'bi bi-eye';
+                }
             }
-        }
 
-        document.getElementById('login-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+            // Hacer togglePassword global para que funcione desde onclick
+            window.togglePassword = togglePassword;
 
-            if (!email || !password) return showToast('Completa todos los campos', 'warning');
+            document.getElementById('login-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
 
-            await handleLogin(email, password);
+                if (!email || !password) return showToast('Completa todos los campos', 'warning');
+
+                await handleLogin(email, password);
+            });
         });
     </script>
 </body>

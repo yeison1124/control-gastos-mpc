@@ -225,44 +225,52 @@
     <script src="assets/js/dark-mode.js"></script>
 
     <script>
-        redirectIfAuthenticated();
+        document.addEventListener('DOMContentLoaded', function () {
+            redirectIfAuthenticated();
 
-        function togglePassword(inputId, iconId) {
-            const input = document.getElementById(inputId);
-            const icon = document.getElementById(iconId);
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.className = 'bi bi-eye-slash';
-            } else {
-                input.type = 'password';
-                icon.className = 'bi bi-eye';
+            function togglePassword(inputId, iconId) {
+                const input = document.getElementById(inputId);
+                const icon = document.getElementById(iconId);
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.className = 'bi bi-eye-slash';
+                } else {
+                    input.type = 'password';
+                    icon.className = 'bi bi-eye';
+                }
             }
-        }
 
-        function checkStrength(val) {
-            const bar = document.getElementById('strengthBar');
-            let strength = 0;
-            if (val.length > 5) strength += 33;
-            if (val.length > 8) strength += 33;
-            if (/[A-Z]/.test(val) && /[0-9]/.test(val)) strength += 34;
+            // Hacer togglePassword global
+            window.togglePassword = togglePassword;
 
-            bar.style.width = strength + '%';
-            if (strength < 40) bar.style.backgroundColor = '#ef4444';
-            else if (strength < 80) bar.style.backgroundColor = '#f59e0b';
-            else bar.style.backgroundColor = '#22c55e';
-        }
+            function checkStrength(val) {
+                const bar = document.getElementById('strengthBar');
+                let strength = 0;
+                if (val.length > 5) strength += 33;
+                if (val.length > 8) strength += 33;
+                if (/[A-Z]/.test(val) && /[0-9]/.test(val)) strength += 34;
 
-        document.getElementById('register-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const fullName = document.getElementById('fullName').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
+                bar.style.width = strength + '%';
+                if (strength < 40) bar.style.backgroundColor = '#ef4444';
+                else if (strength < 80) bar.style.backgroundColor = '#f59e0b';
+                else bar.style.backgroundColor = '#22c55e';
+            }
 
-            if (password !== confirmPassword) return showToast('Las contraseñas no coinciden', 'error');
-            if (password.length < 6) return showToast('La contraseña es muy corta', 'warning');
+            // Hacer checkStrength global
+            window.checkStrength = checkStrength;
 
-            await handleRegister(email, password, fullName);
+            document.getElementById('register-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const fullName = document.getElementById('fullName').value;
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+
+                if (password !== confirmPassword) return showToast('Las contraseñas no coinciden', 'error');
+                if (password.length < 6) return showToast('La contraseña es muy corta', 'warning');
+
+                await handleRegister(email, password, fullName);
+            });
         });
     </script>
 </body>
