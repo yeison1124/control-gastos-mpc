@@ -8,11 +8,14 @@ const SUPABASE_URL = 'https://zczvobqrmucwrbrlksye.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpjenZvYnFybXVjd3Jicmxrc3llIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUwNTcyMjAsImV4cCI6MjA4MDYzMzIyMH0.AhRbPtGRUlvW5_Yj-CTKhMFp0w1BvSIUVAO2ucFKbuM';
 
 // Inicializar cliente de Supabase
-let supabase;
+// Usar var en vez de let para evitar errores de re-declaración
+var supabase;
 
 // Función para inicializar Supabase cuando esté disponible
 function initSupabase() {
-    if (typeof window.supabase !== 'undefined' && window.supabase.createClient) {
+    // Verificar que window.supabase (la librería) esté cargada
+    if (typeof window.supabase !== 'undefined' && typeof window.supabase.createClient === 'function') {
+        // Crear el cliente
         supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         console.log('✅ Supabase inicializado correctamente');
         return true;
