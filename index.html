@@ -10,17 +10,27 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="stylesheet" href="assets/css/dark-mode.css">
 
     <style>
+        :root {
+            --bg-gradient-start: #667eea;
+            --bg-gradient-end: #764ba2;
+        }
+
+        [data-theme="dark"] {
+            --bg-gradient-start: #1a1a2e;
+            --bg-gradient-end: #16213e;
+        }
+
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
+            font-family: 'Inter', sans-serif;
+            transition: background 0.3s ease;
         }
 
         .auth-container {
@@ -33,6 +43,11 @@
             border-radius: 20px;
             padding: 2.5rem;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        [data-theme="dark"] .auth-card {
+            background: #1e293b;
+            color: #f1f5f9;
         }
 
         .logo-icon {
@@ -81,6 +96,12 @@
             text-decoration: none;
         }
 
+        [data-theme="dark"] .social-btn {
+            background: #334155;
+            border-color: #475569;
+            color: #cbd5e1;
+        }
+
         .social-btn:hover {
             background: #f8fafc;
             border-color: #cbd5e1;
@@ -101,9 +122,13 @@
             border-bottom: 1px solid #e2e8f0;
         }
 
+        [data-theme="dark"] .divider::before,
+        [data-theme="dark"] .divider::after {
+            border-bottom-color: #475569;
+        }
+
         .divider span {
             padding: 0 10px;
-            font-size: 0.9rem;
         }
 
         .form-control {
@@ -113,10 +138,19 @@
             border-radius: 10px;
         }
 
+        [data-theme="dark"] .form-control {
+            background: #334155;
+            color: #f1f5f9;
+        }
+
         .form-control:focus {
             background: white;
             border-color: #6366f1;
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        [data-theme="dark"] .form-control:focus {
+            background: #1e293b;
         }
 
         .auth-link {
@@ -128,10 +162,38 @@
         .auth-link:hover {
             text-decoration: underline;
         }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
     </style>
 </head>
 
 <body>
+    <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle">
+        <i class="bi bi-moon-fill"></i>
+    </button>
+
     <div class="auth-container">
         <div class="auth-card">
             <div class="text-center mb-4">
@@ -143,13 +205,15 @@
             <form id="login-form">
                 <div class="mb-3">
                     <label class="form-label text-muted small fw-bold">Correo Electrónico</label>
-                    <input type="email" class="form-control" id="email" placeholder="tu@email.com" required>
+                    <input type="email" class="form-control" id="email" placeholder="tu@email.com" required
+                        autocomplete="email">
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label text-muted small fw-bold">Contraseña</label>
                     <div class="input-group">
-                        <input type="password" class="form-control" id="password" placeholder="••••••••" required>
+                        <input type="password" class="form-control" id="password" placeholder="••••••••" required
+                            autocomplete="current-password">
                         <button class="btn btn-light border" type="button" onclick="togglePassword()">
                             <i class="bi bi-eye" id="toggleIcon"></i>
                         </button>
@@ -182,85 +246,177 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/config.js"></script>
-    <script src="assets/js/utils.js"></script>
-    <script src="assets/js/auth.js"></script>
-    <script src="assets/js/dark-mode.js"></script>
 
     <script>
-        // Esperar a que todo esté cargado
-        document.addEventListener('DOMContentLoaded', function() {
-            // Función para verificar si Supabase está listo
-            function checkSupabaseReady() {
-                if (typeof supabase !== 'undefined' && supabase && supabase.auth) {
-                    console.log('✅ Supabase está listo para usar');
-                    return true;
-                }
-                console.warn('⚠️ Supabase aún no está listo');
-                return false;
-            }
+        // ============================================
+        // CONFIGURACIÓN DE SUPABASE
+        // ============================================
+        const SUPABASE_URL = 'https://zczvobqrmucwrbrlksye.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpjenZvYnFybXVjd3Jicmxrc3llIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUwNTcyMjAsImV4cCI6MjA4MDYzMzIyMH0.AhRbPtGRUlvW5_Yj-CTKhMFp0w1BvSIUVAO2ucFKbuM';
 
-            // Esperar a que Supabase esté listo antes de hacer cualquier cosa
+        let supabase = null;
+
+        // ============================================
+        // MODO OSCURO
+        // ============================================
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        }
+
+        function updateThemeIcon(theme) {
+            const icon = document.querySelector('#theme-toggle i');
+            icon.className = theme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-fill';
+        }
+
+        // ============================================
+        // UTILIDADES
+        // ============================================
+        function showToast(message, type = 'info') {
+            alert(message);
+        }
+
+        function togglePassword() {
+            const input = document.getElementById('password');
+            const icon = document.getElementById('toggleIcon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'bi bi-eye-slash';
+            } else {
+                input.type = 'password';
+                icon.className = 'bi bi-eye';
+            }
+        }
+
+        // ============================================
+        // SUPABASE INICIALIZACIÓN
+        // ============================================
+        async function initSupabase() {
             let attempts = 0;
-            const maxAttempts = 50; // 5 segundos
+            const maxAttempts = 50;
 
-            function initPage() {
-                attempts++;
-                
-                if (checkSupabaseReady()) {
-                    // Supabase está listo, inicializar página
-                    console.log('🚀 Inicializando página de login');
-                    redirectIfAuthenticated();
-                } else if (attempts < maxAttempts) {
-                    // Reintentar después de 100ms
-                    setTimeout(initPage, 100);
-                } else {
-                    // Después de 5 segundos, mostrar error
-                    console.error('❌ No se pudo cargar Supabase después de 5 segundos');
-                    alert('Error: No se pudo cargar el sistema de autenticación. Por favor recarga la página.');
-                }
-            }
+            return new Promise((resolve) => {
+                const check = () => {
+                    attempts++;
 
-            // Iniciar proceso de verificación
-            initPage();
-
-            function togglePassword() {
-                const input = document.getElementById('password');
-                const icon = document.getElementById('toggleIcon');
-                if (input.type === 'password') {
-                    input.type = 'text';
-                    icon.className = 'bi bi-eye-slash';
-                } else {
-                    input.type = 'password';
-                    icon.className = 'bi bi-eye';
-                }
-            }
-
-            // Hacer togglePassword global para que funcione desde onclick
-            window.togglePassword = togglePassword;
-
-            document.getElementById('login-form').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                // Verificar que supabase esté disponible ANTES de intentar login
-                if (!checkSupabaseReady()) {
-                    showToast('Sistema de autenticación no disponible. Por favor espera unos segundos.', 'warning');
-                    
-                    // Esperar 2 segundos y reintentar
-                    setTimeout(() => {
-                        if (checkSupabaseReady()) {
-                            showToast('Sistema listo. Por favor intenta de nuevo.', 'success');
-                        } else {
-                            showToast('Por favor recarga la página.', 'error');
+                    if (typeof window.supabase !== 'undefined' && window.supabase.createClient) {
+                        try {
+                            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+                            console.log('✅ Supabase inicializado');
+                            resolve(true);
+                        } catch (error) {
+                            console.error('Error inicializando Supabase:', error);
+                            resolve(false);
                         }
-                    }, 2000);
+                    } else if (attempts < maxAttempts) {
+                        setTimeout(check, 100);
+                    } else {
+                        console.error('❌ No se pudo cargar Supabase CDN');
+                        resolve(false);
+                    }
+                };
+
+                check();
+            });
+        }
+
+        // ============================================
+        // AUTENTICACIÓN
+        // ============================================
+        async function handleLogin(email, password) {
+            if (!supabase) {
+                showToast('Sistema no inicializado. Espera un momento.', 'error');
+                return;
+            }
+
+            try {
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+
+                if (error) {
+                    showToast('Error: ' + error.message, 'error');
                     return;
                 }
 
-                const email = document.getElementById('email').value;
+                showToast('¡Bienvenido!', 'success');
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 500);
+
+            } catch (error) {
+                console.error('Error en login:', error);
+                showToast('Error al iniciar sesión', 'error');
+            }
+        }
+
+        async function handleFacebookLogin() {
+            if (!supabase) {
+                showToast('Sistema no inicializado', 'error');
+                return;
+            }
+
+            try {
+                const { data, error } = await supabase.auth.signInWithOAuth({
+                    provider: 'facebook',
+                    options: {
+                        redirectTo: window.location.origin + '/dashboard.html'
+                    }
+                });
+
+                if (error) throw error;
+
+            } catch (error) {
+                console.error('Error OAuth:', error);
+                showToast('Error con Facebook: ' + error.message, 'error');
+            }
+        }
+
+        // ============================================
+        // INICIALIZACIÓN
+        // ============================================
+        window.addEventListener('load', async () => {
+            initTheme();
+
+            const supabaseReady = await initSupabase();
+
+            if (!supabaseReady) {
+                showToast('Error al cargar el sistema. Recarga la página.', 'error');
+                return;
+            }
+
+            // Verificar si ya está autenticado
+            try {
+                const { data: { session } } = await supabase.auth.getSession();
+                if (session) {
+                    window.location.href = 'dashboard.html';
+                    return;
+                }
+            } catch (error) {
+                console.error('Error checking session:', error);
+            }
+
+            // Event listener para el formulario
+            document.getElementById('login-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const email = document.getElementById('email').value.trim();
                 const password = document.getElementById('password').value;
 
-                if (!email || !password) return showToast('Completa todos los campos', 'warning');
+                if (!email || !password) {
+                    showToast('Por favor completa todos los campos', 'warning');
+                    return;
+                }
 
                 await handleLogin(email, password);
             });
