@@ -27,9 +27,8 @@ async function handleLogin(email, password) {
 
     } catch (error) {
         console.error('Error en login:', error);
-        // Mostrar alerta visible para el usuario con el error exacto
-        alert('Error al iniciar sesión: ' + (error.message || error.error_description || JSON.stringify(error)));
-        showToast('Error: ' + error.message, 'error');
+        // Mensaje genérico para el usuario
+        showToast('Email o contraseña incorrectos. Por favor intenta de nuevo.', 'error');
         throw error;
     } finally {
         toggleLoader(false);
@@ -74,8 +73,8 @@ async function handleRegister(email, password, fullName) {
 
     } catch (error) {
         console.error('Error en registro:', error);
-        alert('Error al registrarse: ' + (error.message || error.error_description || JSON.stringify(error)));
-        showToast('Error: ' + error.message, 'error');
+        // Mensaje genérico para el usuario
+        showToast('No se pudo crear la cuenta. Por favor verifica tus datos e intenta de nuevo.', 'error');
         throw error;
     } finally {
         toggleLoader(false);
@@ -131,7 +130,7 @@ async function handleGoogleLogin() {
 
     } catch (error) {
         console.error('Error en login con Google:', error);
-        showToast('Error al iniciar sesión con Google: ' + error.message, 'error');
+        showToast('No se pudo iniciar sesión con Google. Intenta de nuevo.', 'error');
         toggleLoader(false);
         throw error;
     }
@@ -159,7 +158,7 @@ async function handleFacebookLogin() {
 
     } catch (error) {
         console.error('Error en login con Facebook:', error);
-        showToast('Error al iniciar sesión con Facebook: ' + error.message, 'error');
+        showToast('No se pudo iniciar sesión con Facebook. Intenta de nuevo.', 'error');
         toggleLoader(false);
         throw error;
     }
@@ -223,7 +222,7 @@ async function handlePasswordReset(email) {
 
     } catch (error) {
         console.error('Error en recuperación de contraseña:', error);
-        showToast('Error: ' + error.message, 'error');
+        showToast('No se pudo enviar el correo de recuperación. Verifica tu email e intenta de nuevo.', 'error');
         throw error;
     } finally {
         toggleLoader(false);
@@ -298,7 +297,7 @@ async function updateUserProfile(userId, updates) {
 
     } catch (error) {
         console.error('Error actualizando perfil:', error);
-        showToast('Error actualizando perfil: ' + error.message, 'error');
+        showToast('No se pudo actualizar el perfil. Intenta de nuevo.', 'error');
         throw error;
     }
 }
