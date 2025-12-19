@@ -10,17 +10,27 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="stylesheet" href="assets/css/dark-mode.css">
 
     <style>
+        :root {
+            --bg-gradient-start: #667eea;
+            --bg-gradient-end: #764ba2;
+        }
+
+        [data-theme="dark"] {
+            --bg-gradient-start: #1a1a2e;
+            --bg-gradient-end: #16213e;
+        }
+
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
+            font-family: 'Inter', sans-serif;
+            transition: background 0.3s ease;
         }
 
         .auth-container {
@@ -33,6 +43,11 @@
             border-radius: 20px;
             padding: 2.5rem;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        [data-theme="dark"] .auth-card {
+            background: #1e293b;
+            color: #f1f5f9;
         }
 
         .logo-icon {
@@ -52,7 +67,6 @@
             width: 100%;
             padding: 12px;
             background: #6366f1;
-            /* Different color for register to distinguish */
             color: white;
             border: none;
             border-radius: 10px;
@@ -80,7 +94,12 @@
             font-weight: 500;
             transition: all 0.2s;
             text-decoration: none;
-            font-size: 0.95rem;
+        }
+
+        [data-theme="dark"] .social-btn {
+            background: #334155;
+            border-color: #475569;
+            color: #cbd5e1;
         }
 
         .social-btn:hover {
@@ -103,9 +122,13 @@
             border-bottom: 1px solid #e2e8f0;
         }
 
+        [data-theme="dark"] .divider::before,
+        [data-theme="dark"] .divider::after {
+            border-bottom-color: #475569;
+        }
+
         .divider span {
             padding: 0 10px;
-            font-size: 0.9rem;
         }
 
         .form-control {
@@ -115,10 +138,19 @@
             border-radius: 10px;
         }
 
+        [data-theme="dark"] .form-control {
+            background: #334155;
+            color: #f1f5f9;
+        }
+
         .form-control:focus {
             background: white;
             border-color: #6366f1;
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        [data-theme="dark"] .form-control:focus {
+            background: #1e293b;
         }
 
         .auth-link {
@@ -131,47 +163,78 @@
             text-decoration: underline;
         }
 
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
         .password-strength {
             height: 4px;
-            border-radius: 2px;
             background: #e2e8f0;
+            border-radius: 2px;
             margin-top: 8px;
             overflow: hidden;
         }
 
         .strength-bar {
             height: 100%;
-            width: 0%;
+            width: 0;
             transition: all 0.3s;
+            background: #ef4444;
         }
     </style>
 </head>
 
 <body>
+    <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle">
+        <i class="bi bi-moon-fill"></i>
+    </button>
+
     <div class="auth-container">
         <div class="auth-card">
             <div class="text-center mb-4">
-                <div class="logo-icon"><i class="bi bi-person-plus"></i></div>
-                <h2 class="fw-bold text-dark">Crear Cuenta</h2>
-                <p class="text-muted">Regístrate para controlar tus gastos</p>
+                <div class="logo-icon"><i class="bi bi-currency-dollar"></i></div>
+                <h2 class="fw-bold text-dark">Control de Gastos</h2>
+                <p class="text-muted">Crea tu cuenta gratis</p>
             </div>
 
             <form id="register-form">
                 <div class="mb-3">
                     <label class="form-label text-muted small fw-bold">Nombre Completo</label>
-                    <input type="text" class="form-control" id="fullName" placeholder="Juan Pérez" required>
+                    <input type="text" class="form-control" id="fullName" placeholder="Tu nombre" required
+                        autocomplete="name">
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label text-muted small fw-bold">Correo Electrónico</label>
-                    <input type="email" class="form-control" id="email" placeholder="tu@email.com" required>
+                    <input type="email" class="form-control" id="email" placeholder="tu@email.com" required
+                        autocomplete="email">
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label text-muted small fw-bold">Contraseña</label>
                     <div class="input-group">
-                        <input type="password" class="form-control" id="password" placeholder="••••••••" required
-                            oninput="checkStrength(this.value)">
+                        <input type="password" class="form-control" id="password" placeholder="Mínimo 6 caracteres"
+                            required autocomplete="new-password" oninput="checkStrength(this.value)">
                         <button class="btn btn-light border" type="button"
                             onclick="togglePassword('password', 'toggleIcon1')">
                             <i class="bi bi-eye" id="toggleIcon1"></i>
@@ -185,8 +248,8 @@
                 <div class="mb-3">
                     <label class="form-label text-muted small fw-bold">Confirmar Contraseña</label>
                     <div class="input-group">
-                        <input type="password" class="form-control" id="confirmPassword" placeholder="••••••••"
-                            required>
+                        <input type="password" class="form-control" id="confirmPassword"
+                            placeholder="Repite tu contraseña" required autocomplete="new-password">
                         <button class="btn btn-light border" type="button"
                             onclick="togglePassword('confirmPassword', 'toggleIcon2')">
                             <i class="bi bi-eye" id="toggleIcon2"></i>
@@ -194,24 +257,17 @@
                     </div>
                 </div>
 
-                <div class="form-check mb-4">
-                    <input class="form-check-input" type="checkbox" id="terms" required>
-                    <label class="form-check-label small text-muted" for="terms">
-                        Acepto los <a href="#" class="auth-link">Términos y Condiciones</a>
-                    </label>
-                </div>
-
                 <button type="submit" class="btn-register">Crear Cuenta</button>
             </form>
 
             <div class="divider"><span>o</span></div>
 
-            <button class="social-btn" onclick="handleFacebookLogin()">
-                <i class="bi bi-facebook me-2 text-primary"></i> Registrarse con Facebook
+            <button class="social-btn" onclick="handleFacebookRegister()">
+                <i class="bi bi-facebook me-2 text-primary"></i> Continuar con Facebook
             </button>
 
             <div class="text-center mt-4 small">
-                ¿Ya tienes una cuenta? <a href="index.html" class="auth-link text-dark fw-bold">Inicia sesión aquí</a>
+                ¿Ya tienes cuenta? <a href="index.html" class="auth-link text-dark fw-bold">Inicia sesión</a>
             </div>
         </div>
     </div>
@@ -219,55 +275,207 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/config.js"></script>
-    <script src="assets/js/utils.js"></script>
-    <script src="assets/js/auth.js"></script>
-    <script src="assets/js/dark-mode.js"></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            redirectIfAuthenticated();
+        // ============================================
+        // CONFIGURACIÓN DE SUPABASE
+        // ============================================
+        const SUPABASE_URL = 'https://zczvobqrmucwrbrlksye.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpjenZvYnFybXVjd3Jicmxrc3llIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUwNTcyMjAsImV4cCI6MjA4MDYzMzIyMH0.AhRbPtGRUlvW5_Yj-CTKhMFp0w1BvSIUVAO2ucFKbuM';
 
-            function togglePassword(inputId, iconId) {
-                const input = document.getElementById(inputId);
-                const icon = document.getElementById(iconId);
-                if (input.type === 'password') {
-                    input.type = 'text';
-                    icon.className = 'bi bi-eye-slash';
-                } else {
-                    input.type = 'password';
-                    icon.className = 'bi bi-eye';
+        let supabase = null;
+
+        // ============================================
+        // MODO OSCURO
+        // ============================================
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        }
+
+        function updateThemeIcon(theme) {
+            const icon = document.querySelector('#theme-toggle i');
+            icon.className = theme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-fill';
+        }
+
+        // ============================================
+        // UTILIDADES
+        // ============================================
+        function showToast(message, type = 'info') {
+            alert(message);
+        }
+
+        function togglePassword(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'bi bi-eye-slash';
+            } else {
+                input.type = 'password';
+                icon.className = 'bi bi-eye';
+            }
+        }
+
+        function checkStrength(val) {
+            const bar = document.getElementById('strengthBar');
+            let strength = 0;
+            if (val.length > 5) strength += 33;
+            if (val.length > 8) strength += 33;
+            if (/[A-Z]/.test(val) && /[0-9]/.test(val)) strength += 34;
+
+            bar.style.width = strength + '%';
+            if (strength < 40) bar.style.backgroundColor = '#ef4444';
+            else if (strength < 80) bar.style.backgroundColor = '#f59e0b';
+            else bar.style.backgroundColor = '#22c55e';
+        }
+
+        // ============================================
+        // SUPABASE INICIALIZACIÓN
+        // ============================================
+        async function initSupabase() {
+            let attempts = 0;
+            const maxAttempts = 50;
+
+            return new Promise((resolve) => {
+                const check = () => {
+                    attempts++;
+
+                    if (typeof window.supabase !== 'undefined' && window.supabase.createClient) {
+                        try {
+                            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+                            console.log('✅ Supabase inicializado');
+                            resolve(true);
+                        } catch (error) {
+                            console.error('Error inicializando Supabase:', error);
+                            resolve(false);
+                        }
+                    } else if (attempts < maxAttempts) {
+                        setTimeout(check, 100);
+                    } else {
+                        console.error('❌ No se pudo cargar Supabase CDN');
+                        resolve(false);
+                    }
+                };
+
+                check();
+            });
+        }
+
+        // ============================================
+        // AUTENTICACIÓN
+        // ============================================
+        async function handleRegister(email, password, fullName) {
+            if (!supabase) {
+                showToast('Sistema no inicializado. Espera un momento.', 'error');
+                return;
+            }
+
+            try {
+                const { data, error } = await supabase.auth.signUp({
+                    email: email,
+                    password: password,
+                    options: {
+                        data: {
+                            full_name: fullName
+                        }
+                    }
+                });
+
+                if (error) {
+                    showToast('Error: ' + error.message, 'error');
+                    return;
                 }
+
+                showToast('¡Cuenta creada! Revisa tu email para confirmar.', 'success');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+
+            } catch (error) {
+                console.error('Error en registro:', error);
+                showToast('Error al crear cuenta', 'error');
+            }
+        }
+
+        async function handleFacebookRegister() {
+            if (!supabase) {
+                showToast('Sistema no inicializado', 'error');
+                return;
             }
 
-            // Hacer togglePassword global
-            window.togglePassword = togglePassword;
+            try {
+                const { data, error } = await supabase.auth.signInWithOAuth({
+                    provider: 'facebook',
+                    options: {
+                        redirectTo: window.location.origin + '/dashboard.html'
+                    }
+                });
 
-            function checkStrength(val) {
-                const bar = document.getElementById('strengthBar');
-                let strength = 0;
-                if (val.length > 5) strength += 33;
-                if (val.length > 8) strength += 33;
-                if (/[A-Z]/.test(val) && /[0-9]/.test(val)) strength += 34;
+                if (error) throw error;
 
-                bar.style.width = strength + '%';
-                if (strength < 40) bar.style.backgroundColor = '#ef4444';
-                else if (strength < 80) bar.style.backgroundColor = '#f59e0b';
-                else bar.style.backgroundColor = '#22c55e';
+            } catch (error) {
+                console.error('Error OAuth:', error);
+                showToast('Error con Facebook: ' + error.message, 'error');
+            }
+        }
+
+        // ============================================
+        // INICIALIZACIÓN
+        // ============================================
+        window.addEventListener('load', async () => {
+            initTheme();
+
+            const supabaseReady = await initSupabase();
+
+            if (!supabaseReady) {
+                showToast('Error al cargar el sistema. Recarga la página.', 'error');
+                return;
             }
 
-            // Hacer checkStrength global
-            window.checkStrength = checkStrength;
+            // Verificar si ya está autenticado
+            try {
+                const { data: { session } } = await supabase.auth.getSession();
+                if (session) {
+                    window.location.href = 'dashboard.html';
+                    return;
+                }
+            } catch (error) {
+                console.error('Error checking session:', error);
+            }
 
+            // Event listener para el formulario
             document.getElementById('register-form').addEventListener('submit', async (e) => {
                 e.preventDefault();
-                const fullName = document.getElementById('fullName').value;
-                const email = document.getElementById('email').value;
+
+                const fullName = document.getElementById('fullName').value.trim();
+                const email = document.getElementById('email').value.trim();
                 const password = document.getElementById('password').value;
                 const confirmPassword = document.getElementById('confirmPassword').value;
 
-                if (password !== confirmPassword) return showToast('Las contraseñas no coinciden', 'error');
-                if (password.length < 6) return showToast('La contraseña es muy corta', 'warning');
+                if (!fullName || !email || !password || !confirmPassword) {
+                    showToast('Por favor completa todos los campos', 'warning');
+                    return;
+                }
+
+                if (password !== confirmPassword) {
+                    showToast('Las contraseñas no coinciden', 'error');
+                    return;
+                }
+
+                if (password.length < 6) {
+                    showToast('La contraseña debe tener al menos 6 caracteres', 'warning');
+                    return;
+                }
 
                 await handleRegister(email, password, fullName);
             });
