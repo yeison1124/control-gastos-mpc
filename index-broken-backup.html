@@ -4,9 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
     <title>Iniciar Sesión - Control de Gastos</title>
 
     <!-- Bootstrap CSS -->
@@ -193,7 +190,7 @@
 </head>
 
 <body>
-    <button class="theme-toggle" id="theme-toggle">
+    <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle">
         <i class="bi bi-moon-fill"></i>
     </button>
 
@@ -217,7 +214,7 @@
                     <div class="input-group">
                         <input type="password" class="form-control" id="password" placeholder="••••••••" required
                             autocomplete="current-password">
-                        <button class="btn btn-light border" type="button" id="togglePasswordBtn">
+                        <button class="btn btn-light border" type="button" onclick="togglePassword()">
                             <i class="bi bi-eye" id="toggleIcon"></i>
                         </button>
                     </div>
@@ -236,7 +233,7 @@
 
             <div class="divider"><span>o</span></div>
 
-            <button class="social-btn" id="facebookBtn">
+            <button class="social-btn" onclick="handleFacebookLogin()">
                 <i class="bi bi-facebook me-2 text-primary"></i> Continuar con Facebook
             </button>
 
@@ -251,23 +248,24 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // App Version for cache busting
-        console.log('App Version: 2.0.0-fixed');
-
-        // Configuración
+        // ============================================
+        // CONFIGURACIÓN DE SUPABASE
+        // ============================================
         const SUPABASE_URL = 'https://zczvobqrmucwrbrlksye.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpjenZvYnFybXVjd3Jicmxrc3llIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUwNTcyMjAsImV4cCI6MjA4MDYzMzIyMH0.AhRbPtGRUlvW5_Yj-CTKhMFp0w1BvSIUVAO2ucFKbuM';
 
-        let appSupabase = null;
+        let supabase = null;
 
-        // Tema
+        // ============================================
+        // MODO OSCURO
+        // ============================================
         function initTheme() {
             const savedTheme = localStorage.getItem('theme') || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
             updateThemeIcon(savedTheme);
         }
 
-        function toggleThemeMode() {
+        function toggleTheme() {
             const currentTheme = document.documentElement.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             document.documentElement.setAttribute('data-theme', newTheme);
@@ -277,32 +275,32 @@
 
         function updateThemeIcon(theme) {
             const icon = document.querySelector('#theme-toggle i');
-            if (icon) {
-                icon.className = theme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-fill';
-            }
+            icon.className = theme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-fill';
         }
 
-        // Utilidades
-        function showMessage(message) {
+        // ============================================
+        // UTILIDADES
+        // ============================================
+        function showToast(message, type = 'info') {
             alert(message);
         }
 
-        function togglePass() {
+        function togglePassword() {
             const input = document.getElementById('password');
             const icon = document.getElementById('toggleIcon');
-            if (input && icon) {
-                if (input.type === 'password') {
-                    input.type = 'text';
-                    icon.className = 'bi bi-eye-slash';
-                } else {
-                    input.type = 'password';
-                    icon.className = 'bi bi-eye';
-                }
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'bi bi-eye-slash';
+            } else {
+                input.type = 'password';
+                icon.className = 'bi bi-eye';
             }
         }
 
-        // Supabase
-        async function initSupabaseClient() {
+        // ============================================
+        // SUPABASE INICIALIZACIÓN
+        // ============================================
+        async function initSupabase() {
             let attempts = 0;
             const maxAttempts = 50;
 
@@ -312,17 +310,17 @@
 
                     if (typeof window.supabase !== 'undefined' && window.supabase.createClient) {
                         try {
-                            appSupabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-                            console.log('✅ Sistema inicializado');
+                            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+                            console.log('✅ Supabase inicializado');
                             resolve(true);
                         } catch (error) {
-                            console.error('Error:', error);
+                            console.error('Error inicializando Supabase:', error);
                             resolve(false);
                         }
                     } else if (attempts < maxAttempts) {
                         setTimeout(check, 100);
                     } else {
-                        console.error('❌ Error de carga');
+                        console.error('❌ No se pudo cargar Supabase CDN');
                         resolve(false);
                     }
                 };
@@ -331,44 +329,45 @@
             });
         }
 
-        // Login
-        async function processLogin(email, password) {
-            if (!appSupabase) {
-                showMessage('Sistema no listo. Espera un momento.');
+        // ============================================
+        // AUTENTICACIÓN
+        // ============================================
+        async function handleLogin(email, password) {
+            if (!supabase) {
+                showToast('Sistema no inicializado. Espera un momento.', 'error');
                 return;
             }
 
             try {
-                const { data, error } = await appSupabase.auth.signInWithPassword({
+                const { data, error } = await supabase.auth.signInWithPassword({
                     email: email,
                     password: password
                 });
 
                 if (error) {
-                    showMessage('Error: ' + error.message);
+                    showToast('Error: ' + error.message, 'error');
                     return;
                 }
 
-                showMessage('¡Bienvenido!');
+                showToast('¡Bienvenido!', 'success');
                 setTimeout(() => {
                     window.location.href = 'dashboard.html';
                 }, 500);
 
             } catch (error) {
-                console.error('Error:', error);
-                showMessage('Error al iniciar sesión');
+                console.error('Error en login:', error);
+                showToast('Error al iniciar sesión', 'error');
             }
         }
 
-        // Facebook
-        async function processFacebookLogin() {
-            if (!appSupabase) {
-                showMessage('Sistema no listo');
+        async function handleFacebookLogin() {
+            if (!supabase) {
+                showToast('Sistema no inicializado', 'error');
                 return;
             }
 
             try {
-                const { data, error } = await appSupabase.auth.signInWithOAuth({
+                const { data, error } = await supabase.auth.signInWithOAuth({
                     provider: 'facebook',
                     options: {
                         redirectTo: window.location.origin + '/dashboard.html'
@@ -378,34 +377,36 @@
                 if (error) throw error;
 
             } catch (error) {
-                console.error('Error:', error);
-                showMessage('Error con Facebook: ' + error.message);
+                console.error('Error OAuth:', error);
+                showToast('Error con Facebook: ' + error.message, 'error');
             }
         }
 
-        // Init
-        async function startApplication() {
+        // ============================================
+        // INICIALIZACIÓN
+        // ============================================
+        async function startApp() {
             initTheme();
 
-            const ready = await initSupabaseClient();
+            const supabaseReady = await initSupabase();
 
-            if (!ready) {
-                showMessage('Error al cargar. Recarga la página.');
+            if (!supabaseReady) {
+                showToast('Error al cargar el sistema. Recarga la página.', 'error');
                 return;
             }
 
-            // Check auth
+            // Verificar si ya está autenticado
             try {
-                const { data: { session } } = await appSupabase.auth.getSession();
+                const { data: { session } } = await supabase.auth.getSession();
                 if (session) {
                     window.location.href = 'dashboard.html';
                     return;
                 }
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Error checking session:', error);
             }
 
-            // Form
+            // Event listener para el formulario
             const loginForm = document.getElementById('login-form');
             if (loginForm) {
                 loginForm.addEventListener('submit', async (e) => {
@@ -415,38 +416,21 @@
                     const password = document.getElementById('password').value;
 
                     if (!email || !password) {
-                        showMessage('Completa todos los campos');
+                        showToast('Por favor completa todos los campos', 'warning');
                         return;
                     }
 
-                    await processLogin(email, password);
+                    await handleLogin(email, password);
                 });
-            }
-
-            // Theme button
-            const themeBtn = document.getElementById('theme-toggle');
-            if (themeBtn) {
-                themeBtn.addEventListener('click', toggleThemeMode);
-            }
-
-            // Password toggle
-            const passBtn = document.getElementById('togglePasswordBtn');
-            if (passBtn) {
-                passBtn.addEventListener('click', togglePass);
-            }
-
-            // Facebook button
-            const fbBtn = document.getElementById('facebookBtn');
-            if (fbBtn) {
-                fbBtn.addEventListener('click', processFacebookLogin);
             }
         }
 
-        // Start
+        // Ejecutar inmediatamente si el DOM ya está listo, sino esperar
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', startApplication);
+            document.addEventListener('DOMContentLoaded', startApp);
         } else {
-            startApplication();
+            // DOM ya está listo, ejecutar inmediatamente
+            startApp();
         }
     </script>
 </body>
