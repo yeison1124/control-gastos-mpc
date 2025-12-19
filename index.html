@@ -385,7 +385,7 @@
         // ============================================
         // INICIALIZACIÓN
         // ============================================
-        window.addEventListener('load', async () => {
+        async function startApp() {
             initTheme();
 
             const supabaseReady = await initSupabase();
@@ -407,20 +407,31 @@
             }
 
             // Event listener para el formulario
-            document.getElementById('login-form').addEventListener('submit', async (e) => {
-                e.preventDefault();
+            const loginForm = document.getElementById('login-form');
+            if (loginForm) {
+                loginForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
 
-                const email = document.getElementById('email').value.trim();
-                const password = document.getElementById('password').value;
+                    const email = document.getElementById('email').value.trim();
+                    const password = document.getElementById('password').value;
 
-                if (!email || !password) {
-                    showToast('Por favor completa todos los campos', 'warning');
-                    return;
-                }
+                    if (!email || !password) {
+                        showToast('Por favor completa todos los campos', 'warning');
+                        return;
+                    }
 
-                await handleLogin(email, password);
-            });
-        });
+                    await handleLogin(email, password);
+                });
+            }
+        }
+
+        // Ejecutar inmediatamente si el DOM ya está listo, sino esperar
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', startApp);
+        } else {
+            // DOM ya está listo, ejecutar inmediatamente
+            startApp();
+        }
     </script>
 </body>
 

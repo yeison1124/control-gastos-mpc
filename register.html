@@ -432,7 +432,7 @@
         // ============================================
         // INICIALIZACIÓN
         // ============================================
-        window.addEventListener('load', async () => {
+        async function startApp() {
             initTheme();
 
             const supabaseReady = await initSupabase();
@@ -454,32 +454,43 @@
             }
 
             // Event listener para el formulario
-            document.getElementById('register-form').addEventListener('submit', async (e) => {
-                e.preventDefault();
+            const registerForm = document.getElementById('register-form');
+            if (registerForm) {
+                registerForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
 
-                const fullName = document.getElementById('fullName').value.trim();
-                const email = document.getElementById('email').value.trim();
-                const password = document.getElementById('password').value;
-                const confirmPassword = document.getElementById('confirmPassword').value;
+                    const fullName = document.getElementById('fullName').value.trim();
+                    const email = document.getElementById('email').value.trim();
+                    const password = document.getElementById('password').value;
+                    const confirmPassword = document.getElementById('confirmPassword').value;
 
-                if (!fullName || !email || !password || !confirmPassword) {
-                    showToast('Por favor completa todos los campos', 'warning');
-                    return;
-                }
+                    if (!fullName || !email || !password || !confirmPassword) {
+                        showToast('Por favor completa todos los campos', 'warning');
+                        return;
+                    }
 
-                if (password !== confirmPassword) {
-                    showToast('Las contraseñas no coinciden', 'error');
-                    return;
-                }
+                    if (password !== confirmPassword) {
+                        showToast('Las contraseñas no coinciden', 'error');
+                        return;
+                    }
 
-                if (password.length < 6) {
-                    showToast('La contraseña debe tener al menos 6 caracteres', 'warning');
-                    return;
-                }
+                    if (password.length < 6) {
+                        showToast('La contraseña debe tener al menos 6 caracteres', 'warning');
+                        return;
+                    }
 
-                await handleRegister(email, password, fullName);
-            });
-        });
+                    await handleRegister(email, password, fullName);
+                });
+            }
+        }
+
+        // Ejecutar inmediatamente si el DOM ya está listo, sino esperar
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', startApp);
+        } else {
+            // DOM ya está listo, ejecutar inmediatamente
+            startApp();
+        }
     </script>
 </body>
 
