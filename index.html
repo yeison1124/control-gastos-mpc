@@ -345,7 +345,7 @@
                 });
 
                 if (error) {
-                    showMessage('Error: ' + error.message);
+                    showMessage('Email o contraseña incorrectos. Por favor intenta de nuevo.');
                     return;
                 }
 
@@ -356,7 +356,7 @@
 
             } catch (error) {
                 console.error('Error:', error);
-                showMessage('Error al iniciar sesión');
+                showMessage('No se pudo iniciar sesión. Intenta de nuevo.');
             }
         }
 
@@ -379,7 +379,7 @@
 
             } catch (error) {
                 console.error('Error:', error);
-                showMessage('Error con Facebook: ' + error.message);
+                showMessage('No se pudo iniciar sesión con Facebook. Intenta de nuevo.');
             }
         }
 

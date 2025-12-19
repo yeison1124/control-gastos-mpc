@@ -392,7 +392,7 @@
                 });
 
                 if (error) {
-                    showToast('Error: ' + error.message, 'error');
+                    showToast('No se pudo crear la cuenta. Por favor verifica tus datos e intenta de nuevo.', 'error');
                     return;
                 }
 
@@ -403,7 +403,7 @@
 
             } catch (error) {
                 console.error('Error en registro:', error);
-                showToast('Error al crear cuenta', 'error');
+                showToast('No se pudo crear la cuenta. Intenta de nuevo.', 'error');
             }
         }
 
@@ -425,7 +425,7 @@
 
             } catch (error) {
                 console.error('Error OAuth:', error);
-                showToast('Error con Facebook: ' + error.message, 'error');
+                showToast('No se pudo iniciar sesión con Facebook. Intenta de nuevo.', 'error');
             }
         }
 
