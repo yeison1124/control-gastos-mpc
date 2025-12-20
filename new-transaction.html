@@ -1,10 +1,10 @@
-ï»¿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nueva TransacciÃ³n - Control de Gastos</title>
+    <title>Nueva Transacción - Control de Gastos</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -39,25 +39,7 @@
         </div>
 
         <nav>
-            <ul class="sidebar-nav">
-                <li><a href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
-                <li><a href="transactions.html"><i class="bi bi-arrow-left-right"></i> Transacciones</a></li>
-                <li><a href="new-transaction.html" class="active"><i class="bi bi-plus-circle"></i> Agregar Gasto</a>
-                </li>
-                <li><a href="income.html"><i class="bi bi-arrow-up-circle"></i> Ingresos</a></li>
-                <li><a href="expenses.html"><i class="bi bi-arrow-down-circle"></i> Gastos</a></li>
-                <li><a href="categories.html"><i class="bi bi-tags"></i> CategorÃ­as</a></li>
-                <li><a href="budgets.html"><i class="bi bi-pie-chart"></i> Presupuestos</a></li>
-                <li><a href="goals.html"><i class="bi bi-trophy"></i> Metas</a></li>
-                <li><a href="accounts.html"><i class="bi bi-credit-card"></i> Cuentas</a></li>
-                <li><a href="analytics.html"><i class="bi bi-graph-up"></i> AnÃ¡lisis</a></li>
-                <li><a href="reports.html"><i class="bi bi-bar-chart"></i> Reportes</a></li>
-                <li><a href="export.html"><i class="bi bi-download"></i> Exportar</a></li>
-                <li><a href="notifications.html"><i class="bi bi-bell"></i> Notificaciones</a></li>
-                <li><a href="settings.html"><i class="bi bi-gear"></i> ConfiguraciÃ³n</a></li>
-                <li><a href="profile.html"><i class="bi bi-person"></i> Perfil</a></li>
-                <li><a href="help.html"><i class="bi bi-question-circle"></i> Ayuda</a></li>
-            </ul>
+            <ul class="sidebar-nav">`n                <li><a href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>`n                <li><a href="transactions.html"><i class="bi bi-arrow-left-right"></i> Transacciones</a></li>`n                <li><a href="new-transaction.html"><i class="bi bi-plus-circle"></i> Agregar Gasto</a></li>`n                <li><a href="income.html"><i class="bi bi-arrow-up-circle"></i> Ingresos</a></li>`n                <li><a href="expenses.html"><i class="bi bi-arrow-down-circle"></i> Gastos</a></li>`n                <li><a href="categories.html"><i class="bi bi-tags"></i> Categorías</a></li>`n                <li><a href="budgets.html"><i class="bi bi-pie-chart"></i> Presupuestos</a></li>`n                <li><a href="recurring.html"><i class="bi bi-arrow-repeat"></i> Recurrentes</a></li>`n                <li><a href="goals.html"><i class="bi bi-trophy"></i> Metas</a></li>`n                <li><a href="accounts.html"><i class="bi bi-credit-card"></i> Cuentas</a></li>`n                <li><a href="analytics.html"><i class="bi bi-graph-up"></i> Análisis</a></li>`n                <li><a href="reports.html"><i class="bi bi-bar-chart"></i> Reportes</a></li>`n                <li><a href="gamification.html"><i class="bi bi-controller"></i> Logros</a></li>`n                <li><a href="search.html"><i class="bi bi-search"></i> Búsqueda</a></li>`n                <li><a href="export.html"><i class="bi bi-download"></i> Exportar</a></li>`n                <li><a href="notifications-center.html"><i class="bi bi-bell"></i> Notificaciones</a></li>`n                <li><a href="settings.html"><i class="bi bi-gear"></i> Configuración</a></li>`n                <li><a href="profile.html"><i class="bi bi-person"></i> Perfil</a></li>`n                <li><a href="help.html"><i class="bi bi-question-circle"></i> Ayuda</a></li>`n</ul>
         </nav>
 
         <div class="sidebar-user">
@@ -69,7 +51,7 @@
                 </div>
             </div>
             <button class="btn-logout" id="logout-btn">
-                <i class="bi bi-box-arrow-right"></i> Cerrar SesiÃ³n
+                <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
             </button>
         </div>
     </aside>
@@ -82,7 +64,7 @@
                     <button class="btn btn-link p-0 mb-2" onclick="history.back()">
                         <i class="bi bi-arrow-left"></i> Volver
                     </button>
-                    <h1 id="page-title">Nueva TransacciÃ³n</h1>
+                    <h1 id="page-title">Nueva Transacción</h1>
                     <p class="text-muted">Registra un nuevo ingreso o gasto</p>
                 </div>
             </div>
@@ -93,9 +75,9 @@
                     <div class="card">
                         <div class="card-body">
                             <form id="transaction-form">
-                                <!-- Tipo de TransacciÃ³n -->
+                                <!-- Tipo de Transacción -->
                                 <div class="mb-4">
-                                    <label class="form-label fw-bold">Tipo de TransacciÃ³n</label>
+                                    <label class="form-label fw-bold">Tipo de Transacción</label>
                                     <div class="btn-group w-100" role="group">
                                         <input type="radio" class="btn-check" name="type" id="type-expense"
                                             value="expense" checked>
@@ -123,34 +105,34 @@
                                     </div>
                                 </div>
 
-                                <!-- DescripciÃ³n -->
+                                <!-- Descripción -->
                                 <div class="mb-3">
                                     <label for="description" class="form-label fw-bold">
-                                        DescripciÃ³n <span class="text-danger">*</span>
+                                        Descripción <span class="text-danger">*</span>
                                     </label>
                                     <input type="text" class="form-control" id="description"
                                         placeholder="Ej: Supermercado, Salario, etc." required>
                                 </div>
 
-                                <!-- CategorÃ­a -->
+                                <!-- Categoría -->
                                 <div class="mb-3">
                                     <label for="category" class="form-label fw-bold">
-                                        CategorÃ­a <span class="text-danger">*</span>
+                                        Categoría <span class="text-danger">*</span>
                                     </label>
                                     <select class="form-select" id="category" required>
-                                        <option value="">Selecciona una categorÃ­a</option>
+                                        <option value="">Selecciona una categoría</option>
                                     </select>
                                 </div>
 
-                                <!-- Cuenta/MÃ©todo de Pago -->
+                                <!-- Cuenta/Método de Pago -->
                                 <div class="mb-3">
                                     <label for="account" class="form-label fw-bold">
-                                        Cuenta/MÃ©todo de Pago
+                                        Cuenta/Método de Pago
                                     </label>
                                     <select class="form-select" id="account">
                                         <option value="">Selecciona una cuenta</option>
                                     </select>
-                                    <small class="text-muted">Opcional: Â¿De dÃ³nde sale/entra el dinero?</small>
+                                    <small class="text-muted">Opcional: ¿De dónde sale/entra el dinero?</small>
                                 </div>
 
                                 <!-- Fecha -->
@@ -165,25 +147,25 @@
                                 <div class="mb-3">
                                     <label for="notes" class="form-label fw-bold">Notas (Opcional)</label>
                                     <textarea class="form-control" id="notes" rows="3"
-                                        placeholder="Agrega cualquier informaciÃ³n adicional..."></textarea>
+                                        placeholder="Agrega cualquier información adicional..."></textarea>
                                 </div>
 
-                                <!-- TransacciÃ³n Recurrente -->
+                                <!-- Transacción Recurrente -->
                                 <div class="mb-4">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="is-recurring">
                                         <label class="form-check-label" for="is-recurring">
-                                            TransacciÃ³n recurrente
+                                            Transacción recurrente
                                         </label>
                                     </div>
-                                    <small class="text-muted">Marca esta opciÃ³n si esta transacciÃ³n se repite
+                                    <small class="text-muted">Marca esta opción si esta transacción se repite
                                         mensualmente</small>
                                 </div>
 
                                 <!-- Botones -->
                                 <div class="d-flex gap-2">
                                     <button type="submit" class="btn btn-primary btn-lg flex-fill" id="submit-btn">
-                                        <i class="bi bi-save"></i> Guardar TransacciÃ³n
+                                        <i class="bi bi-save"></i> Guardar Transacción
                                     </button>
                                     <button type="button" class="btn btn-outline-secondary btn-lg"
                                         onclick="navigateTo('transactions.html')">
@@ -197,16 +179,16 @@
 
                 <!-- Panel Lateral con Consejos -->
                 <div class="col-12 col-lg-4">
-                    <!-- Consejos RÃ¡pidos -->
+                    <!-- Consejos Rápidos -->
                     <div class="card mb-3">
                         <div class="card-header">
-                            <h6 class="mb-0"><i class="bi bi-lightbulb"></i> Consejos RÃ¡pidos</h6>
+                            <h6 class="mb-0"><i class="bi bi-lightbulb"></i> Consejos Rápidos</h6>
                         </div>
                         <div class="card-body">
                             <ul class="small mb-0">
                                 <li class="mb-2">
                                     <i class="bi bi-check-circle text-success"></i>
-                                    SÃ© especÃ­fico en la descripciÃ³n para facilitar el seguimiento
+                                    Sé específico en la descripción para facilitar el seguimiento
                                 </li>
                                 <li class="mb-2">
                                     <i class="bi bi-check-circle text-success"></i>
@@ -224,14 +206,14 @@
                         </div>
                     </div>
 
-                    <!-- CategorÃ­as Recientes -->
+                    <!-- Categorías Recientes -->
                     <div class="card">
                         <div class="card-header">
-                            <h6 class="mb-0"><i class="bi bi-clock-history"></i> CategorÃ­as Recientes</h6>
+                            <h6 class="mb-0"><i class="bi bi-clock-history"></i> Categorías Recientes</h6>
                         </div>
                         <div class="card-body">
                             <div id="recent-categories">
-                                <p class="small text-muted mb-0">AÃºn no has registrado transacciones</p>
+                                <p class="small text-muted mb-0">Aún no has registrado transacciones</p>
                             </div>
                         </div>
                     </div>
@@ -262,12 +244,12 @@
 
         // Inicializar
         document.addEventListener('DOMContentLoaded', async function () {
-            // Verificar autenticaciÃ³n
+            // Verificar autenticación
             if (!await requireAuth()) return;
 
             currentUser = await getCurrentUser();
 
-            // Verificar si estamos en modo ediciÃ³n
+            // Verificar si estamos en modo edición
             const urlParams = new URLSearchParams(window.location.search);
             editingTransactionId = urlParams.get('edit');
             const typeParam = urlParams.get('type');
@@ -289,12 +271,12 @@
                 filterCategoriesByType('expense');
             }
 
-            // Si estamos editando, cargar la transacciÃ³n
+            // Si estamos editando, cargar la transacción
             if (editingTransactionId) {
                 editMode = true;
                 await loadTransactionForEdit(editingTransactionId);
-                document.getElementById('page-title').textContent = 'Editar TransacciÃ³n';
-                document.getElementById('submit-btn').innerHTML = '<i class="bi bi-save"></i> Actualizar TransacciÃ³n';
+                document.getElementById('page-title').textContent = 'Editar Transacción';
+                document.getElementById('submit-btn').innerHTML = '<i class="bi bi-save"></i> Actualizar Transacción';
             }
 
             // Event listeners
@@ -308,7 +290,7 @@
         });
 
         /**
-         * Carga las categorÃ­as
+         * Carga las categorías
          */
         async function loadCategories() {
             try {
@@ -323,8 +305,8 @@
                 categories = data || [];
 
             } catch (error) {
-                console.error('Error cargando categorÃ­as:', error);
-                showToast('Error cargando categorÃ­as', 'error');
+                console.error('Error cargando categorías:', error);
+                showToast('Error cargando categorías', 'error');
             }
         }
 
@@ -356,13 +338,13 @@
         }
 
         /**
-         * Filtra categorÃ­as por tipo
+         * Filtra categorías por tipo
          */
         function filterCategoriesByType(type) {
             const categorySelect = document.getElementById('category');
             const filtered = categories.filter(c => c.type === type);
 
-            categorySelect.innerHTML = '<option value="">Selecciona una categorÃ­a</option>';
+            categorySelect.innerHTML = '<option value="">Selecciona una categoría</option>';
             filtered.forEach(cat => {
                 categorySelect.innerHTML += `
                     <option value="${cat.id}">
@@ -373,7 +355,7 @@
         }
 
         /**
-         * Carga categorÃ­as recientes
+         * Carga categorías recientes
          */
         async function loadRecentCategories() {
             try {
@@ -412,12 +394,12 @@
                 `).join('');
 
             } catch (error) {
-                console.error('Error cargando categorÃ­as recientes:', error);
+                console.error('Error cargando categorías recientes:', error);
             }
         }
 
         /**
-         * Carga transacciÃ³n para editar
+         * Carga transacción para editar
          */
         async function loadTransactionForEdit(transactionId) {
             try {
@@ -433,7 +415,7 @@
                 if (error) throw error;
 
                 if (!data) {
-                    showToast('TransacciÃ³n no encontrada', 'error');
+                    showToast('Transacción no encontrada', 'error');
                     navigateTo('transactions.html');
                     return;
                 }
@@ -450,22 +432,22 @@
                     document.getElementById('account').value = data.account_id;
                 }
 
-                // Filtrar categorÃ­as y seleccionar
+                // Filtrar categorías y seleccionar
                 filterCategoriesByType(data.type);
                 setTimeout(() => {
                     document.getElementById('category').value = data.category_id;
                 }, 100);
 
             } catch (error) {
-                console.error('Error cargando transacciÃ³n:', error);
-                showToast('Error cargando transacciÃ³n: ' + error.message, 'error');
+                console.error('Error cargando transacción:', error);
+                showToast('Error cargando transacción: ' + error.message, 'error');
             } finally {
                 toggleLoader(false);
             }
         }
 
         /**
-         * Maneja el envÃ­o del formulario
+         * Maneja el envío del formulario
          */
         async function handleSubmit(e) {
             e.preventDefault();
@@ -484,7 +466,7 @@
 
             // Validaciones
             if (!formData.category_id) {
-                showToast('Por favor selecciona una categorÃ­a', 'warning');
+                showToast('Por favor selecciona una categoría', 'warning');
                 return;
             }
 
@@ -497,7 +479,7 @@
                 toggleLoader(true);
 
                 if (editMode) {
-                    // Actualizar transacciÃ³n existente
+                    // Actualizar transacción existente
                     const { error } = await supabase
                         .from('transactions')
                         .update(formData)
@@ -506,16 +488,16 @@
 
                     if (error) throw error;
 
-                    showToast('TransacciÃ³n actualizada exitosamente', 'success');
+                    showToast('Transacción actualizada exitosamente', 'success');
                 } else {
-                    // Crear nueva transacciÃ³n
+                    // Crear nueva transacción
                     const { error } = await supabase
                         .from('transactions')
                         .insert([formData]);
 
                     if (error) throw error;
 
-                    showToast('TransacciÃ³n guardada exitosamente', 'success');
+                    showToast('Transacción guardada exitosamente', 'success');
                 }
 
                 // Redirigir a transacciones
@@ -524,7 +506,7 @@
                 }, 1000);
 
             } catch (error) {
-                console.error('Error guardando transacciÃ³n:', error);
+                console.error('Error guardando transacción:', error);
                 showToast('Error: ' + error.message, 'error');
             } finally {
                 toggleLoader(false);

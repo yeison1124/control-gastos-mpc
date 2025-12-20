@@ -1,10 +1,10 @@
-ï»¿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CategorÃ­as - Control de Gastos</title>
+    <title>Categorías - Control de Gastos</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -30,24 +30,7 @@
             <h2>Control Gastos</h2>
         </div>
         <nav>
-            <ul class="sidebar-nav">
-                <li><a href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
-                <li><a href="transactions.html"><i class="bi bi-arrow-left-right"></i> Transacciones</a></li>
-                <li><a href="new-transaction.html"><i class="bi bi-plus-circle"></i> Agregar Gasto</a></li>
-                <li><a href="income.html"><i class="bi bi-arrow-up-circle"></i> Ingresos</a></li>
-                <li><a href="expenses.html"><i class="bi bi-arrow-down-circle"></i> Gastos</a></li>
-                <li><a href="categories.html" class="active"><i class="bi bi-tags"></i> CategorÃ­as</a></li>
-                <li><a href="budgets.html"><i class="bi bi-pie-chart"></i> Presupuestos</a></li>
-                <li><a href="goals.html"><i class="bi bi-trophy"></i> Metas</a></li>
-                <li><a href="accounts.html"><i class="bi bi-credit-card"></i> Cuentas</a></li>
-                <li><a href="analytics.html"><i class="bi bi-graph-up"></i> AnÃ¡lisis</a></li>
-                <li><a href="reports.html"><i class="bi bi-bar-chart"></i> Reportes</a></li>
-                <li><a href="export.html"><i class="bi bi-download"></i> Exportar</a></li>
-                <li><a href="notifications.html"><i class="bi bi-bell"></i> Notificaciones</a></li>
-                <li><a href="settings.html"><i class="bi bi-gear"></i> ConfiguraciÃ³n</a></li>
-                <li><a href="profile.html"><i class="bi bi-person"></i> Perfil</a></li>
-                <li><a href="help.html"><i class="bi bi-question-circle"></i> Ayuda</a></li>
-            </ul>
+            <ul class="sidebar-nav">`n                <li><a href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>`n                <li><a href="transactions.html"><i class="bi bi-arrow-left-right"></i> Transacciones</a></li>`n                <li><a href="new-transaction.html"><i class="bi bi-plus-circle"></i> Agregar Gasto</a></li>`n                <li><a href="income.html"><i class="bi bi-arrow-up-circle"></i> Ingresos</a></li>`n                <li><a href="expenses.html"><i class="bi bi-arrow-down-circle"></i> Gastos</a></li>`n                <li><a href="categories.html"><i class="bi bi-tags"></i> Categorías</a></li>`n                <li><a href="budgets.html"><i class="bi bi-pie-chart"></i> Presupuestos</a></li>`n                <li><a href="recurring.html"><i class="bi bi-arrow-repeat"></i> Recurrentes</a></li>`n                <li><a href="goals.html"><i class="bi bi-trophy"></i> Metas</a></li>`n                <li><a href="accounts.html"><i class="bi bi-credit-card"></i> Cuentas</a></li>`n                <li><a href="analytics.html"><i class="bi bi-graph-up"></i> Análisis</a></li>`n                <li><a href="reports.html"><i class="bi bi-bar-chart"></i> Reportes</a></li>`n                <li><a href="gamification.html"><i class="bi bi-controller"></i> Logros</a></li>`n                <li><a href="search.html"><i class="bi bi-search"></i> Búsqueda</a></li>`n                <li><a href="export.html"><i class="bi bi-download"></i> Exportar</a></li>`n                <li><a href="notifications-center.html"><i class="bi bi-bell"></i> Notificaciones</a></li>`n                <li><a href="settings.html"><i class="bi bi-gear"></i> Configuración</a></li>`n                <li><a href="profile.html"><i class="bi bi-person"></i> Perfil</a></li>`n                <li><a href="help.html"><i class="bi bi-question-circle"></i> Ayuda</a></li>`n</ul>
         </nav>
         <div class="sidebar-user">
             <div class="user-info">
@@ -58,7 +41,7 @@
                 </div>
             </div>
             <button class="btn-logout" id="logout-btn">
-                <i class="bi bi-box-arrow-right"></i> Cerrar SesiÃ³n
+                <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
             </button>
         </div>
     </aside>
@@ -68,22 +51,22 @@
         <div class="container-custom">
             <div class="row mb-4">
                 <div class="col">
-                    <h1>CategorÃ­as</h1>
-                    <p class="text-muted">GestiÃ³n de categorÃ­as para tus transacciones</p>
+                    <h1>Categorías</h1>
+                    <p class="text-muted">Gestión de categorías para tus transacciones</p>
                 </div>
                 <div class="col-auto">
                     <button class="btn btn-primary" onclick="openCategoryModal()">
-                        <i class="bi bi-plus-circle"></i> Nueva CategorÃ­a
+                        <i class="bi bi-plus-circle"></i> Nueva Categoría
                     </button>
                 </div>
             </div>
 
-            <!-- EstadÃ­sticas rÃ¡pidas -->
+            <!-- Estadísticas rápidas -->
             <div class="row g-3 mb-4">
                 <div class="col-12 col-md-4">
                     <div class="card bg-primary text-white">
                         <div class="card-body">
-                            <h6>Total CategorÃ­as</h6>
+                            <h6>Total Categorías</h6>
                             <h2 id="total-stats">0</h2>
                         </div>
                     </div>
@@ -112,7 +95,7 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <input type="text" id="search-categories" class="form-control"
-                                placeholder="Buscar categorÃ­a...">
+                                placeholder="Buscar categoría...">
                         </div>
                         <div class="col-md-6">
                             <div class="btn-group w-100" role="group">
@@ -131,19 +114,19 @@
                 </div>
             </div>
 
-            <!-- Grid de CategorÃ­as -->
+            <!-- Grid de Categorías -->
             <div id="categories-grid" class="row g-4">
-                <!-- Se llenarÃ¡ dinÃ¡micamente -->
+                <!-- Se llenará dinámicamente -->
             </div>
         </div>
     </main>
 
-    <!-- Modal CategorÃ­a -->
+    <!-- Modal Categoría -->
     <div class="modal fade" id="categoryModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitle">Nueva CategorÃ­a</h5>
+                    <h5 class="modal-title" id="modalTitle">Nueva Categoría</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
@@ -166,7 +149,7 @@
                         <div class="mb-3">
                             <label class="form-label">Icono</label>
                             <div class="card p-3 bg-light">
-                                <!-- Selector de iconos rÃ¡pidos -->
+                                <!-- Selector de iconos rápidos -->
                                 <div id="quick-icons-expense" class="d-flex flex-wrap gap-2 mb-3">
                                     <button type="button" class="btn btn-outline-secondary icon-btn"
                                         onclick="selectIcon('shopping-cart')"><i
@@ -239,7 +222,7 @@
                                         oninput="previewCustomIcon(this.value)">
                                 </div>
                                 <div class="form-text">Si no encuentras el icono, escribe su nombre de Font Awesome <a
-                                        href="https://fontawesome.com/icons?d=gallery&m=free" target="_blank">aquÃ­</a>.
+                                        href="https://fontawesome.com/icons?d=gallery&m=free" target="_blank">aquí</a>.
                                 </div>
                             </div>
                         </div>
@@ -296,7 +279,7 @@
                 renderCategories();
             } catch (e) {
                 console.error(e);
-                showToast('Error cargando categorÃ­as', 'error');
+                showToast('Error cargando categorías', 'error');
             } finally {
                 toggleLoader(false);
             }
@@ -319,7 +302,7 @@
             });
 
             if (filtered.length === 0) {
-                grid.innerHTML = '<div class="col-12 text-center py-5 text-muted">No se encontraron categorÃ­as</div>';
+                grid.innerHTML = '<div class="col-12 text-center py-5 text-muted">No se encontraron categorías</div>';
                 return;
             }
 
@@ -360,7 +343,7 @@
         function openCategoryModal() {
             document.getElementById('category-form').reset();
             document.getElementById('category-id').value = '';
-            document.getElementById('modalTitle').innerText = 'Nueva CategorÃ­a';
+            document.getElementById('modalTitle').innerText = 'Nueva Categoría';
             document.getElementById('category-color').value = randomColor();
             updateIconSelector();
             selectIcon('shopping-cart'); // Default icon
@@ -411,7 +394,7 @@
             document.getElementById('category-name').value = cat.name;
             document.getElementById('category-type').value = cat.type;
             document.getElementById('category-color').value = cat.color;
-            document.getElementById('modalTitle').innerText = 'Editar CategorÃ­a';
+            document.getElementById('modalTitle').innerText = 'Editar Categoría';
 
             updateIconSelector();
             selectIcon(cat.icon); // Load icon
@@ -432,7 +415,7 @@
             if (!name) return showToast('Nombre requerido', 'warning');
 
             if (!currentUser || !currentUser.id || currentUser.id.includes('fake')) {
-                alert('Error: No estÃ¡s autenticado correctamente o falta configuraciÃ³n de Supabase. ID de usuario invÃ¡lido.');
+                alert('Error: No estás autenticado correctamente o falta configuración de Supabase. ID de usuario inválido.');
                 return;
             }
 
@@ -463,7 +446,7 @@
                 await loadCategories();
             } catch (e) {
                 console.error('Error catch:', e);
-                alert('Error al guardar: ' + e.message + '\n\nVerifica tu conexiÃ³n y credenciales en config.js');
+                alert('Error al guardar: ' + e.message + '\n\nVerifica tu conexión y credenciales en config.js');
                 showToast(e.message, 'error');
             } finally {
                 toggleLoader(false);
@@ -471,13 +454,13 @@
         }
 
         window.deleteCategory = async function (id) {
-            if (!confirm('Â¿Borrar categorÃ­a?')) return;
+            if (!confirm('¿Borrar categoría?')) return;
             try {
                 toggleLoader(true);
                 const { error } = await supabase.from('categories').delete().eq('id', id);
                 if (error) throw error;
                 loadCategories();
-                showToast('CategorÃ­a eliminada', 'infos');
+                showToast('Categoría eliminada', 'infos');
             } catch (e) {
                 showToast(e.message, 'error');
             } finally {

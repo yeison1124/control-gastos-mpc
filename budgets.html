@@ -1,4 +1,4 @@
-ï»¿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -24,24 +24,7 @@
             <h2>Control Gastos</h2>
         </div>
         <nav>
-            <ul class="sidebar-nav">
-                <li><a href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
-                <li><a href="transactions.html"><i class="bi bi-arrow-left-right"></i> Transacciones</a></li>
-                <li><a href="new-transaction.html"><i class="bi bi-plus-circle"></i> Agregar Gasto</a></li>
-                <li><a href="income.html"><i class="bi bi-arrow-up-circle"></i> Ingresos</a></li>
-                <li><a href="expenses.html"><i class="bi bi-arrow-down-circle"></i> Gastos</a></li>
-                <li><a href="categories.html"><i class="bi bi-tags"></i> CategorÃ­as</a></li>
-                <li><a href="budgets.html" class="active"><i class="bi bi-pie-chart"></i> Presupuestos</a></li>
-                <li><a href="goals.html"><i class="bi bi-trophy"></i> Metas</a></li>
-                <li><a href="accounts.html"><i class="bi bi-credit-card"></i> Cuentas</a></li>
-                <li><a href="analytics.html"><i class="bi bi-graph-up"></i> AnÃ¡lisis</a></li>
-                <li><a href="reports.html"><i class="bi bi-bar-chart"></i> Reportes</a></li>
-                <li><a href="export.html"><i class="bi bi-download"></i> Exportar</a></li>
-                <li><a href="notifications.html"><i class="bi bi-bell"></i> Notificaciones</a></li>
-                <li><a href="settings.html"><i class="bi bi-gear"></i> ConfiguraciÃ³n</a></li>
-                <li><a href="profile.html"><i class="bi bi-person"></i> Perfil</a></li>
-                <li><a href="help.html"><i class="bi bi-question-circle"></i> Ayuda</a></li>
-            </ul>
+            <ul class="sidebar-nav">`n                <li><a href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>`n                <li><a href="transactions.html"><i class="bi bi-arrow-left-right"></i> Transacciones</a></li>`n                <li><a href="new-transaction.html"><i class="bi bi-plus-circle"></i> Agregar Gasto</a></li>`n                <li><a href="income.html"><i class="bi bi-arrow-up-circle"></i> Ingresos</a></li>`n                <li><a href="expenses.html"><i class="bi bi-arrow-down-circle"></i> Gastos</a></li>`n                <li><a href="categories.html"><i class="bi bi-tags"></i> Categorías</a></li>`n                <li><a href="budgets.html"><i class="bi bi-pie-chart"></i> Presupuestos</a></li>`n                <li><a href="recurring.html"><i class="bi bi-arrow-repeat"></i> Recurrentes</a></li>`n                <li><a href="goals.html"><i class="bi bi-trophy"></i> Metas</a></li>`n                <li><a href="accounts.html"><i class="bi bi-credit-card"></i> Cuentas</a></li>`n                <li><a href="analytics.html"><i class="bi bi-graph-up"></i> Análisis</a></li>`n                <li><a href="reports.html"><i class="bi bi-bar-chart"></i> Reportes</a></li>`n                <li><a href="gamification.html"><i class="bi bi-controller"></i> Logros</a></li>`n                <li><a href="search.html"><i class="bi bi-search"></i> Búsqueda</a></li>`n                <li><a href="export.html"><i class="bi bi-download"></i> Exportar</a></li>`n                <li><a href="notifications-center.html"><i class="bi bi-bell"></i> Notificaciones</a></li>`n                <li><a href="settings.html"><i class="bi bi-gear"></i> Configuración</a></li>`n                <li><a href="profile.html"><i class="bi bi-person"></i> Perfil</a></li>`n                <li><a href="help.html"><i class="bi bi-question-circle"></i> Ayuda</a></li>`n</ul>
         </nav>
         <div class="sidebar-user">
             <div class="user-info">
@@ -51,7 +34,7 @@
                     <p id="user-email">usuario@ejemplo.com</p>
                 </div>
             </div>
-            <button class="btn-logout" id="logout-btn"><i class="bi bi-box-arrow-right"></i> Cerrar SesiÃ³n</button>
+            <button class="btn-logout" id="logout-btn"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</button>
         </div>
     </aside>
 
@@ -60,7 +43,7 @@
             <div class="row mb-4">
                 <div class="col">
                     <h1>Presupuestos</h1>
-                    <p class="text-muted">Controla tus gastos estableciendo lÃ­mites por categorÃ­a</p>
+                    <p class="text-muted">Controla tus gastos estableciendo límites por categoría</p>
                 </div>
                 <div class="col-auto">
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#budgetModal"
@@ -155,7 +138,7 @@
                     <form id="budget-form">
                         <input type="hidden" id="budget-id">
                         <div class="mb-3">
-                            <label class="form-label">CategorÃ­a <span class="text-danger">*</span></label>
+                            <label class="form-label">Categoría <span class="text-danger">*</span></label>
                             <select class="form-select" id="budget-category" required></select>
                         </div>
                         <div class="mb-3">
@@ -166,7 +149,7 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">PerÃ­odo <span class="text-danger">*</span></label>
+                            <label class="form-label">Período <span class="text-danger">*</span></label>
                             <select class="form-select" id="budget-period" required>
                                 <option value="monthly">Mensual</option>
                                 <option value="weekly">Semanal</option>
@@ -225,7 +208,7 @@
             categories = data || [];
 
             const select = document.getElementById('budget-category');
-            select.innerHTML = '<option value="">Selecciona una categorÃ­a</option>';
+            select.innerHTML = '<option value="">Selecciona una categoría</option>';
             categories.forEach(cat => {
                 select.innerHTML += `<option value="${cat.id}">${cat.name}</option>`;
             });
@@ -315,7 +298,7 @@
                 const spent = spentByCategory[budget.category_id] || 0;
                 const percentage = calculatePercentage(spent, budget.amount);
                 const remaining = budget.amount - spent;
-                const statusIcon = percentage >= 100 ? 'âŒ' : percentage >= 80 ? 'âš ï¸' : 'âœ…';
+                const statusIcon = percentage >= 100 ? '?' : percentage >= 80 ? '??' : '?';
 
                 return `
                     <div class="card mb-3">
@@ -360,7 +343,7 @@
                                 <div class="fw-bold ${remaining >= 0 ? 'text-success' : 'text-danger'}">
                                     ${formatCurrency(Math.abs(remaining))} ${remaining < 0 ? '(excedido)' : ''}
                                 </div>
-                                <small class="text-muted">PerÃ­odo: ${budget.period === 'monthly' ? 'Mensual' : 'Semanal'}</small>
+                                <small class="text-muted">Período: ${budget.period === 'monthly' ? 'Mensual' : 'Semanal'}</small>
                             </div>
                         </div>
                     </div>
@@ -449,7 +432,7 @@
         }
 
         async function deleteBudget(budgetId) {
-            if (!confirm('Â¿Eliminar este presupuesto?')) return;
+            if (!confirm('¿Eliminar este presupuesto?')) return;
 
             try {
                 toggleLoader(true);

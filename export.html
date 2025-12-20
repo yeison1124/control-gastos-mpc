@@ -1,4 +1,4 @@
-ï»¿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -24,24 +24,7 @@
             <h2>Control Gastos</h2>
         </div>
         <nav>
-            <ul class="sidebar-nav">
-                <li><a href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
-                <li><a href="transactions.html"><i class="bi bi-arrow-left-right"></i> Transacciones</a></li>
-                <li><a href="new-transaction.html"><i class="bi bi-plus-circle"></i> Agregar Gasto</a></li>
-                <li><a href="income.html"><i class="bi bi-arrow-up-circle"></i> Ingresos</a></li>
-                <li><a href="expenses.html"><i class="bi bi-arrow-down-circle"></i> Gastos</a></li>
-                <li><a href="categories.html"><i class="bi bi-tags"></i> CategorÃ­as</a></li>
-                <li><a href="budgets.html"><i class="bi bi-pie-chart"></i> Presupuestos</a></li>
-                <li><a href="goals.html"><i class="bi bi-trophy"></i> Metas</a></li>
-                <li><a href="accounts.html"><i class="bi bi-credit-card"></i> Cuentas</a></li>
-                <li><a href="analytics.html"><i class="bi bi-graph-up"></i> AnÃ¡lisis</a></li>
-                <li><a href="reports.html"><i class="bi bi-bar-chart"></i> Reportes</a></li>
-                <li><a href="export.html" class="active"><i class="bi bi-download"></i> Exportar</a></li>
-                <li><a href="notifications.html"><i class="bi bi-bell"></i> Notificaciones</a></li>
-                <li><a href="settings.html"><i class="bi bi-gear"></i> ConfiguraciÃ³n</a></li>
-                <li><a href="profile.html"><i class="bi bi-person"></i> Perfil</a></li>
-                <li><a href="help.html"><i class="bi bi-question-circle"></i> Ayuda</a></li>
-            </ul>
+            <ul class="sidebar-nav">`n                <li><a href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>`n                <li><a href="transactions.html"><i class="bi bi-arrow-left-right"></i> Transacciones</a></li>`n                <li><a href="new-transaction.html"><i class="bi bi-plus-circle"></i> Agregar Gasto</a></li>`n                <li><a href="income.html"><i class="bi bi-arrow-up-circle"></i> Ingresos</a></li>`n                <li><a href="expenses.html"><i class="bi bi-arrow-down-circle"></i> Gastos</a></li>`n                <li><a href="categories.html"><i class="bi bi-tags"></i> Categorías</a></li>`n                <li><a href="budgets.html"><i class="bi bi-pie-chart"></i> Presupuestos</a></li>`n                <li><a href="recurring.html"><i class="bi bi-arrow-repeat"></i> Recurrentes</a></li>`n                <li><a href="goals.html"><i class="bi bi-trophy"></i> Metas</a></li>`n                <li><a href="accounts.html"><i class="bi bi-credit-card"></i> Cuentas</a></li>`n                <li><a href="analytics.html"><i class="bi bi-graph-up"></i> Análisis</a></li>`n                <li><a href="reports.html"><i class="bi bi-bar-chart"></i> Reportes</a></li>`n                <li><a href="gamification.html"><i class="bi bi-controller"></i> Logros</a></li>`n                <li><a href="search.html"><i class="bi bi-search"></i> Búsqueda</a></li>`n                <li><a href="export.html"><i class="bi bi-download"></i> Exportar</a></li>`n                <li><a href="notifications-center.html"><i class="bi bi-bell"></i> Notificaciones</a></li>`n                <li><a href="settings.html"><i class="bi bi-gear"></i> Configuración</a></li>`n                <li><a href="profile.html"><i class="bi bi-person"></i> Perfil</a></li>`n                <li><a href="help.html"><i class="bi bi-question-circle"></i> Ayuda</a></li>`n</ul>
         </nav>
         <div class="sidebar-user">
             <div class="user-info">
@@ -51,7 +34,7 @@
                     <p id="user-email">usuario@ejemplo.com</p>
                 </div>
             </div>
-            <button class="btn-logout" id="logout-btn"><i class="bi bi-box-arrow-right"></i> Cerrar SesiÃ³n</button>
+            <button class="btn-logout" id="logout-btn"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</button>
         </div>
     </aside>
 
@@ -67,7 +50,7 @@
             <div class="row">
                 <!-- Panel Izquierdo -->
                 <div class="col-12 col-lg-8">
-                    <!-- SelecciÃ³n de Formato -->
+                    <!-- Selección de Formato -->
                     <div class="card mb-4">
                         <div class="card-header">
                             <h6 class="mb-0">Seleccionar Formato</h6>
@@ -141,10 +124,10 @@
                         </div>
                         <div class="card-body">
                             <div class="mb-3">
-                                <label class="form-label">PerÃ­odo</label>
+                                <label class="form-label">Período</label>
                                 <select class="form-select" id="period-select" onchange="updateDateRange()">
-                                    <option value="this-month">Ãšltimo Mes</option>
-                                    <option value="this-year">Este AÃ±o</option>
+                                    <option value="this-month">Último Mes</option>
+                                    <option value="this-year">Este Año</option>
                                     <option value="all">Todo el Tiempo</option>
                                     <option value="custom">Personalizado</option>
                                 </select>
@@ -178,15 +161,15 @@
                             <div class="form-check mb-2">
                                 <input class="form-check-input" type="checkbox" id="include-categories" checked>
                                 <label class="form-check-label" for="include-categories">
-                                    <strong>CategorÃ­as</strong>
-                                    <p class="small text-muted mb-0">ClasificaciÃ³n de transacciones</p>
+                                    <strong>Categorías</strong>
+                                    <p class="small text-muted mb-0">Clasificación de transacciones</p>
                                 </label>
                             </div>
                             <div class="form-check mb-2">
                                 <input class="form-check-input" type="checkbox" id="include-budgets" checked>
                                 <label class="form-check-label" for="include-budgets">
                                     <strong>Presupuestos</strong>
-                                    <p class="small text-muted mb-0">LÃ­mites y alertas configurados</p>
+                                    <p class="small text-muted mb-0">Límites y alertas configurados</p>
                                 </label>
                             </div>
                             <div class="form-check mb-2">
@@ -206,7 +189,7 @@
                         </div>
                     </div>
 
-                    <!-- BotÃ³n Exportar -->
+                    <!-- Botón Exportar -->
                     <button class="btn btn-primary btn-lg w-100 mb-4" onclick="exportData()">
                         <i class="bi bi-download"></i> Exportar Datos en CSV
                     </button>
@@ -216,7 +199,7 @@
                 <div class="col-12 col-lg-4">
                     <div class="card mb-4 sticky-top" style="top: 20px;">
                         <div class="card-header">
-                            <h6 class="mb-0">Resumen de ExportaciÃ³n</h6>
+                            <h6 class="mb-0">Resumen de Exportación</h6>
                         </div>
                         <div class="card-body">
                             <div class="mb-3">
@@ -224,15 +207,15 @@
                                 <div class="fw-bold" id="summary-format">CSV</div>
                             </div>
                             <div class="mb-3">
-                                <small class="text-muted">PerÃ­odo:</small>
-                                <div class="fw-bold" id="summary-period">Ãšltimo Mes</div>
+                                <small class="text-muted">Período:</small>
+                                <div class="fw-bold" id="summary-period">Último Mes</div>
                             </div>
                             <div class="mb-3">
                                 <small class="text-muted">Elementos:</small>
                                 <div class="fw-bold" id="summary-items">4 tipos</div>
                             </div>
                             <div>
-                                <small class="text-muted">TamaÃ±o estimado:</small>
+                                <small class="text-muted">Tamaño estimado:</small>
                                 <div class="fw-bold text-primary">~2.5 MB</div>
                             </div>
                         </div>
@@ -242,7 +225,7 @@
                         <div class="card-body">
                             <h6><i class="bi bi-lightbulb"></i> Consejos</h6>
                             <ul class="small mb-0">
-                                <li>CSV es ideal para anÃ¡lisis en Excel</li>
+                                <li>CSV es ideal para análisis en Excel</li>
                                 <li>PDF es perfecto para reportes impresos</li>
                                 <li>JSON permite backup completo de datos</li>
                                 <li>Exporta regularmente como respaldo</li>
@@ -277,7 +260,7 @@
         function selectFormat(format) {
             selectedFormat = format;
 
-            // Actualizar visualizaciÃ³n
+            // Actualizar visualización
             document.querySelectorAll('.format-card').forEach(card => {
                 card.classList.remove('border-primary');
                 card.style.borderWidth = '1px';
@@ -296,7 +279,7 @@
             };
             document.getElementById('summary-format').textContent = labels[format];
 
-            // Actualizar texto del botÃ³n
+            // Actualizar texto del botón
             const btn = document.querySelector('button[onclick="exportData()"]');
             btn.innerHTML = `<i class="bi bi-download"></i> Exportar Datos en ${labels[format]}`;
         }
@@ -312,8 +295,8 @@
             }
 
             const labels = {
-                'this-month': 'Ãšltimo Mes',
-                'this-year': 'Este AÃ±o',
+                'this-month': 'Último Mes',
+                'this-year': 'Este Año',
                 'all': 'Todo el Tiempo',
                 'custom': 'Personalizado'
             };
@@ -338,7 +321,7 @@
                 } else if (selectedFormat === 'json') {
                     exportToJSON(transactions);
                 } else {
-                    showToast(`ExportaciÃ³n a ${selectedFormat.toUpperCase()} en desarrollo`, 'info');
+                    showToast(`Exportación a ${selectedFormat.toUpperCase()} en desarrollo`, 'info');
                 }
 
             } catch (error) {
@@ -356,11 +339,11 @@
             }
 
             // Crear CSV
-            const headers = ['Fecha', 'Tipo', 'CategorÃ­a', 'DescripciÃ³n', 'Monto', 'Cuenta', 'Notas'];
+            const headers = ['Fecha', 'Tipo', 'Categoría', 'Descripción', 'Monto', 'Cuenta', 'Notas'];
             const rows = data.map(t => [
                 t.date,
                 t.type === 'income' ? 'Ingreso' : 'Gasto',
-                t.categories?.name || 'Sin categorÃ­a',
+                t.categories?.name || 'Sin categoría',
                 t.description,
                 t.amount,
                 t.accounts?.name || 'Sin cuenta',

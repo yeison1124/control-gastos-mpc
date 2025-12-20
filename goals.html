@@ -1,4 +1,4 @@
-ï»¿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -24,24 +24,7 @@
             <h2>Control Gastos</h2>
         </div>
         <nav>
-            <ul class="sidebar-nav">
-                <li><a href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
-                <li><a href="transactions.html"><i class="bi bi-arrow-left-right"></i> Transacciones</a></li>
-                <li><a href="new-transaction.html"><i class="bi bi-plus-circle"></i> Agregar Gasto</a></li>
-                <li><a href="income.html"><i class="bi bi-arrow-up-circle"></i> Ingresos</a></li>
-                <li><a href="expenses.html"><i class="bi bi-arrow-down-circle"></i> Gastos</a></li>
-                <li><a href="categories.html"><i class="bi bi-tags"></i> CategorÃ­as</a></li>
-                <li><a href="budgets.html"><i class="bi bi-pie-chart"></i> Presupuestos</a></li>
-                <li><a href="goals.html" class="active"><i class="bi bi-trophy"></i> Metas</a></li>
-                <li><a href="accounts.html"><i class="bi bi-credit-card"></i> Cuentas</a></li>
-                <li><a href="analytics.html"><i class="bi bi-graph-up"></i> AnÃ¡lisis</a></li>
-                <li><a href="reports.html"><i class="bi bi-bar-chart"></i> Reportes</a></li>
-                <li><a href="export.html"><i class="bi bi-download"></i> Exportar</a></li>
-                <li><a href="notifications.html"><i class="bi bi-bell"></i> Notificaciones</a></li>
-                <li><a href="settings.html"><i class="bi bi-gear"></i> ConfiguraciÃ³n</a></li>
-                <li><a href="profile.html"><i class="bi bi-person"></i> Perfil</a></li>
-                <li><a href="help.html"><i class="bi bi-question-circle"></i> Ayuda</a></li>
-            </ul>
+            <ul class="sidebar-nav">`n                <li><a href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>`n                <li><a href="transactions.html"><i class="bi bi-arrow-left-right"></i> Transacciones</a></li>`n                <li><a href="new-transaction.html"><i class="bi bi-plus-circle"></i> Agregar Gasto</a></li>`n                <li><a href="income.html"><i class="bi bi-arrow-up-circle"></i> Ingresos</a></li>`n                <li><a href="expenses.html"><i class="bi bi-arrow-down-circle"></i> Gastos</a></li>`n                <li><a href="categories.html"><i class="bi bi-tags"></i> Categorías</a></li>`n                <li><a href="budgets.html"><i class="bi bi-pie-chart"></i> Presupuestos</a></li>`n                <li><a href="recurring.html"><i class="bi bi-arrow-repeat"></i> Recurrentes</a></li>`n                <li><a href="goals.html"><i class="bi bi-trophy"></i> Metas</a></li>`n                <li><a href="accounts.html"><i class="bi bi-credit-card"></i> Cuentas</a></li>`n                <li><a href="analytics.html"><i class="bi bi-graph-up"></i> Análisis</a></li>`n                <li><a href="reports.html"><i class="bi bi-bar-chart"></i> Reportes</a></li>`n                <li><a href="gamification.html"><i class="bi bi-controller"></i> Logros</a></li>`n                <li><a href="search.html"><i class="bi bi-search"></i> Búsqueda</a></li>`n                <li><a href="export.html"><i class="bi bi-download"></i> Exportar</a></li>`n                <li><a href="notifications-center.html"><i class="bi bi-bell"></i> Notificaciones</a></li>`n                <li><a href="settings.html"><i class="bi bi-gear"></i> Configuración</a></li>`n                <li><a href="profile.html"><i class="bi bi-person"></i> Perfil</a></li>`n                <li><a href="help.html"><i class="bi bi-question-circle"></i> Ayuda</a></li>`n</ul>
         </nav>
         <div class="sidebar-user">
             <div class="user-info">
@@ -51,7 +34,7 @@
                     <p id="user-email">usuario@ejemplo.com</p>
                 </div>
             </div>
-            <button class="btn-logout" id="logout-btn"><i class="bi bi-box-arrow-right"></i> Cerrar SesiÃ³n</button>
+            <button class="btn-logout" id="logout-btn"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</button>
         </div>
     </aside>
 
@@ -70,7 +53,7 @@
                 </div>
             </div>
 
-            <!-- EstadÃ­sticas -->
+            <!-- Estadísticas -->
             <div class="row g-3 mb-4">
                 <div class="col-12 col-sm-6 col-lg-3">
                     <div class="card">
@@ -149,7 +132,7 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Fecha LÃ­mite</label>
+                            <label class="form-label">Fecha Límite</label>
                             <input type="date" class="form-control" id="goal-deadline">
                         </div>
                         <div class="mb-3">
@@ -170,17 +153,17 @@
         </div>
     </div>
 
-    <!-- Modal AÃ±adir Dinero -->
+    <!-- Modal Añadir Dinero -->
     <div class="modal fade" id="addMoneyModal" tabindex="-1">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">AÃ±adir Dinero</h5>
+                    <h5 class="modal-title">Añadir Dinero</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label class="form-label">Monto a aÃ±adir</label>
+                        <label class="form-label">Monto a añadir</label>
                         <div class="input-group">
                             <span class="input-group-text">$</span>
                             <input type="number" class="form-control" id="add-amount" step="0.01">
@@ -189,7 +172,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-success" onclick="addMoney()">AÃ±adir</button>
+                    <button type="button" class="btn btn-success" onclick="addMoney()">Añadir</button>
                 </div>
             </div>
         </div>
@@ -281,9 +264,9 @@
             };
 
             const priorityIcons = {
-                'high': 'ðŸ”´',
-                'medium': 'ðŸŸ¡',
-                'low': 'ðŸŸ¢'
+                'high': '??',
+                'medium': '??',
+                'low': '??'
             };
 
             container.innerHTML = goals.map(goal => {
@@ -303,7 +286,7 @@
                                             ${priorityIcons[goal.priority]} ${priorityLabels[goal.priority]}
                                         </span>
                                     </div>
-                                    ${isCompleted ? '<span class="badge bg-success">âœ“ Completada</span>' : ''}
+                                    ${isCompleted ? '<span class="badge bg-success">? Completada</span>' : ''}
                                 </div>
                                 
                                 <div class="mb-3">
@@ -330,14 +313,14 @@
                                 <div class="mb-3">
                                     <small class="text-muted">Faltan</small>
                                     <div class="fw-bold ${remaining > 0 ? 'text-warning' : 'text-success'}">
-                                        ${remaining > 0 ? formatCurrency(remaining) : 'Â¡Meta alcanzada!'}
+                                        ${remaining > 0 ? formatCurrency(remaining) : '¡Meta alcanzada!'}
                                     </div>
                                 </div>
                                 
                                 ${goal.deadline ? `
                                     <div class="mb-3">
                                         <small class="text-muted">
-                                            <i class="bi bi-calendar"></i> Fecha lÃ­mite alcanzada
+                                            <i class="bi bi-calendar"></i> Fecha límite alcanzada
                                         </small>
                                         <div class="small">${formatDate(goal.deadline)}</div>
                                     </div>
@@ -346,7 +329,7 @@
                                 <div class="d-flex gap-2">
                                     ${!isCompleted ? `
                                         <button class="btn btn-sm btn-success flex-fill" onclick="openAddMoney('${goal.id}')">
-                                            <i class="bi bi-plus-circle"></i> AÃ±adir Dinero
+                                            <i class="bi bi-plus-circle"></i> Añadir Dinero
                                         </button>
                                     ` : ''}
                                     <button class="btn btn-sm btn-outline-primary" onclick="editGoal('${goal.id}')">
@@ -445,7 +428,7 @@
             const amount = parseFloat(document.getElementById('add-amount').value);
 
             if (!amount || amount <= 0) {
-                showToast('Ingresa un monto vÃ¡lido', 'warning');
+                showToast('Ingresa un monto válido', 'warning');
                 return;
             }
 
@@ -469,9 +452,9 @@
                 if (error) throw error;
 
                 if (status === 'completed') {
-                    showToast('Â¡Felicidades! Meta completada ðŸŽ‰', 'success');
+                    showToast('¡Felicidades! Meta completada ??', 'success');
                 } else {
-                    showToast('Dinero aÃ±adido exitosamente', 'success');
+                    showToast('Dinero añadido exitosamente', 'success');
                 }
 
                 bootstrap.Modal.getInstance(document.getElementById('addMoneyModal')).hide();
@@ -486,7 +469,7 @@
         }
 
         async function deleteGoal(goalId) {
-            if (!confirm('Â¿Eliminar esta meta?')) return;
+            if (!confirm('¿Eliminar esta meta?')) return;
 
             try {
                 toggleLoader(true);
