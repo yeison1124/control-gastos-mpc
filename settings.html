@@ -109,13 +109,126 @@
                             <div class="row g-3">
                                 <div class="col-12 col-md-6">
                                     <label class="form-label">Moneda</label>
-                                    <select class="form-select" id="currency">
-                                        <option value="USD">USD - Dólar Estadounidense</option>
-                                        <option value="EUR">EUR - Euro</option>
-                                        <option value="GBP">GBP - Libra Esterlina</option>
-                                        <option value="MXN">MXN - Peso Mexicano</option>
-                                        <option value="COP">COP - Peso Colombiano</option>
-                                    </select>
+                                    <div class="position-relative">
+                                        <input type="text" class="form-control mb-2" id="currency-search"
+                                            placeholder="🔍 Buscar moneda..." autocomplete="off">
+                                        <select class="form-select" id="currency">
+                                            <!-- Principales -->
+                                            <optgroup label="💰 Más Usadas">
+                                                <option value="USD">USD - Dólar Estadounidense 🇺🇸</option>
+                                                <option value="EUR">EUR - Euro 🇪🇺</option>
+                                                <option value="GBP">GBP - Libra Esterlina 🇬🇧</option>
+                                                <option value="JPY">JPY - Yen Japonés 🇯🇵</option>
+                                                <option value="CNY">CNY - Yuan Chino 🇨🇳</option>
+                                            </optgroup>
+
+                                            <!-- América -->
+                                            <optgroup label="🌎 América">
+                                                <option value="ARS">ARS - Peso Argentino 🇦🇷</option>
+                                                <option value="BOB">BOB - Boliviano 🇧🇴</option>
+                                                <option value="BRL">BRL - Real Brasileño 🇧🇷</option>
+                                                <option value="CAD">CAD - Dólar Canadiense 🇨🇦</option>
+                                                <option value="CLP">CLP - Peso Chileno 🇨🇱</option>
+                                                <option value="COP">COP - Peso Colombiano 🇨🇴</option>
+                                                <option value="CRC">CRC - Colón Costarricense 🇨🇷</option>
+                                                <option value="CUP">CUP - Peso Cubano 🇨🇺</option>
+                                                <option value="DOP">DOP - Peso Dominicano 🇩🇴</option>
+                                                <option value="GTQ">GTQ - Quetzal Guatemalteco 🇬🇹</option>
+                                                <option value="HNL">HNL - Lempira Hondureño 🇭🇳</option>
+                                                <option value="MXN">MXN - Peso Mexicano 🇲🇽</option>
+                                                <option value="NIO">NIO - Córdoba Nicaragüense 🇳🇮</option>
+                                                <option value="PAB">PAB - Balboa Panameño 🇵🇦</option>
+                                                <option value="PEN">PEN - Sol Peruano 🇵🇪</option>
+                                                <option value="PYG">PYG - Guaraní Paraguayo 🇵🇾</option>
+                                                <option value="UYU">UYU - Peso Uruguayo 🇺🇾</option>
+                                                <option value="VES">VES - Bolívar Venezolano 🇻🇪</option>
+                                            </optgroup>
+
+                                            <!-- Europa -->
+                                            <optgroup label="🇪🇺 Europa">
+                                                <option value="CHF">CHF - Franco Suizo 🇨🇭</option>
+                                                <option value="CZK">CZK - Corona Checa 🇨🇿</option>
+                                                <option value="DKK">DKK - Corona Danesa 🇩🇰</option>
+                                                <option value="HUF">HUF - Florín Húngaro 🇭🇺</option>
+                                                <option value="ISK">ISK - Corona Islandesa 🇮🇸</option>
+                                                <option value="NOK">NOK - Corona Noruega 🇳🇴</option>
+                                                <option value="PLN">PLN - Zloty Polaco 🇵🇱</option>
+                                                <option value="RON">RON - Leu Rumano 🇷🇴</option>
+                                                <option value="RUB">RUB - Rublo Ruso 🇷🇺</option>
+                                                <option value="SEK">SEK - Corona Sueca 🇸🇪</option>
+                                                <option value="TRY">TRY - Lira Turca 🇹🇷</option>
+                                                <option value="UAH">UAH - Grivna Ucraniana 🇺🇦</option>
+                                            </optgroup>
+
+                                            <!-- Asia -->
+                                            <optgroup label="🌏 Asia">
+                                                <option value="AED">AED - Dírham de EAU 🇦🇪</option>
+                                                <option value="AFN">AFN - Afgani 🇦🇫</option>
+                                                <option value="BDT">BDT - Taka Bangladesí 🇧🇩</option>
+                                                <option value="HKD">HKD - Dólar de Hong Kong 🇭🇰</option>
+                                                <option value="IDR">IDR - Rupia Indonesia 🇮🇩</option>
+                                                <option value="ILS">ILS - Nuevo Shekel Israelí 🇮🇱</option>
+                                                <option value="INR">INR - Rupia India 🇮🇳</option>
+                                                <option value="IQD">IQD - Dinar Iraquí 🇮🇶</option>
+                                                <option value="IRR">IRR - Rial Iraní 🇮🇷</option>
+                                                <option value="JOD">JOD - Dinar Jordano 🇯🇴</option>
+                                                <option value="KRW">KRW - Won Surcoreano 🇰🇷</option>
+                                                <option value="KWD">KWD - Dinar Kuwaití 🇰🇼</option>
+                                                <option value="LBP">LBP - Libra Libanesa 🇱🇧</option>
+                                                <option value="LKR">LKR - Rupia de Sri Lanka 🇱🇰</option>
+                                                <option value="MMK">MMK - Kyat Birmano 🇲🇲</option>
+                                                <option value="MYR">MYR - Ringgit Malayo 🇲🇾</option>
+                                                <option value="NPR">NPR - Rupia Nepalí 🇳🇵</option>
+                                                <option value="OMR">OMR - Rial Omaní 🇴🇲</option>
+                                                <option value="PHP">PHP - Peso Filipino 🇵🇭</option>
+                                                <option value="PKR">PKR - Rupia Pakistaní 🇵🇰</option>
+                                                <option value="QAR">QAR - Riyal Qatarí 🇶🇦</option>
+                                                <option value="SAR">SAR - Riyal Saudí 🇸🇦</option>
+                                                <option value="SGD">SGD - Dólar de Singapur 🇸🇬</option>
+                                                <option value="SYP">SYP - Libra Siria 🇸🇾</option>
+                                                <option value="THB">THB - Baht Tailandés 🇹🇭</option>
+                                                <option value="TWD">TWD - Nuevo Dólar Taiwanés 🇹🇼</option>
+                                                <option value="VND">VND - Dong Vietnamita 🇻🇳</option>
+                                                <option value="YER">YER - Rial Yemení 🇾🇪</option>
+                                            </optgroup>
+
+                                            <!-- África -->
+                                            <optgroup label="🌍 África">
+                                                <option value="EGP">EGP - Libra Egipcia 🇪🇬</option>
+                                                <option value="ETB">ETB - Birr Etíope 🇪🇹</option>
+                                                <option value="GHS">GHS - Cedi Ghanés 🇬🇭</option>
+                                                <option value="KES">KES - Chelín Keniano 🇰🇪</option>
+                                                <option value="MAD">MAD - Dírham Marroquí 🇲🇦</option>
+                                                <option value="MUR">MUR - Rupia Mauriciana 🇲🇺</option>
+                                                <option value="NGN">NGN - Naira Nigeriana 🇳🇬</option>
+                                                <option value="TND">TND - Dinar Tunecino 🇹🇳</option>
+                                                <option value="TZS">TZS - Chelín Tanzano 🇹🇿</option>
+                                                <option value="UGX">UGX - Chelín Ugandés 🇺🇬</option>
+                                                <option value="XAF">XAF - Franco CFA de África Central 🌍</option>
+                                                <option value="XOF">XOF - Franco CFA de África Occidental 🌍</option>
+                                                <option value="ZAR">ZAR - Rand Sudafricano 🇿🇦</option>
+                                            </optgroup>
+
+                                            <!-- Oceanía -->
+                                            <optgroup label="🌊 Oceanía">
+                                                <option value="AUD">AUD - Dólar Australiano 🇦🇺</option>
+                                                <option value="FJD">FJD - Dólar Fiyiano 🇫🇯</option>
+                                                <option value="NZD">NZD - Dólar Neozelandés 🇳🇿</option>
+                                                <option value="PGK">PGK - Kina de Papúa Nueva Guinea 🇵🇬</option>
+                                                <option value="WST">WST - Tala Samoano 🇼🇸</option>
+                                            </optgroup>
+
+                                            <!-- Criptomonedas -->
+                                            <optgroup label="₿ Criptomonedas">
+                                                <option value="BTC">BTC - Bitcoin ₿</option>
+                                                <option value="ETH">ETH - Ethereum Ξ</option>
+                                                <option value="USDT">USDT - Tether ₮</option>
+                                                <option value="USDC">USDC - USD Coin $</option>
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                    <small class="text-muted">Selecciona la moneda principal de tus
+                                        transacciones</small>
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <label class="form-label">Idioma</label>
@@ -370,9 +483,53 @@
                 // Cargar tema actual
                 const currentTheme = DarkModeManager.getTheme();
                 document.getElementById(`theme-${currentTheme}`).checked = true;
+
+                // Initialize currency search
+                initializeCurrencySearch();
             } catch (error) {
                 console.error('Error:', error);
             }
+        }
+
+        function initializeCurrencySearch() {
+            const searchInput = document.getElementById('currency-search');
+            const currencySelect = document.getElementById('currency');
+            const allOptions = Array.from(currencySelect.querySelectorAll('option'));
+
+            searchInput.addEventListener('input', function () {
+                const searchTerm = this.value.toLowerCase();
+
+                // Show/hide optgroups and options
+                currencySelect.querySelectorAll('optgroup').forEach(group => {
+                    const options = Array.from(group.querySelectorAll('option'));
+                    let hasVisibleOption = false;
+
+                    options.forEach(option => {
+                        const text = option.textContent.toLowerCase();
+                        const matches = text.includes(searchTerm);
+                        option.style.display = matches ? '' : 'none';
+                        if (matches) hasVisibleOption = true;
+                    });
+
+                    // Hide optgroup if no options match
+                    group.style.display = hasVisibleOption ? '' : 'none';
+                });
+
+                // If search is empty, show all
+                if (searchTerm === '') {
+                    currencySelect.querySelectorAll('optgroup, option').forEach(el => {
+                        el.style.display = '';
+                    });
+                }
+            });
+
+            // Clear search on selection
+            currencySelect.addEventListener('change', function () {
+                searchInput.value = '';
+                currencySelect.querySelectorAll('optgroup, option').forEach(el => {
+                    el.style.display = '';
+                });
+            });
         }
 
         function initializeThemeControls() {
