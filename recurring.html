@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gastos Recurrentes - Control de Gastos</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+    <link rel="stylesheet" href="assets/css/dark-mode.css">
+
+    <style>
+        .recurring-header {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            padding: 2rem;
+            border-radius: 20px;
+            color: white;
+            margin-bottom: 2rem;
+        }
+
+        .recurring-card {
+            border-left: 4px solid;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .recurring-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .recurring-card.active {
+            border-left-color: #22c55e;
+            background: #f0fdf4;
+        }
+
+        .recurring-card.paused {
+            border-left-color: #94a3b8;
+            background: #f8fafc;
+            opacity: 0.7;
+        }
+
+        .recurring-card.expense {
+            border-left-color: #ef4444;
+        }
+
+        .recurring-card.income {
+            border-left-color: #22c55e;
+        }
+
+        .frequency-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .frequency-badge.daily {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .frequency-badge.weekly {
+            background: #e0e7ff;
+            color: #4338ca;
+        }
+
+        .frequency-badge.biweekly {
+            background: #ede9fe;
+            color: #6b21a8;
+        }
+
+        .frequency-badge.monthly {
+            background: #fce7f3;
+            color: #be185d;
+        }
+
+        .frequency-badge.quarterly {
+            background: #ffedd5;
+            color: #c2410c;
+        }
+
+        .frequency-badge.yearly {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 0.5rem;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .calendar-day:hover {
+            background: #f8fafc;
+            border-color: #6366f1;
+        }
+
+        .calendar-day.has-payment {
+            background: #fef2f2;
+            border-color: #ef4444;
+        }
+
+        .calendar-day.today {
+            background: #eff6ff;
+            border-color: #3b82f6;
+            font-weight: 600;
+        }
+
+        .payment-indicator {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #ef4444;
+        }
+
+        .next-payment {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 12px;
+            background: white;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            border-color: #6366f1;
+            transform: translateY(-3px);
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #cbd5e1;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.toggle-slider {
+            background-color: #22c55e;
+        }
+
+        input:checked+.toggle-slider:before {
+            transform: translateX(24px);
+        }
+    </style>
+</head>
+
+<body>
+    <button class="sidebar-toggle"><i class="bi bi-list"></i></button>
+    <div class="sidebar-overlay"></div>
+
+    <aside class="sidebar">
+        <div class="sidebar-logo"><i class="bi bi-wallet2"></i>
+            <h2>Control Gastos</h2>
+        </div>
+        <nav>
+            <ul class="sidebar-nav">
+                <li><a href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+                <li><a href="transactions.html"><i class="bi bi-arrow-left-right"></i> Transacciones</a></li>
+                <li><a href="new-transaction.html"><i class="bi bi-plus-circle"></i> Agregar Gasto</a></li>
+                <li><a href="income.html"><i class="bi bi-arrow-up-circle"></i> Ingresos</a></li>
+                <li><a href="expenses.html"><i class="bi bi-arrow-down-circle"></i> Gastos</a></li>
+                <li><a href="categories.html"><i class="bi bi-tags"></i> Categorías</a></li>
+                <li><a href="budgets.html"><i class="bi bi-pie-chart"></i> Presupuestos</a></li>
+                <li><a href="recurring.html" class="active"><i class="bi bi-arrow-repeat"></i> Recurrentes</a></li>
+                <li><a href="goals.html"><i class="bi bi-trophy"></i> Metas</a></li>
+                <li><a href="accounts.html"><i class="bi bi-credit-card"></i> Cuentas</a></li>
+                <li><a href="analytics.html"><i class="bi bi-graph-up"></i> Análisis</a></li>
+                <li><a href="reports.html"><i class="bi bi-bar-chart"></i> Reportes</a></li>
+                <li><a href="search.html"><i class="bi bi-search"></i> Búsqueda</a></li>
+                <li><a href="export.html"><i class="bi bi-download"></i> Exportar</a></li>
+                <li><a href="notifications-center.html"><i class="bi bi-bell"></i> Notificaciones</a></li>
+                <li><a href="settings.html"><i class="bi bi-gear"></i> Configuración</a></li>
+                <li><a href="profile.html"><i class="bi bi-person"></i> Perfil</a></li>
+                <li><a href="help.html"><i class="bi bi-question-circle"></i> Ayuda</a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-user">
+            <div class="user-info">
+                <div class="user-avatar" id="user-avatar">U</div>
+                <div class="user-details">
+                    <h4 id="user-name">Usuario</h4>
+                    <p id="user-email">usuario@ejemplo.com</p>
+                </div>
+            </div>
+            <button class="btn-logout" id="logout-btn"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="container-custom">
+            <!-- Header -->
+            <div class="recurring-header">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h1><i class="bi bi-arrow-repeat me-2"></i>Gastos Recurrentes</h1>
+                        <p class="mb-0 opacity-75">Automatiza tus pagos fijos y suscripciones</p>
+                    </div>
+                    <div class="col-auto">
+                        <button class="btn btn-light" id="create-recurring-btn">
+                            <i class="bi bi-plus-circle"></i> Crear Recurrente
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <i class="bi bi-arrow-repeat text-primary fs-2"></i>
+                        <h3 class="mt-2 mb-0" id="total-recurring">0</h3>
+                        <small class="text-muted">Recurrentes Activos</small>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <i class="bi bi-cash text-danger fs-2"></i>
+                        <h3 class="mt-2 mb-0 text-danger" id="monthly-total">$0</h3>
+                        <small class="text-muted">Total Mensual</small>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <i class="bi bi-calendar-event text-warning fs-2"></i>
+                        <h3 class="mt-2 mb-0" id="next-count">0</h3>
+                        <small class="text-muted">Próximos 7 Días</small>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <i class="bi bi-graph-up text-success fs-2"></i>
+                        <h3 class="mt-2 mb-0" id="auto-created">0</h3>
+                        <small class="text-muted">Auto-Creados Este Mes</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <ul class="nav nav-tabs mb-4" role="tablist">
+                <li class="nav-item">
+                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#active-recurring">
+                        <i class="bi bi-check-circle me-2"></i>Activos
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#upcoming-payments">
+                        <i class="bi bi-calendar-week me-2"></i>Próximos Pagos
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#calendar-view">
+                        <i class="bi bi-calendar3 me-2"></i>Calendario
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#history">
+                        <i class="bi bi-clock-history me-2"></i>Historial
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <!-- Active Recurring Tab -->
+                <div class="tab-pane fade show active" id="active-recurring">
+                    <div id="recurring-list">
+                        <p class="text-muted text-center">Cargando...</p>
+                    </div>
+                </div>
+
+                <!-- Upcoming Payments Tab -->
+                <div class="tab-pane fade" id="upcoming-payments">
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle me-2"></i>
+                        Próximos pagos programados para los próximos 30 días
+                    </div>
+                    <div id="upcoming-list">
+                        <p class="text-muted text-center">Cargando...</p>
+                    </div>
+                </div>
+
+                <!-- Calendar Tab -->
+                <div class="tab-pane fade" id="calendar-view">
+                    <div class="row mb-3">
+                        <div class="col text-center">
+                            <button class="btn btn-outline-primary btn-sm" id="prev-month">
+                                <i class="bi bi-chevron-left"></i>
+                            </button>
+                            <span class="mx-3 fw-bold" id="current-month">Diciembre 2024</span>
+                            <button class="btn btn-outline-primary btn-sm" id="next-month">
+                                <i class="bi bi-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="calendar-grid"></div>
+                </div>
+
+                <!-- History Tab -->
+                <div class="tab-pane fade" id="history">
+                    <div id="history-list">
+                        <p class="text-muted text-center">Cargando...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Create/Edit Recurring Modal -->
+    <div class="modal fade" id="recurringModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-title">Crear Gasto Recurrente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="recurring-form">
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <label class="form-label">Descripción *</label>
+                                <input type="text" class="form-control" id="recurring-description" required
+                                    placeholder="Ej: Netflix, Alquiler, Internet">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Monto *</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" class="form-control" id="recurring-amount" required step="0.01"
+                                        min="0">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Tipo *</label>
+                                <select class="form-select" id="recurring-type">
+                                    <option value="expense">Gasto</option>
+                                    <option value="income">Ingreso</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Categoría *</label>
+                                <select class="form-select" id="recurring-category" required>
+                                    <option value="">Cargando...</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Cuenta *</label>
+                                <select class="form-select" id="recurring-account" required>
+                                    <option value="">Cargando...</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Frecuencia *</label>
+                                <select class="form-select" id="recurring-frequency">
+                                    <option value="daily">Diario</option>
+                                    <option value="weekly">Semanal</option>
+                                    <option value="biweekly">Quincenal</option>
+                                    <option value="monthly" selected>Mensual</option>
+                                    <option value="quarterly">Trimestral</option>
+                                    <option value="yearly">Anual</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Día del Mes *</label>
+                                <input type="number" class="form-control" id="recurring-day" min="1" max="31" value="1">
+                                <small class="text-muted">Para pagos mensuales/trimestrales/anuales</small>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Fecha de Inicio *</label>
+                                <input type="date" class="form-control" id="recurring-start-date" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Fecha de Fin (Opcional)</label>
+                                <input type="date" class="form-control" id="recurring-end-date">
+                                <small class="text-muted">Dejar vacío para sin límite</small>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="recurring-auto-create" checked>
+                                    <label class="form-check-label" for="recurring-auto-create">
+                                        Crear transacciones automáticamente
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="save-recurring-btn">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/dark-mode.js"></script>
+    <script src="assets/js/sidebar.js"></script>
+    <script src="assets/js/recurring.js"></script>
+</body>
+
+</html>
