@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ï»¿<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -45,18 +45,18 @@
                 <li><a href="new-transaction.html"><i class="bi bi-plus-circle"></i> Agregar Gasto</a></li>
                 <li><a href="income.html"><i class="bi bi-arrow-up-circle"></i> Ingresos</a></li>
                 <li><a href="expenses.html"><i class="bi bi-arrow-down-circle"></i> Gastos</a></li>
-                <li><a href="categories.html"><i class="bi bi-tags"></i> Categorías</a></li>
+                <li><a href="categories.html"><i class="bi bi-tags"></i> CategorÃ­as</a></li>
                 <li><a href="budgets.html"><i class="bi bi-pie-chart"></i> Presupuestos</a></li>
                 <li><a href="recurring.html"><i class="bi bi-arrow-repeat"></i> Recurrentes</a></li>
                 <li><a href="goals.html"><i class="bi bi-trophy"></i> Metas</a></li>
                 <li><a href="accounts.html"><i class="bi bi-credit-card"></i> Cuentas</a></li>
-                <li><a href="analytics.html"><i class="bi bi-graph-up"></i> Análisis</a></li>
+                <li><a href="analytics.html"><i class="bi bi-graph-up"></i> AnÃ¡lisis</a></li>
                 <li><a href="reports.html"><i class="bi bi-bar-chart"></i> Reportes</a></li>
                 <li><a href="gamification.html"><i class="bi bi-controller"></i> Logros</a></li>
-                <li><a href="search.html"><i class="bi bi-search"></i> Búsqueda</a></li>
+                <li><a href="search.html"><i class="bi bi-search"></i> BÃºsqueda</a></li>
                 <li><a href="export.html"><i class="bi bi-download"></i> Exportar</a></li>
                 <li><a href="notifications-center.html"><i class="bi bi-bell"></i> Notificaciones</a></li>
-                <li><a href="settings.html"><i class="bi bi-gear"></i> Configuración</a></li>
+                <li><a href="settings.html"><i class="bi bi-gear"></i> ConfiguraciÃ³n</a></li>
                 <li><a href="profile.html"><i class="bi bi-person"></i> Perfil</a></li>
                 <li><a href="help.html"><i class="bi bi-question-circle"></i> Ayuda</a></li>
 </ul>
@@ -71,7 +71,7 @@
                 </div>
             </div>
             <button class="btn-logout" id="logout-btn">
-                <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+                <i class="bi bi-box-arrow-right"></i> Cerrar Sesiï¿½n
             </button>
         </div>
     </aside>
@@ -91,7 +91,7 @@
                 </div>
             </div>
 
-            <!-- Estadísticas -->
+            <!-- Estadï¿½sticas -->
             <div class="row g-3 mb-4">
                 <div class="col-12 col-sm-6 col-lg-3">
                     <div class="card">
@@ -122,7 +122,7 @@
                         <div class="card-body text-center">
                             <div class="d-flex align-items-center justify-content-center gap-2 mb-2">
                                 <i class="bi bi-cash text-info" style="font-size: 1.5rem;"></i>
-                                <span class="text-muted">Gastos Únicos</span>
+                                <span class="text-muted">Gastos ï¿½nicos</span>
                             </div>
                             <h3 class="mb-0" id="unique-expenses">$0.00</h3>
                         </div>
@@ -134,7 +134,7 @@
                         <div class="card-body text-center">
                             <div class="d-flex align-items-center justify-content-center gap-2 mb-2">
                                 <i class="bi bi-shopping-cart text-primary" style="font-size: 1.5rem;"></i>
-                                <span class="text-muted">Categorías</span>
+                                <span class="text-muted">CategorÃ­as</span>
                             </div>
                             <h3 class="mb-0" id="categories-count">0</h3>
                         </div>
@@ -155,7 +155,7 @@
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="categories-tab" data-bs-toggle="tab"
                                 data-bs-target="#categories" type="button" role="tab">
-                                <i class="bi bi-tags"></i> Por Categoría
+                                <i class="bi bi-tags"></i> Por Categorï¿½a
                             </button>
                         </li>
                     </ul>
@@ -175,13 +175,13 @@
                                 </div>
                                 <div class="col-12 col-md-3 mt-2 mt-md-0">
                                     <select class="form-select" id="category-filter">
-                                        <option value="all">Todas las categorías</option>
+                                        <option value="all">Todas las CategorÃ­as</option>
                                     </select>
                                 </div>
                                 <div class="col-12 col-md-3 mt-2 mt-md-0">
                                     <select class="form-select" id="sort-filter">
-                                        <option value="date-desc">Más recientes</option>
-                                        <option value="date-asc">Más antiguas</option>
+                                        <option value="date-desc">Mï¿½s recientes</option>
+                                        <option value="date-asc">Mï¿½s antiguas</option>
                                         <option value="amount-desc">Mayor monto</option>
                                         <option value="amount-asc">Menor monto</option>
                                     </select>
@@ -198,14 +198,14 @@
                             </div>
                         </div>
 
-                        <!-- Por Categoría -->
+                        <!-- Por Categorï¿½a -->
                         <div class="tab-pane fade" id="categories" role="tabpanel">
                             <div id="expenses-by-category">
                                 <div class="text-center py-5">
                                     <div class="spinner-border text-primary" role="status">
                                         <span class="visually-hidden">Cargando...</span>
                                     </div>
-                                    <p class="mt-3 text-muted">Cargando estadísticas...</p>
+                                    <p class="mt-3 text-muted">Cargando estadï¿½sticas...</p>
                                 </div>
                             </div>
                         </div>
@@ -349,7 +349,7 @@
                                 <h6 class="mb-1">${e.description}</h6>
                                 <div class="d-flex flex-wrap gap-2">
                                     <small class="text-muted">
-                                        <i class="bi bi-tag"></i> ${e.categories?.name || 'Sin categoría'}
+                                        <i class="bi bi-tag"></i> ${e.categories?.name || 'Sin categorï¿½a'}
                                     </small>
                                     <small class="text-muted">
                                         <i class="bi bi-calendar"></i> ${formatDate(e.date)}
@@ -375,13 +375,13 @@
                 return;
             }
 
-            // Agrupar por categoría
+            // Agrupar por categorï¿½a
             const byCategory = {};
             allExpenses.forEach(e => {
                 const catId = e.category_id || 'uncategorized';
                 if (!byCategory[catId]) {
                     byCategory[catId] = {
-                        category: e.categories || { name: 'Sin categoría', color: '#6b7280', icon: 'question' },
+                        category: e.categories || { name: 'Sin categorï¿½a', color: '#6b7280', icon: 'question' },
                         total: 0,
                         count: 0
                     };
@@ -427,7 +427,7 @@
 
         function populateCategoryFilter() {
             const select = document.getElementById('category-filter');
-            select.innerHTML = '<option value="all">Todas las categorías</option>';
+            select.innerHTML = '<option value="all">Todas las CategorÃ­as</option>';
             categories.forEach(cat => {
                 select.innerHTML += `<option value="${cat.id}">${cat.name}</option>`;
             });

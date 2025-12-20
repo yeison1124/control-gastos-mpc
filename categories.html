@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+ï»¿<!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Categorías - Control de Gastos</title>
+    <title>CategorÃ­as - Control de Gastos</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -36,18 +36,18 @@
                 <li><a href="new-transaction.html"><i class="bi bi-plus-circle"></i> Agregar Gasto</a></li>
                 <li><a href="income.html"><i class="bi bi-arrow-up-circle"></i> Ingresos</a></li>
                 <li><a href="expenses.html"><i class="bi bi-arrow-down-circle"></i> Gastos</a></li>
-                <li><a href="categories.html"><i class="bi bi-tags"></i> Categorías</a></li>
+                <li><a href="categories.html"><i class="bi bi-tags"></i> CategorÃ­as</a></li>
                 <li><a href="budgets.html"><i class="bi bi-pie-chart"></i> Presupuestos</a></li>
                 <li><a href="recurring.html"><i class="bi bi-arrow-repeat"></i> Recurrentes</a></li>
                 <li><a href="goals.html"><i class="bi bi-trophy"></i> Metas</a></li>
                 <li><a href="accounts.html"><i class="bi bi-credit-card"></i> Cuentas</a></li>
-                <li><a href="analytics.html"><i class="bi bi-graph-up"></i> Análisis</a></li>
+                <li><a href="analytics.html"><i class="bi bi-graph-up"></i> AnÃ¡lisis</a></li>
                 <li><a href="reports.html"><i class="bi bi-bar-chart"></i> Reportes</a></li>
                 <li><a href="gamification.html"><i class="bi bi-controller"></i> Logros</a></li>
-                <li><a href="search.html"><i class="bi bi-search"></i> Búsqueda</a></li>
+                <li><a href="search.html"><i class="bi bi-search"></i> BÃºsqueda</a></li>
                 <li><a href="export.html"><i class="bi bi-download"></i> Exportar</a></li>
                 <li><a href="notifications-center.html"><i class="bi bi-bell"></i> Notificaciones</a></li>
-                <li><a href="settings.html"><i class="bi bi-gear"></i> Configuración</a></li>
+                <li><a href="settings.html"><i class="bi bi-gear"></i> ConfiguraciÃ³n</a></li>
                 <li><a href="profile.html"><i class="bi bi-person"></i> Perfil</a></li>
                 <li><a href="help.html"><i class="bi bi-question-circle"></i> Ayuda</a></li>
 </ul>
@@ -61,7 +61,7 @@
                 </div>
             </div>
             <button class="btn-logout" id="logout-btn">
-                <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+                <i class="bi bi-box-arrow-right"></i> Cerrar Sesiï¿½n
             </button>
         </div>
     </aside>
@@ -71,22 +71,22 @@
         <div class="container-custom">
             <div class="row mb-4">
                 <div class="col">
-                    <h1>Categorías</h1>
-                    <p class="text-muted">Gestión de categorías para tus transacciones</p>
+                    <h1>CategorÃ­as</h1>
+                    <p class="text-muted">Gestiï¿½n de CategorÃ­as para tus transacciones</p>
                 </div>
                 <div class="col-auto">
                     <button class="btn btn-primary" onclick="openCategoryModal()">
-                        <i class="bi bi-plus-circle"></i> Nueva Categoría
+                        <i class="bi bi-plus-circle"></i> Nueva Categorï¿½a
                     </button>
                 </div>
             </div>
 
-            <!-- Estadísticas rápidas -->
+            <!-- Estadï¿½sticas rï¿½pidas -->
             <div class="row g-3 mb-4">
                 <div class="col-12 col-md-4">
                     <div class="card bg-primary text-white">
                         <div class="card-body">
-                            <h6>Total Categorías</h6>
+                            <h6>Total CategorÃ­as</h6>
                             <h2 id="total-stats">0</h2>
                         </div>
                     </div>
@@ -115,7 +115,7 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <input type="text" id="search-categories" class="form-control"
-                                placeholder="Buscar categoría...">
+                                placeholder="Buscar categorï¿½a...">
                         </div>
                         <div class="col-md-6">
                             <div class="btn-group w-100" role="group">
@@ -134,19 +134,19 @@
                 </div>
             </div>
 
-            <!-- Grid de Categorías -->
+            <!-- Grid de CategorÃ­as -->
             <div id="categories-grid" class="row g-4">
-                <!-- Se llenará dinámicamente -->
+                <!-- Se llenarï¿½ dinï¿½micamente -->
             </div>
         </div>
     </main>
 
-    <!-- Modal Categoría -->
+    <!-- Modal Categorï¿½a -->
     <div class="modal fade" id="categoryModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitle">Nueva Categoría</h5>
+                    <h5 class="modal-title" id="modalTitle">Nueva Categorï¿½a</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
@@ -169,7 +169,7 @@
                         <div class="mb-3">
                             <label class="form-label">Icono</label>
                             <div class="card p-3 bg-light">
-                                <!-- Selector de iconos rápidos -->
+                                <!-- Selector de iconos rï¿½pidos -->
                                 <div id="quick-icons-expense" class="d-flex flex-wrap gap-2 mb-3">
                                     <button type="button" class="btn btn-outline-secondary icon-btn"
                                         onclick="selectIcon('shopping-cart')"><i
@@ -242,7 +242,7 @@
                                         oninput="previewCustomIcon(this.value)">
                                 </div>
                                 <div class="form-text">Si no encuentras el icono, escribe su nombre de Font Awesome <a
-                                        href="https://fontawesome.com/icons?d=gallery&m=free" target="_blank">aquí</a>.
+                                        href="https://fontawesome.com/icons?d=gallery&m=free" target="_blank">aquï¿½</a>.
                                 </div>
                             </div>
                         </div>
@@ -299,7 +299,7 @@
                 renderCategories();
             } catch (e) {
                 console.error(e);
-                showToast('Error cargando categorías', 'error');
+                showToast('Error cargando CategorÃ­as', 'error');
             } finally {
                 toggleLoader(false);
             }
@@ -322,7 +322,7 @@
             });
 
             if (filtered.length === 0) {
-                grid.innerHTML = '<div class="col-12 text-center py-5 text-muted">No se encontraron categorías</div>';
+                grid.innerHTML = '<div class="col-12 text-center py-5 text-muted">No se encontraron CategorÃ­as</div>';
                 return;
             }
 
@@ -363,7 +363,7 @@
         function openCategoryModal() {
             document.getElementById('category-form').reset();
             document.getElementById('category-id').value = '';
-            document.getElementById('modalTitle').innerText = 'Nueva Categoría';
+            document.getElementById('modalTitle').innerText = 'Nueva Categorï¿½a';
             document.getElementById('category-color').value = randomColor();
             updateIconSelector();
             selectIcon('shopping-cart'); // Default icon
@@ -414,7 +414,7 @@
             document.getElementById('category-name').value = cat.name;
             document.getElementById('category-type').value = cat.type;
             document.getElementById('category-color').value = cat.color;
-            document.getElementById('modalTitle').innerText = 'Editar Categoría';
+            document.getElementById('modalTitle').innerText = 'Editar Categorï¿½a';
 
             updateIconSelector();
             selectIcon(cat.icon); // Load icon
@@ -435,7 +435,7 @@
             if (!name) return showToast('Nombre requerido', 'warning');
 
             if (!currentUser || !currentUser.id || currentUser.id.includes('fake')) {
-                alert('Error: No estás autenticado correctamente o falta configuración de Supabase. ID de usuario inválido.');
+                alert('Error: No estï¿½s autenticado correctamente o falta ConfiguraciÃ³n de Supabase. ID de usuario invï¿½lido.');
                 return;
             }
 
@@ -466,7 +466,7 @@
                 await loadCategories();
             } catch (e) {
                 console.error('Error catch:', e);
-                alert('Error al guardar: ' + e.message + '\n\nVerifica tu conexión y credenciales en config.js');
+                alert('Error al guardar: ' + e.message + '\n\nVerifica tu conexiï¿½n y credenciales en config.js');
                 showToast(e.message, 'error');
             } finally {
                 toggleLoader(false);
@@ -474,13 +474,13 @@
         }
 
         window.deleteCategory = async function (id) {
-            if (!confirm('¿Borrar categoría?')) return;
+            if (!confirm('ï¿½Borrar categorï¿½a?')) return;
             try {
                 toggleLoader(true);
                 const { error } = await supabase.from('categories').delete().eq('id', id);
                 if (error) throw error;
                 loadCategories();
-                showToast('Categoría eliminada', 'infos');
+                showToast('Categorï¿½a eliminada', 'infos');
             } catch (e) {
                 showToast(e.message, 'error');
             } finally {

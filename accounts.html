@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ï»¿<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -30,18 +30,18 @@
                 <li><a href="new-transaction.html"><i class="bi bi-plus-circle"></i> Agregar Gasto</a></li>
                 <li><a href="income.html"><i class="bi bi-arrow-up-circle"></i> Ingresos</a></li>
                 <li><a href="expenses.html"><i class="bi bi-arrow-down-circle"></i> Gastos</a></li>
-                <li><a href="categories.html"><i class="bi bi-tags"></i> Categorías</a></li>
+                <li><a href="categories.html"><i class="bi bi-tags"></i> CategorÃ­as</a></li>
                 <li><a href="budgets.html"><i class="bi bi-pie-chart"></i> Presupuestos</a></li>
                 <li><a href="recurring.html"><i class="bi bi-arrow-repeat"></i> Recurrentes</a></li>
                 <li><a href="goals.html"><i class="bi bi-trophy"></i> Metas</a></li>
                 <li><a href="accounts.html"><i class="bi bi-credit-card"></i> Cuentas</a></li>
-                <li><a href="analytics.html"><i class="bi bi-graph-up"></i> Análisis</a></li>
+                <li><a href="analytics.html"><i class="bi bi-graph-up"></i> AnÃ¡lisis</a></li>
                 <li><a href="reports.html"><i class="bi bi-bar-chart"></i> Reportes</a></li>
                 <li><a href="gamification.html"><i class="bi bi-controller"></i> Logros</a></li>
-                <li><a href="search.html"><i class="bi bi-search"></i> Búsqueda</a></li>
+                <li><a href="search.html"><i class="bi bi-search"></i> BÃºsqueda</a></li>
                 <li><a href="export.html"><i class="bi bi-download"></i> Exportar</a></li>
                 <li><a href="notifications-center.html"><i class="bi bi-bell"></i> Notificaciones</a></li>
-                <li><a href="settings.html"><i class="bi bi-gear"></i> Configuración</a></li>
+                <li><a href="settings.html"><i class="bi bi-gear"></i> ConfiguraciÃ³n</a></li>
                 <li><a href="profile.html"><i class="bi bi-person"></i> Perfil</a></li>
                 <li><a href="help.html"><i class="bi bi-question-circle"></i> Ayuda</a></li>
 </ul>
@@ -54,7 +54,7 @@
                     <p id="user-email">usuario@ejemplo.com</p>
                 </div>
             </div>
-            <button class="btn-logout" id="logout-btn"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</button>
+            <button class="btn-logout" id="logout-btn"><i class="bi bi-box-arrow-right"></i> Cerrar Sesiï¿½n</button>
         </div>
     </aside>
 
@@ -124,11 +124,11 @@
                 </div>
             </div>
 
-            <!-- Acciones Rápidas -->
+            <!-- Acciones Rï¿½pidas -->
             <div class="row g-3 mb-4">
                 <div class="col-12 col-sm-6 col-md-3">
                     <div class="card" style="cursor: pointer;"
-                        onclick="alert('Transferencia entre cuentas (próximamente)')">
+                        onclick="alert('Transferencia entre cuentas (prï¿½ximamente)')">
                         <div class="card-body text-center">
                             <i class="bi bi-arrow-left-right text-primary" style="font-size: 2rem;"></i>
                             <h6 class="mt-2 mb-0">Transferir</h6>
@@ -167,7 +167,7 @@
                             <select class="form-select" id="account-type" required>
                                 <option value="bank">Cuenta Bancaria</option>
                                 <option value="cash">Efectivo</option>
-                                <option value="credit">Tarjeta de Crédito</option>
+                                <option value="credit">Tarjeta de Crï¿½dito</option>
                                 <option value="savings">Cuenta de Ahorros</option>
                             </select>
                         </div>
@@ -181,7 +181,7 @@
                         <div class="mb-3">
                             <label class="form-label">Moneda</label>
                             <select class="form-select" id="account-currency">
-                                <option value="USD">USD - Dólar</option>
+                                <option value="USD">USD - Dï¿½lar</option>
                                 <option value="EUR">EUR - Euro</option>
                                 <option value="GBP">GBP - Libra</option>
                                 <option value="MXN">MXN - Peso Mexicano</option>
@@ -227,7 +227,7 @@
         const accountLabels = {
             'bank': 'Cuenta Bancaria',
             'cash': 'Efectivo',
-            'credit': 'Tarjeta de Crédito',
+            'credit': 'Tarjeta de Crï¿½dito',
             'savings': 'Cuenta De Ahorros'
         };
 
@@ -338,10 +338,10 @@
                                 </div>
                                 
                                 <div class="d-flex gap-2">
-                                    <button class="btn btn-sm btn-outline-primary flex-fill" onclick="alert('Añadir dinero (próximamente)')">
-                                        <i class="bi bi-plus-circle"></i> Añadir
+                                    <button class="btn btn-sm btn-outline-primary flex-fill" onclick="alert('Aï¿½adir dinero (prï¿½ximamente)')">
+                                        <i class="bi bi-plus-circle"></i> Aï¿½adir
                                     </button>
-                                    <button class="btn btn-sm btn-outline-secondary flex-fill" onclick="alert('Transferir (próximamente)')">
+                                    <button class="btn btn-sm btn-outline-secondary flex-fill" onclick="alert('Transferir (prï¿½ximamente)')">
                                         <i class="bi bi-arrow-left-right"></i> Transfer
                                     </button>
                                 </div>
@@ -421,7 +421,7 @@
         }
 
         async function deleteAccount(accountId) {
-            if (!confirm('¿Eliminar esta cuenta? Las transacciones asociadas no se eliminarán.')) return;
+            if (!confirm('ï¿½Eliminar esta cuenta? Las transacciones asociadas no se eliminarï¿½n.')) return;
 
             try {
                 toggleLoader(true);
