@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logros y Desafíos - Control de Gastos</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+    <link rel="stylesheet" href="assets/css/dark-mode.css">
+
+    <style>
+        .gamification-header {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            padding: 2rem;
+            border-radius: 20px;
+            color: white;
+            margin-bottom: 2rem;
+        }
+
+        .level-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+
+        .achievement-card {
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .achievement-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .achievement-card.unlocked {
+            border-color: #22c55e;
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+        }
+
+        .achievement-card.locked {
+            opacity: 0.6;
+            filter: grayscale(1);
+        }
+
+        .achievement-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 1rem;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: white;
+            box-shadow: 0 5px 15px rgba(245, 158, 11, 0.3);
+        }
+
+        .achievement-card.locked .achievement-icon {
+            background: #e2e8f0;
+            color: #94a3b8;
+        }
+
+        .streak-card {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .streak-number {
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: 1;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .challenge-card {
+            border-left: 4px solid;
+            transition: all 0.3s;
+        }
+
+        .challenge-card.easy {
+            border-left-color: #22c55e;
+        }
+
+        .challenge-card.medium {
+            border-left-color: #f59e0b;
+        }
+
+        .challenge-card.hard {
+            border-left-color: #ef4444;
+        }
+
+        .challenge-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .level-progress {
+            height: 30px;
+            border-radius: 15px;
+            background: #e2e8f0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .level-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #22c55e 0%, #16a34a 100%);
+            transition: width 1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 12px;
+            background: white;
+            border: 2px solid #e2e8f0;
+        }
+
+        .stat-box:hover {
+            border-color: #6366f1;
+            transform: translateY(-3px);
+            transition: all 0.3s;
+        }
+
+        .badge-shimmer {
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+                transform: scale(1.05);
+            }
+        }
+
+        .points-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.75rem;
+            background: #fef3c7;
+            color: #92400e;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+
+<body>
+    <button class="sidebar-toggle"><i class="bi bi-list"></i></button>
+    <div class="sidebar-overlay"></div>
+
+    <aside class="sidebar">
+        <div class="sidebar-logo"><i class="bi bi-wallet2"></i>
+            <h2>Control Gastos</h2>
+        </div>
+        <nav>
+            <ul class="sidebar-nav">
+                <li><a href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+                <li><a href="transactions.html"><i class="bi bi-arrow-left-right"></i> Transacciones</a></li>
+                <li><a href="new-transaction.html"><i class="bi bi-plus-circle"></i> Agregar Gasto</a></li>
+                <li><a href="income.html"><i class="bi bi-arrow-up-circle"></i> Ingresos</a></li>
+                <li><a href="expenses.html"><i class="bi bi-arrow-down-circle"></i> Gastos</a></li>
+                <li><a href="categories.html"><i class="bi bi-tags"></i> Categorías</a></li>
+                <li><a href="budgets.html"><i class="bi bi-pie-chart"></i> Presupuestos</a></li>
+                <li><a href="recurring.html"><i class="bi bi-arrow-repeat"></i> Recurrentes</a></li>
+                <li><a href="goals.html"><i class="bi bi-trophy"></i> Metas</a></li>
+                <li><a href="accounts.html"><i class="bi bi-credit-card"></i> Cuentas</a></li>
+                <li><a href="analytics.html"><i class="bi bi-graph-up"></i> Análisis</a></li>
+                <li><a href="reports.html"><i class="bi bi-bar-chart"></i> Reportes</a></li>
+                <li><a href="gamification.html" class="active"><i class="bi bi-controller"></i> Logros</a></li>
+                <li><a href="search.html"><i class="bi bi-search"></i> Búsqueda</a></li>
+                <li><a href="export.html"><i class="bi bi-download"></i> Exportar</a></li>
+                <li><a href="notifications-center.html"><i class="bi bi-bell"></i> Notificaciones</a></li>
+                <li><a href="settings.html"><i class="bi bi-gear"></i> Configuración</a></li>
+                <li><a href="profile.html"><i class="bi bi-person"></i> Perfil</a></li>
+                <li><a href="help.html"><i class="bi bi-question-circle"></i> Ayuda</a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-user">
+            <div class="user-info">
+                <div class="user-avatar" id="user-avatar">U</div>
+                <div class="user-details">
+                    <h4 id="user-name">Usuario</h4>
+                    <p id="user-email">usuario@ejemplo.com</p>
+                </div>
+            </div>
+            <button class="btn-logout" id="logout-btn"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="container-custom">
+            <!-- Header -->
+            <div class="gamification-header">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h1><i class="bi bi-trophy me-2"></i>Logros y Desafíos</h1>
+                        <p class="mb-0 opacity-75">Completa desafíos, desbloquea logros y sube de nivel</p>
+                    </div>
+                    <div class="col-auto text-end">
+                        <div class="level-badge mb-2">
+                            <i class="bi bi-star-fill"></i>
+                            <span id="current-level">Nivel 1</span>
+                        </div>
+                        <div class="points-label">
+                            <i class="bi bi-gem"></i>
+                            <span id="total-points">0</span> puntos
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-3">
+                    <div class="stat-box">
+                        <i class="bi bi-trophy text-warning fs-2"></i>
+                        <h3 class="mt-2 mb-0" id="unlocked-count">0</h3>
+                        <small class="text-muted">Logros Desbloqueados</small>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-box">
+                        <i class="bi bi-gem text-primary fs-2"></i>
+                        <h3 class="mt-2 mb-0" id="total-points-display">0</h3>
+                        <small class="text-muted">Puntos Totales</small>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-box">
+                        <i class="bi bi-fire text-danger fs-2"></i>
+                        <h3 class="mt-2 mb-0" id="current-streak">0</h3>
+                        <small class="text-muted">Racha Actual (días)</small>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-box">
+                        <i class="bi bi-check-circle text-success fs-2"></i>
+                        <h3 class="mt-2 mb-0" id="challenges-completed">0</h3>
+                        <small class="text-muted">Desafíos Completados</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Level Progress -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h5 class="mb-0">Progreso de Nivel</h5>
+                        <span class="text-muted"><span id="current-xp">0</span> / <span id="next-level-xp">100</span>
+                            XP</span>
+                    </div>
+                    <div class="level-progress">
+                        <div class="level-progress-fill" id="level-progress-bar" style="width: 0%">
+                            <span id="progress-percentage">0%</span>
+                        </div>
+                    </div>
+                    <small class="text-muted mt-2 d-block">Completa desafíos y logros para ganar experiencia</small>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <ul class="nav nav-tabs mb-4" role="tablist">
+                <li class="nav-item">
+                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#achievements">
+                        <i class="bi bi-trophy me-2"></i>Logros
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#challenges">
+                        <i class="bi bi-target me-2"></i>Desafíos
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#streak">
+                        <i class="bi bi-fire me-2"></i>Racha
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#leaderboard">
+                        <i class="bi bi-graph-up me-2"></i>Estadísticas
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <!-- Achievements Tab -->
+                <div class="tab-pane fade show active" id="achievements">
+                    <div class="row g-3" id="achievements-grid">
+                        <p class="text-muted text-center">Cargando logros...</p>
+                    </div>
+                </div>
+
+                <!-- Challenges Tab -->
+                <div class="tab-pane fade" id="challenges">
+                    <div id="challenges-list">
+                        <p class="text-muted text-center">Cargando desafíos...</p>
+                    </div>
+                </div>
+
+                <!-- Streak Tab -->
+                <div class="tab-pane fade" id="streak">
+                    <div class="row">
+                        <div class="col-md-6 mx-auto">
+                            <div class="streak-card mb-4">
+                                <div class="streak-number" id="streak-display">0</div>
+                                <h4>Días Consecutivos</h4>
+                                <p class="mb-0">¡Sigue registrando tus gastos diarios!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="streak-calendar" class="mt-4"></div>
+                </div>
+
+                <!-- Leaderboard Tab -->
+                <div class="tab-pane fade" id="leaderboard">
+                    <div class="row g-3" id="stats-grid">
+                        <p class="text-muted text-center">Cargando estadísticas...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/dark-mode.js"></script>
+    <script src="assets/js/sidebar.js"></script>
+    <script src="assets/js/gamification.js"></script>
+</body>
+
+</html>
