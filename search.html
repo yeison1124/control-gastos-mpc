@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Búsqueda Avanzada - Control de Gastos</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+    <link rel="stylesheet" href="assets/css/dark-mode.css">
+
+    <style>
+        .search-container {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            border-radius: 20px;
+            color: white;
+        }
+
+        .search-box {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1.2rem 4rem 1.2rem 3rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6b7280;
+            font-size: 1.3rem;
+        }
+
+        .clear-search {
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #6b7280;
+            font-size: 1.3rem;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .clear-search.show {
+            opacity: 1;
+        }
+
+        .filter-panel {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+
+        .filter-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #6366f1;
+            color: white;
+            border-radius: 50px;
+            margin: 0.25rem;
+            font-size: 0.875rem;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .filter-chip .remove {
+            cursor: pointer;
+            margin-left: 0.5rem;
+            opacity: 0.8;
+        }
+
+        .filter-chip .remove:hover {
+            opacity: 1;
+        }
+
+        .quick-filter {
+            cursor: pointer;
+            padding: 0.75rem 1.5rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            background: white;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .quick-filter:hover {
+            border-color: #6366f1;
+            background: #f8fafc;
+        }
+
+        .quick-filter.active {
+            background: #6366f1;
+            color: white;
+            border-color: #6366f1;
+        }
+
+        .transaction-card {
+            border-left: 4px solid;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .transaction-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .transaction-card.income {
+            border-left-color: #22c55e;
+        }
+
+        .transaction-card.expense {
+            border-left-color: #ef4444;
+        }
+
+        .saved-filter {
+            position: relative;
+            padding: 1rem;
+            border: 2px dashed #cbd5e1;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .saved-filter:hover {
+            border-color: #6366f1;
+            background: #f8fafc;
+        }
+
+        .badge-amount {
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: #64748b;
+        }
+
+        .no-results i {
+            font-size: 4rem;
+            opacity: 0.3;
+        }
+
+        .filter-section {
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .filter-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <button class="sidebar-toggle"><i class="bi bi-list"></i></button>
+    <div class="sidebar-overlay"></div>
+
+    <aside class="sidebar">
+        <div class="sidebar-logo"><i class="bi bi-wallet2"></i>
+            <h2>Control Gastos</h2>
+        </div>
+        <nav>
+            <ul class="sidebar-nav">
+                <li><a href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+                <li><a href="transactions.html"><i class="bi bi-arrow-left-right"></i> Transacciones</a></li>
+                <li><a href="new-transaction.html"><i class="bi bi-plus-circle"></i> Agregar Gasto</a></li>
+                <li><a href="income.html"><i class="bi bi-arrow-up-circle"></i> Ingresos</a></li>
+                <li><a href="expenses.html"><i class="bi bi-arrow-down-circle"></i> Gastos</a></li>
+                <li><a href="categories.html"><i class="bi bi-tags"></i> Categorías</a></li>
+                <li><a href="budgets.html"><i class="bi bi-pie-chart"></i> Presupuestos</a></li>
+                <li><a href="goals.html"><i class="bi bi-trophy"></i> Metas</a></li>
+                <li><a href="accounts.html"><i class="bi bi-credit-card"></i> Cuentas</a></li>
+                <li><a href="analytics.html"><i class="bi bi-graph-up"></i> Análisis</a></li>
+                <li><a href="reports.html"><i class="bi bi-bar-chart"></i> Reportes</a></li>
+                <li><a href="search.html" class="active"><i class="bi bi-search"></i> Búsqueda</a></li>
+                <li><a href="export.html"><i class="bi bi-download"></i> Exportar</a></li>
+                <li><a href="notifications.html"><i class="bi bi-bell"></i> Notificaciones</a></li>
+                <li><a href="settings.html"><i class="bi bi-gear"></i> Configuración</a></li>
+                <li><a href="profile.html"><i class="bi bi-person"></i> Perfil</a></li>
+                <li><a href="help.html"><i class="bi bi-question-circle"></i> Ayuda</a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-user">
+            <div class="user-info">
+                <div class="user-avatar" id="user-avatar">U</div>
+                <div class="user-details">
+                    <h4 id="user-name">Usuario</h4>
+                    <p id="user-email">usuario@ejemplo.com</p>
+                </div>
+            </div>
+            <button class="btn-logout" id="logout-btn"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="container-custom">
+            <!-- Search Header -->
+            <div class="search-container">
+                <div class="container">
+                    <h1 class="text-center mb-4"><i class="bi bi-search me-2"></i>Búsqueda Avanzada</h1>
+                    <p class="text-center mb-4 opacity-75">Encuentra cualquier transacción con filtros poderosos</p>
+
+                    <div class="search-box">
+                        <i class="bi bi-search search-icon"></i>
+                        <input type="text" class="search-input" id="search-input"
+                            placeholder="Buscar por descripción, categoría, monto..." autocomplete="off">
+                        <button class="clear-search" id="clear-search">
+                            <i class="bi bi-x-circle-fill"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Filters -->
+            <div class="row g-2 mb-4">
+                <div class="col-6 col-md-3">
+                    <div class="quick-filter" data-quick="today">
+                        <i class="bi bi-calendar-day d-block mb-1"></i>
+                        <small>Hoy</small>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="quick-filter" data-quick="week">
+                        <i class="bi bi-calendar-week d-block mb-1"></i>
+                        <small>Esta Semana</small>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="quick-filter" data-quick="month">
+                        <i class="bi bi-calendar-month d-block mb-1"></i>
+                        <small>Este Mes</small>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="quick-filter" data-quick="expenses">
+                        <i class="bi bi-arrow-down-circle d-block mb-1"></i>
+                        <small>Solo Gastos</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <!-- Filters Panel -->
+                <div class="col-lg-3">
+                    <div class="filter-panel">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="mb-0"><i class="bi bi-funnel me-2"></i>Filtros</h6>
+                            <button class="btn btn-sm btn-outline-danger" id="clear-filters">
+                                <i class="bi bi-x"></i> Limpiar
+                            </button>
+                        </div>
+
+                        <!-- Tipo -->
+                        <div class="filter-section">
+                            <label class="form-label fw-bold small">Tipo</label>
+                            <select class="form-select form-select-sm" id="filter-type">
+                                <option value="">Todos</option>
+                                <option value="income">Ingresos</option>
+                                <option value="expense">Gastos</option>
+                            </select>
+                        </div>
+
+                        <!-- Rango de Fechas -->
+                        <div class="filter-section">
+                            <label class="form-label fw-bold small">Rango de Fechas</label>
+                            <input type="text" class="form-control form-control-sm mb-2" id="date-range"
+                                placeholder="Seleccionar fechas">
+                        </div>
+
+                        <!-- Rango de Monto -->
+                        <div class="filter-section">
+                            <label class="form-label fw-bold small">Rango de Monto</label>
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <input type="number" class="form-control form-control-sm" id="amount-min"
+                                        placeholder="Mín">
+                                </div>
+                                <div class="col-6">
+                                    <input type="number" class="form-control form-control-sm" id="amount-max"
+                                        placeholder="Máx">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Categorías -->
+                        <div class="filter-section">
+                            <label class="form-label fw-bold small">Categorías</label>
+                            <select class="form-select form-select-sm" id="filter-category" multiple size="5">
+                                <option value="">Cargando...</option>
+                            </select>
+                            <small class="text-muted">Mantén Ctrl para seleccionar múltiples</small>
+                        </div>
+
+                        <!-- Cuentas -->
+                        <div class="filter-section">
+                            <label class="form-label fw-bold small">Cuentas</label>
+                            <select class="form-select form-select-sm" id="filter-account">
+                                <option value="">Todas</option>
+                            </select>
+                        </div>
+
+                        <!-- Botones de Acción -->
+                        <div class="d-grid gap-2 mt-3">
+                            <button class="btn btn-primary btn-sm" id="apply-filters">
+                                <i class="bi bi-check2"></i> Aplicar Filtros
+                            </button>
+                            <button class="btn btn-outline-primary btn-sm" id="save-filter">
+                                <i class="bi bi-bookmark"></i> Guardar Filtro
+                            </button>
+                        </div>
+
+                        <!-- Filtros Guardados -->
+                        <div class="mt-4" id="saved-filters-container">
+                            <h6 class="mb-2 small fw-bold text-muted">Filtros Guardados</h6>
+                            <div id="saved-filters"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results -->
+                <div class="col-lg-9">
+                    <!-- Active Filters -->
+                    <div class="mb-3" id="active-filters" style="min-height: 40px;">
+                        <!-- Chips will be added here -->
+                    </div>
+
+                    <!-- Results Header -->
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h6 class="mb-0" id="results-count">0 resultados</h6>
+                                </div>
+                                <div class="col-auto">
+                                    <select class="form-select form-select-sm" id="sort-by">
+                                        <option value="date-desc">Más Reciente</option>
+                                        <option value="date-asc">Más Antiguo</option>
+                                        <option value="amount-desc">Mayor Monto</option>
+                                        <option value="amount-asc">Menor Monto</option>
+                                    </select>
+                                </div>
+                                <div class="col-auto">
+                                    <button class="btn btn-outline-primary btn-sm" id="export-results">
+                                        <i class="bi bi-download"></i> Exportar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Results List -->
+                    <div id="results-container">
+                        <p class="text-muted text-center">Usa los filtros para buscar transacciones</p>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="d-flex justify-content-center mt-4" id="pagination">
+                        <!-- Pagination will be added here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Save Filter Modal -->
+    <div class="modal fade" id="saveFilterModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Guardar Filtro</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <label class="form-label">Nombre del Filtro</label>
+                    <input type="text" class="form-control" id="filter-name" placeholder="Ej: Gastos del mes">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="confirm-save-filter">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/dark-mode.js"></script>
+    <script src="assets/js/sidebar.js"></script>
+    <script src="assets/js/search.js"></script>
+</body>
+
+</html>
