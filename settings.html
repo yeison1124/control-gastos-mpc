@@ -111,8 +111,13 @@
                                     <label class="form-label">Moneda</label>
                                     <div class="position-relative">
                                         <input type="text" class="form-control mb-2" id="currency-search"
-                                            placeholder="🔍 Buscar moneda..." autocomplete="off">
-                                        <select class="form-select" id="currency">
+                                            placeholder="🔍 Buscar moneda (ej: peso, dollar, EUR)..."
+                                            autocomplete="off">
+                                        <select class="form-select" id="currency"
+                                            style="max-height: 300px; overflow-y: auto;">
+                                            <option value="" disabled selected>Selecciona una moneda o busca arriba
+                                            </option>
+
                                             <!-- Principales -->
                                             <optgroup label="💰 Más Usadas">
                                                 <option value="USD">USD - Dólar Estadounidense 🇺🇸</option>
@@ -226,9 +231,10 @@
                                                 <option value="USDC">USDC - USD Coin $</option>
                                             </optgroup>
                                         </select>
+                                        <div id="search-results" class="mt-2 text-muted small"></div>
                                     </div>
-                                    <small class="text-muted">Selecciona la moneda principal de tus
-                                        transacciones</small>
+                                    <small class="text-muted">💡 Tip: Escribe "peso", "dólar" o "EUR" para
+                                        filtrar</small>
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <label class="form-label">Idioma</label>
@@ -494,41 +500,69 @@
         function initializeCurrencySearch() {
             const searchInput = document.getElementById('currency-search');
             const currencySelect = document.getElementById('currency');
-            const allOptions = Array.from(currencySelect.querySelectorAll('option'));
+            const resultsDiv = document.getElementById('search-results');
+            const allOptions = Array.from(currencySelect.querySelectorAll('option:not([disabled])'));
 
             searchInput.addEventListener('input', function () {
-                const searchTerm = this.value.toLowerCase();
+                const searchTerm = this.value.toLowerCase().trim();
+                let visibleCount = 0;
 
-                // Show/hide optgroups and options
+                if (searchTerm === '') {
+                    // Show all
+                    currencySelect.querySelectorAll('optgroup, option').forEach(el => {
+                        el.style.display = '';
+                    });
+                    resultsDiv.textContent = '';
+                    return;
+                }
+
+                // Filter options
                 currencySelect.querySelectorAll('optgroup').forEach(group => {
                     const options = Array.from(group.querySelectorAll('option'));
                     let hasVisibleOption = false;
 
                     options.forEach(option => {
                         const text = option.textContent.toLowerCase();
-                        const matches = text.includes(searchTerm);
+                        const value = option.value.toLowerCase();
+                        const matches = text.includes(searchTerm) || value.includes(searchTerm);
+
                         option.style.display = matches ? '' : 'none';
-                        if (matches) hasVisibleOption = true;
+
+                        if (matches) {
+                            hasVisibleOption = true;
+                            visibleCount++;
+                        }
                     });
 
-                    // Hide optgroup if no options match
+                    // Hide optgroup if no visible options
                     group.style.display = hasVisibleOption ? '' : 'none';
                 });
 
-                // If search is empty, show all
-                if (searchTerm === '') {
-                    currencySelect.querySelectorAll('optgroup, option').forEach(el => {
-                        el.style.display = '';
-                    });
+                // Update results counter
+                if (visibleCount === 0) {
+                    resultsDiv.innerHTML = '<span class="text-danger">❌ No se encontraron monedas</span>';
+                } else if (visibleCount === 1) {
+                    resultsDiv.innerHTML = '<span class="text-success">✓ 1 moneda encontrada</span>';
+                } else {
+                    resultsDiv.innerHTML = `<span class="text-success">✓ ${visibleCount} monedas encontradas</span>`;
                 }
             });
 
             // Clear search on selection
             currencySelect.addEventListener('change', function () {
-                searchInput.value = '';
-                currencySelect.querySelectorAll('optgroup, option').forEach(el => {
-                    el.style.display = '';
-                });
+                if (this.value) {
+                    searchInput.value = '';
+                    currencySelect.querySelectorAll('optgroup, option').forEach(el => {
+                        el.style.display = '';
+                    });
+                    resultsDiv.textContent = '';
+
+                    // Show selected currency in results
+                    const selectedOption = this.options[this.selectedIndex];
+                    if (selectedOption) {
+                        resultsDiv.innerHTML = `<span class="text-primary">✓ Seleccionado: ${selectedOption.textContent}</span>`;
+                    }
+                }
             });
         }
 
