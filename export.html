@@ -146,8 +146,8 @@
                             <div class="mb-3">
                                 <label class="form-label">Per�odo</label>
                                 <select class="form-select" id="period-select" onchange="updateDateRange()">
-                                    <option value="this-month">�ltimo Mes</option>
-                                    <option value="this-year">Este A�o</option>
+                                    <option value="this-month">Último Mes</option>
+                                    <option value="this-year">Este Año</option>
                                     <option value="all">Todo el Tiempo</option>
                                     <option value="custom">Personalizado</option>
                                 </select>
@@ -209,7 +209,7 @@
                         </div>
                     </div>
 
-                    <!-- Bot�n Exportar -->
+                    <!-- botón Exportar -->
                     <button class="btn btn-primary btn-lg w-100 mb-4" onclick="exportData()">
                         <i class="bi bi-download"></i> Exportar Datos en CSV
                     </button>
@@ -228,14 +228,14 @@
                             </div>
                             <div class="mb-3">
                                 <small class="text-muted">Per�odo:</small>
-                                <div class="fw-bold" id="summary-period">�ltimo Mes</div>
+                                <div class="fw-bold" id="summary-period">Último Mes</div>
                             </div>
                             <div class="mb-3">
                                 <small class="text-muted">Elementos:</small>
                                 <div class="fw-bold" id="summary-items">4 tipos</div>
                             </div>
                             <div>
-                                <small class="text-muted">Tama�o estimado:</small>
+                                <small class="text-muted">TamAño estimado:</small>
                                 <div class="fw-bold text-primary">~2.5 MB</div>
                             </div>
                         </div>
@@ -299,7 +299,7 @@
             };
             document.getElementById('summary-format').textContent = labels[format];
 
-            // Actualizar texto del bot�n
+            // Actualizar texto del botón
             const btn = document.querySelector('button[onclick="exportData()"]');
             btn.innerHTML = `<i class="bi bi-download"></i> Exportar Datos en ${labels[format]}`;
         }
@@ -315,8 +315,8 @@
             }
 
             const labels = {
-                'this-month': '�ltimo Mes',
-                'this-year': 'Este A�o',
+                'this-month': 'Último Mes',
+                'this-year': 'Este Año',
                 'all': 'Todo el Tiempo',
                 'custom': 'Personalizado'
             };

@@ -173,17 +173,17 @@
         </div>
     </div>
 
-    <!-- Modal A�adir Dinero -->
+    <!-- Modal Añadir Dinero -->
     <div class="modal fade" id="addMoneyModal" tabindex="-1">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">A�adir Dinero</h5>
+                    <h5 class="modal-title">Añadir Dinero</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label class="form-label">Monto a a�adir</label>
+                        <label class="form-label">Monto a Añadir</label>
                         <div class="input-group">
                             <span class="input-group-text">$</span>
                             <input type="number" class="form-control" id="add-amount" step="0.01">
@@ -192,7 +192,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-success" onclick="addMoney()">A�adir</button>
+                    <button type="button" class="btn btn-success" onclick="addMoney()">Añadir</button>
                 </div>
             </div>
         </div>
@@ -333,7 +333,7 @@
                                 <div class="mb-3">
                                     <small class="text-muted">Faltan</small>
                                     <div class="fw-bold ${remaining > 0 ? 'text-warning' : 'text-success'}">
-                                        ${remaining > 0 ? formatCurrency(remaining) : '�Meta alcanzada!'}
+                                        ${remaining > 0 ? formatCurrency(remaining) : '¡Meta alcanzada!'}
                                     </div>
                                 </div>
                                 
@@ -349,7 +349,7 @@
                                 <div class="d-flex gap-2">
                                     ${!isCompleted ? `
                                         <button class="btn btn-sm btn-success flex-fill" onclick="openAddMoney('${goal.id}')">
-                                            <i class="bi bi-plus-circle"></i> A�adir Dinero
+                                            <i class="bi bi-plus-circle"></i> Añadir Dinero
                                         </button>
                                     ` : ''}
                                     <button class="btn btn-sm btn-outline-primary" onclick="editGoal('${goal.id}')">
@@ -448,7 +448,7 @@
             const amount = parseFloat(document.getElementById('add-amount').value);
 
             if (!amount || amount <= 0) {
-                showToast('Ingresa un monto v�lido', 'warning');
+                showToast('Ingresa un monto válido', 'warning');
                 return;
             }
 
@@ -472,9 +472,9 @@
                 if (error) throw error;
 
                 if (status === 'completed') {
-                    showToast('�Felicidades! Meta completada ??', 'success');
+                    showToast('¡Felicidades! Meta completada ??', 'success');
                 } else {
-                    showToast('Dinero a�adido exitosamente', 'success');
+                    showToast('Dinero añadido exitosamente', 'success');
                 }
 
                 bootstrap.Modal.getInstance(document.getElementById('addMoneyModal')).hide();
@@ -489,7 +489,7 @@
         }
 
         async function deleteGoal(goalId) {
-            if (!confirm('�Eliminar esta meta?')) return;
+            if (!confirm('¿Eliminar esta meta?')) return;
 
             try {
                 toggleLoader(true);
