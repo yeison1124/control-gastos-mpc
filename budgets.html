@@ -54,7 +54,7 @@
                     <p id="user-email">usuario@ejemplo.com</p>
                 </div>
             </div>
-            <button class="btn-logout" id="logout-btn"><i class="bi bi-box-arrow-right"></i> Cerrar Sesi�n</button>
+            <button class="btn-logout" id="logout-btn"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</button>
         </div>
     </aside>
 
@@ -63,7 +63,7 @@
             <div class="row mb-4">
                 <div class="col">
                     <h1>Presupuestos</h1>
-                    <p class="text-muted">Controla tus gastos estableciendo l�mites por categor�a</p>
+                    <p class="text-muted">Controla tus gastos estableciendo límites por Categoría</p>
                 </div>
                 <div class="col-auto">
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#budgetModal"
@@ -158,7 +158,7 @@
                     <form id="budget-form">
                         <input type="hidden" id="budget-id">
                         <div class="mb-3">
-                            <label class="form-label">Categor�a <span class="text-danger">*</span></label>
+                            <label class="form-label">Categoría <span class="text-danger">*</span></label>
                             <select class="form-select" id="budget-category" required></select>
                         </div>
                         <div class="mb-3">
@@ -228,7 +228,7 @@
             categories = data || [];
 
             const select = document.getElementById('budget-category');
-            select.innerHTML = '<option value="">Selecciona una categor�a</option>';
+            select.innerHTML = '<option value="">Selecciona una Categoría</option>';
             categories.forEach(cat => {
                 select.innerHTML += `<option value="${cat.id}">${cat.name}</option>`;
             });

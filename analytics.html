@@ -54,7 +54,7 @@
                     <p id="user-email">usuario@ejemplo.com</p>
                 </div>
             </div>
-            <button class="btn-logout" id="logout-btn"><i class="bi bi-box-arrow-right"></i> Cerrar Sesi�n</button>
+            <button class="btn-logout" id="logout-btn"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</button>
         </div>
     </aside>
 
@@ -79,7 +79,7 @@
                 </div>
             </div>
 
-            <!-- M�tricas Principales -->
+            <!-- Métricas Principales -->
             <div class="row g-3 mb-4">
                 <div class="col-12 col-sm-6 col-lg-3">
                     <div class="card">
@@ -124,7 +124,7 @@
                             <h3 class="mt-2 mb-0" id="avg-daily">$0</h3>
                             <small class="text-muted">Promedio Diario</small>
                             <div class="mt-2">
-                                <small class="text-muted">Gasto promedio por d�a</small>
+                                <small class="text-muted">Gasto promedio por día</small>
                             </div>
                         </div>
                     </div>
@@ -172,12 +172,12 @@
                         <div class="col-12 col-lg-4">
                             <div class="card h-100">
                                 <div class="card-header">
-                                    <h6 class="mb-0">Categor�a M�s Gastada</h6>
+                                    <h6 class="mb-0">Categoría Más Gastada</h6>
                                 </div>
                                 <div class="card-body text-center">
                                     <div id="top-category">
                                         <i class="bi bi-wallet" style="font-size: 3rem; color: #6366f1;"></i>
-                                        <h4 class="mt-3">Alimentaci�n</h4>
+                                        <h4 class="mt-3">Alimentación</h4>
                                         <h2 class="text-danger">$450.00</h2>
                                         <small class="text-muted">$450.00 este mes</small>
                                     </div>
@@ -191,7 +191,7 @@
                                 </div>
                                 <div class="card-body text-center">
                                     <h1 id="budget-percentage">68%</h1>
-                                    <small class="text-muted">Dentro del l�mite</small>
+                                    <small class="text-muted">Dentro del límite</small>
                                     <div class="progress mt-3" style="height: 15px;">
                                         <div class="progress-bar bg-warning" style="width: 68%"></div>
                                     </div>
@@ -201,11 +201,11 @@
                         <div class="col-12 col-lg-6">
                             <div class="card">
                                 <div class="card-header">
-                                    <h6 class="mb-0">D�as para Fin de Mes</h6>
+                                    <h6 class="mb-0">Días para Fin de Mes</h6>
                                 </div>
                                 <div class="card-body text-center">
                                     <h1 id="days-left">20</h1>
-                                    <small class="text-muted">D�as restantes</small>
+                                    <small class="text-muted">Días restantes</small>
                                 </div>
                             </div>
                         </div>
@@ -216,7 +216,7 @@
                 <div class="tab-pane fade" id="trends">
                     <div class="card">
                         <div class="card-header">
-                            <h6 class="mb-0">Tendencia de Gastos (�ltimos 6 Meses)</h6>
+                            <h6 class="mb-0">Tendencia de Gastos (Últimos 6 Meses)</h6>
                         </div>
                         <div class="card-body">
                             <canvas id="trendsChart" height="80"></canvas>
@@ -230,7 +230,7 @@
                         <div class="col-12 col-lg-6">
                             <div class="card">
                                 <div class="card-header">
-                                    <h6 class="mb-0">Gastos por Categor�a</h6>
+                                    <h6 class="mb-0">Gastos por Categoría</h6>
                                 </div>
                                 <div class="card-body">
                                     <canvas id="categoriesChart"></canvas>
@@ -240,7 +240,7 @@
                         <div class="col-12 col-lg-6">
                             <div class="card">
                                 <div class="card-header">
-                                    <h6 class="mb-0">Detalle por Categor�a</h6>
+                                    <h6 class="mb-0">Detalle por Categoría</h6>
                                 </div>
                                 <div class="card-body" id="categories-detail">
                                     <p class="text-muted text-center">Cargando...</p>
@@ -346,25 +346,25 @@
             const netIncome = totalIncome - totalExpenses;
             const totalBudget = budgets ? budgets.reduce((sum, b) => sum + parseFloat(b.amount), 0) : 0;
 
-            // Calcular d�as del mes y promedio diario
+            // Calcular Días del mes y promedio diario
             const now = new Date();
             const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
             const daysLeft = daysInMonth - now.getDate();
             const avgDaily = now.getDate() > 0 ? totalExpenses / now.getDate() : 0;
 
-            // Actualizar m�tricas principales
+            // Actualizar Métricas principales
             document.getElementById('total-income').textContent = formatCurrency(totalIncome);
             document.getElementById('total-expenses').textContent = formatCurrency(totalExpenses);
             document.getElementById('net-income').textContent = formatCurrency(netIncome);
             document.getElementById('avg-daily').textContent = formatCurrency(avgDaily);
             document.getElementById('days-left').textContent = daysLeft;
 
-            // --- L�gica de Categor�a M�s Gastada ---
+            // --- L�gica de Categoría Más Gastada ---
             const categoryTotals = {};
             let topCategory = { name: 'N/A', amount: 0, color: '#6366f1', icon: 'wallet' };
 
             expenses.forEach(t => {
-                const catName = t.categories?.name || 'Sin categor�a';
+                const catName = t.categories?.name || 'Sin Categoría';
                 const catId = t.category_id;
 
                 if (!categoryTotals[catId]) {
@@ -388,7 +388,7 @@
                     <i class="bi bi-${topCategory.icon}" style="font-size: 3rem; color: ${topCategory.color};"></i>
                     <h4 class="mt-3">${topCategory.name}</h4>
                     <h2 class="text-danger">${formatCurrency(topCategory.amount)}</h2>
-                    <small class="text-muted">La categor�a m�s alta</small>
+                    <small class="text-muted">La Categoría Más alta</small>
                 `;
             } else {
                 topCatContainer.innerHTML = `
@@ -404,13 +404,13 @@
 
             document.getElementById('budget-percentage').textContent = totalBudget > 0 ? `${budgetPercentage}%` : 'N/A';
             document.getElementById('budget-percentage').parentElement.querySelector('small').textContent = totalBudget > 0 ?
-                (budgetPercentage > 100 ? 'Presupuesto excedido' : 'Dentro del l�mite') : 'Sin presupuesto';
+                (budgetPercentage > 100 ? 'Presupuesto excedido' : 'Dentro del límite') : 'Sin presupuesto';
 
             const progressBar = document.getElementById('budget-percentage').parentElement.querySelector('.progress-bar');
             progressBar.style.width = `${Math.min(budgetPercentage, 100)}%`;
             progressBar.className = `progress-bar ${budgetColor}`;
 
-            // Crear gr�ficos
+            // Crear Gráficos
             createIncomeVsExpensesChart(transactions);
             createTrendsChart(transactions);
             createCategoriesChart(expenses);
@@ -532,7 +532,7 @@
             const categoryColors = {};
 
             expenses.forEach(t => {
-                const catName = t.categories?.name || 'Sin categor�a';
+                const catName = t.categories?.name || 'Sin Categoría';
                 const catColor = t.categories?.color || '#6b7280';
                 categoryTotals[catName] = (categoryTotals[catName] || 0) + parseFloat(t.amount);
                 categoryColors[catName] = catColor;
@@ -571,7 +571,7 @@
 
             const categoryData = {};
             expenses.forEach(t => {
-                const catName = t.categories?.name || 'Sin categor�a';
+                const catName = t.categories?.name || 'Sin Categoría';
                 const catColor = t.categories?.color || '#6b7280';
                 if (!categoryData[catName]) {
                     categoryData[catName] = { total: 0, count: 0, color: catColor };

@@ -71,7 +71,7 @@
                 </div>
             </div>
             <button class="btn-logout" id="logout-btn">
-                <i class="bi bi-box-arrow-right"></i> Cerrar Sesi�n
+                <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
             </button>
         </div>
     </aside>
@@ -91,7 +91,7 @@
                 </div>
             </div>
 
-            <!-- Estad�sticas -->
+            <!-- estadísticas -->
             <div class="row g-3 mb-4">
                 <div class="col-12 col-sm-6 col-lg-3">
                     <div class="card">
@@ -155,7 +155,7 @@
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="categories-tab" data-bs-toggle="tab"
                                 data-bs-target="#categories" type="button" role="tab">
-                                <i class="bi bi-tags"></i> Por Categor�a
+                                <i class="bi bi-tags"></i> Por Categoría
                             </button>
                         </li>
                     </ul>
@@ -180,8 +180,8 @@
                                 </div>
                                 <div class="col-12 col-md-3 mt-2 mt-md-0">
                                     <select class="form-select" id="sort-filter">
-                                        <option value="date-desc">M�s recientes</option>
-                                        <option value="date-asc">M�s antiguas</option>
+                                        <option value="date-desc">Más recientes</option>
+                                        <option value="date-asc">Más antiguas</option>
                                         <option value="amount-desc">Mayor monto</option>
                                         <option value="amount-asc">Menor monto</option>
                                     </select>
@@ -198,14 +198,14 @@
                             </div>
                         </div>
 
-                        <!-- Por Categor�a -->
+                        <!-- Por Categoría -->
                         <div class="tab-pane fade" id="categories" role="tabpanel">
                             <div id="income-by-category">
                                 <div class="text-center py-5">
                                     <div class="spinner-border text-primary" role="status">
                                         <span class="visually-hidden">Cargando...</span>
                                     </div>
-                                    <p class="mt-3 text-muted">Cargando estad�sticas...</p>
+                                    <p class="mt-3 text-muted">Cargando estadísticas...</p>
                                 </div>
                             </div>
                         </div>
@@ -349,7 +349,7 @@
                                 <h6 class="mb-1">${i.description}</h6>
                                 <div class="d-flex flex-wrap gap-2">
                                     <small class="text-muted">
-                                        <i class="bi bi-tag"></i> ${i.categories?.name || 'Sin categor�a'}
+                                        <i class="bi bi-tag"></i> ${i.categories?.name || 'Sin Categoría'}
                                     </small>
                                     <small class="text-muted">
                                         <i class="bi bi-calendar"></i> ${formatDate(i.date)}
@@ -375,13 +375,13 @@
                 return;
             }
 
-            // Agrupar por categor�a
+            // Agrupar por Categoría
             const byCategory = {};
             allIncome.forEach(i => {
                 const catId = i.category_id || 'uncategorized';
                 if (!byCategory[catId]) {
                     byCategory[catId] = {
-                        category: i.categories || { name: 'Sin categor�a', color: '#6b7280', icon: 'question' },
+                        category: i.categories || { name: 'Sin Categoría', color: '#6b7280', icon: 'question' },
                         total: 0,
                         count: 0
                     };
@@ -484,7 +484,7 @@
                                     <h6 class="mb-1">${i.description}</h6>
                                     <div class="d-flex flex-wrap gap-2">
                                         <small class="text-muted">
-                                            <i class="bi bi-tag"></i> ${i.categories?.name || 'Sin categor�a'}
+                                            <i class="bi bi-tag"></i> ${i.categories?.name || 'Sin Categoría'}
                                         </small>
                                         <small class="text-muted">
                                             <i class="bi bi-calendar"></i> ${formatDate(i.date)}

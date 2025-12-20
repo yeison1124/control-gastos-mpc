@@ -61,7 +61,7 @@
                 </div>
             </div>
             <button class="btn-logout" id="logout-btn">
-                <i class="bi bi-box-arrow-right"></i> Cerrar Sesi�n
+                <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
             </button>
         </div>
     </aside>
@@ -76,12 +76,12 @@
                 </div>
                 <div class="col-auto">
                     <button class="btn btn-primary" onclick="openCategoryModal()">
-                        <i class="bi bi-plus-circle"></i> Nueva Categor�a
+                        <i class="bi bi-plus-circle"></i> Nueva Categoría
                     </button>
                 </div>
             </div>
 
-            <!-- Estad�sticas r�pidas -->
+            <!-- estadísticas r�pidas -->
             <div class="row g-3 mb-4">
                 <div class="col-12 col-md-4">
                     <div class="card bg-primary text-white">
@@ -115,7 +115,7 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <input type="text" id="search-categories" class="form-control"
-                                placeholder="Buscar categor�a...">
+                                placeholder="Buscar Categoría...">
                         </div>
                         <div class="col-md-6">
                             <div class="btn-group w-100" role="group">
@@ -141,12 +141,12 @@
         </div>
     </main>
 
-    <!-- Modal Categor�a -->
+    <!-- Modal Categoría -->
     <div class="modal fade" id="categoryModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitle">Nueva Categor�a</h5>
+                    <h5 class="modal-title" id="modalTitle">Nueva Categoría</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
@@ -169,7 +169,7 @@
                         <div class="mb-3">
                             <label class="form-label">Icono</label>
                             <div class="card p-3 bg-light">
-                                <!-- Selector de iconos r�pidos -->
+                                <!-- Selector de iconos Rápidos -->
                                 <div id="quick-icons-expense" class="d-flex flex-wrap gap-2 mb-3">
                                     <button type="button" class="btn btn-outline-secondary icon-btn"
                                         onclick="selectIcon('shopping-cart')"><i
@@ -363,7 +363,7 @@
         function openCategoryModal() {
             document.getElementById('category-form').reset();
             document.getElementById('category-id').value = '';
-            document.getElementById('modalTitle').innerText = 'Nueva Categor�a';
+            document.getElementById('modalTitle').innerText = 'Nueva Categoría';
             document.getElementById('category-color').value = randomColor();
             updateIconSelector();
             selectIcon('shopping-cart'); // Default icon
@@ -414,7 +414,7 @@
             document.getElementById('category-name').value = cat.name;
             document.getElementById('category-type').value = cat.type;
             document.getElementById('category-color').value = cat.color;
-            document.getElementById('modalTitle').innerText = 'Editar Categor�a';
+            document.getElementById('modalTitle').innerText = 'Editar Categoría';
 
             updateIconSelector();
             selectIcon(cat.icon); // Load icon
@@ -474,13 +474,13 @@
         }
 
         window.deleteCategory = async function (id) {
-            if (!confirm('�Borrar categor�a?')) return;
+            if (!confirm('�Borrar Categoría?')) return;
             try {
                 toggleLoader(true);
                 const { error } = await supabase.from('categories').delete().eq('id', id);
                 if (error) throw error;
                 loadCategories();
-                showToast('Categor�a eliminada', 'infos');
+                showToast('Categoría eliminada', 'infos');
             } catch (e) {
                 showToast(e.message, 'error');
             } finally {

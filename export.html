@@ -54,7 +54,7 @@
                     <p id="user-email">usuario@ejemplo.com</p>
                 </div>
             </div>
-            <button class="btn-logout" id="logout-btn"><i class="bi bi-box-arrow-right"></i> Cerrar Sesi�n</button>
+            <button class="btn-logout" id="logout-btn"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</button>
         </div>
     </aside>
 
@@ -189,7 +189,7 @@
                                 <input class="form-check-input" type="checkbox" id="include-budgets" checked>
                                 <label class="form-check-label" for="include-budgets">
                                     <strong>Presupuestos</strong>
-                                    <p class="small text-muted mb-0">L�mites y alertas configurados</p>
+                                    <p class="small text-muted mb-0">límites y alertas configurados</p>
                                 </label>
                             </div>
                             <div class="form-check mb-2">
@@ -359,11 +359,11 @@
             }
 
             // Crear CSV
-            const headers = ['Fecha', 'Tipo', 'Categor�a', 'Descripci�n', 'Monto', 'Cuenta', 'Notas'];
+            const headers = ['Fecha', 'Tipo', 'Categoría', 'Descripción', 'Monto', 'Cuenta', 'Notas'];
             const rows = data.map(t => [
                 t.date,
                 t.type === 'income' ? 'Ingreso' : 'Gasto',
-                t.categories?.name || 'Sin categor�a',
+                t.categories?.name || 'Sin Categoría',
                 t.description,
                 t.amount,
                 t.accounts?.name || 'Sin cuenta',
