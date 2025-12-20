@@ -379,14 +379,18 @@
 
     <script>
         let currentUser = null;
+        let gamificationData = null;
 
         document.addEventListener('DOMContentLoaded', async function () {
             if (!await requireAuth()) return;
             currentUser = await getCurrentUser();
-            loadProfile();
+            await loadProfile();
+            await loadGamificationData();
+            await loadStatistics();
+            renderAchievements();
         });
 
-        function loadProfile() {
+        async function loadProfile() {
             if (!currentUser) return;
 
             // Obtener iniciales para avatar
@@ -397,6 +401,135 @@
             document.getElementById('profile-fullname').textContent = fullName;
             document.getElementById('display-email').innerHTML = `<i class="bi bi-envelope text-primary"></i> ${currentUser.email}`;
             document.getElementById('edit-email').value = currentUser.email;
+        }
+
+        async function loadGamificationData() {
+            const stored = localStorage.getItem(`gamification_${currentUser.id}`);
+            if (stored) {
+                gamificationData = JSON.parse(stored);
+            } else {
+                gamificationData = {
+                    level: 1,
+                    xp: 0,
+                    points: 0,
+                    streak: 0,
+                    longestStreak: 0,
+                    lastActivity: null,
+                    achievements: [],
+                    challenges: [],
+                    stats: {}
+                };
+            }
+        }
+
+        async function loadStatistics() {
+            try {
+                // Get transactions count
+                const { data: transactions, error: transError } = await supabase
+                    .from('transactions')
+                    .select('*', { count: 'exact', head: true })
+                    .eq('user_id', currentUser.id);
+
+                // Get categories count
+                const { data: categories, error: catError } = await supabase
+                    .from('categories')
+                    .select('*', { count: 'exact', head: true })
+                    .eq('user_id', currentUser.id);
+
+                // Get goals completed count
+                const { data: goals, error: goalsError } = await supabase
+                    .from('goals')
+                    .select('*')
+                    .eq('user_id', currentUser.id)
+                    .gte('current_amount', supabase.raw('target_amount'));
+
+                // Calculate days of use
+                const userCreatedAt = new Date(currentUser.created_at);
+                const today = new Date();
+                const daysOfUse = Math.floor((today - userCreatedAt) / (1000 * 60 * 60 * 24));
+
+                // Update stats display
+                const statsCards = document.querySelectorAll('#statistics .card h3');
+                if (statsCards[0]) statsCards[0].textContent = transactions?.length || 0;
+                if (statsCards[1]) statsCards[1].textContent = categories?.length || 0;
+                if (statsCards[2]) statsCards[2].textContent = goals?.length || 0;
+                if (statsCards[3]) statsCards[3].textContent = daysOfUse;
+
+                // Update activity bars
+                const streakProgress = document.querySelector('#statistics .progress-bar.bg-success');
+                const streakText = document.querySelector('#statistics .progress .flex-grow-1 + span');
+                if (streakProgress && gamificationData.streak) {
+                    const streakPercentage = Math.min(100, (gamificationData.streak / 30) * 100);
+                    streakProgress.style.width = streakPercentage + '%';
+                    streakText.textContent = `${gamificationData.streak} días`;
+                }
+
+            } catch (error) {
+                console.error('Error loading statistics:', error);
+            }
+        }
+
+        function renderAchievements() {
+            const ACHIEVEMENTS = [
+                { id: 'first_transaction', name: 'Primera Transacción', description: 'Registra tu primer gasto o ingreso', icon: '🎉', points: 10 },
+                { id: 'first_budget', name: 'Primer Presupuesto', description: 'Crea tu primer presupuesto', icon: '💰', points: 15 },
+                { id: 'first_goal', name: 'Ahorrador', description: 'Completa tu primera meta de ahorro', icon: '🎯', points: 15 },
+                { id: 'transactions_10', name: 'Organizador Inicial', description: 'Registra 10 transacciones', icon: '📊', points: 30 },
+                { id: 'streak_7', name: 'Racha de 7 Días', description: 'Registra transacciones 7 días seguidos', icon: '🔥', points: 50 },
+                { id: 'transactions_100', name: 'Centenario', description: 'Registra 100 transacciones', icon: '🏅', points: 100 }
+            ];
+
+            const container = document.querySelector('#achievements .row');
+
+            container.innerHTML = ACHIEVEMENTS.map(achievement => {
+                const isUnlocked = gamificationData.achievements.includes(achievement.id);
+
+                return `
+                    <div class="col-12 col-sm-6 col-md-4">
+                        <div class="card text-center h-100 ${isUnlocked ? 'border-success' : ''}">
+                            <div class="card-body">
+                                <div style="
+                                    width: 80px; 
+                                    height: 80px; 
+                                    background: ${isUnlocked ? 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)' : '#f3f4f6'}; 
+                                    border-radius: 50%; 
+                                    display: flex; 
+                                    align-items: center; 
+                                    justify-content: center; 
+                                    margin: 0 auto 1rem;
+                                    font-size: 2.5rem;
+                                    ${isUnlocked ? 'animation: pulse 2s infinite;' : 'filter: grayscale(1);'}
+                                ">
+                                    ${isUnlocked ? achievement.icon : '<i class="bi bi-lock" style="font-size: 2rem; color: #9ca3af;"></i>'}
+                                </div>
+                                <h6>${achievement.name}</h6>
+                                <small class="text-muted">${achievement.description}</small>
+                                ${isUnlocked ? `
+                                    <div class="mt-2">
+                                        <span class="badge bg-success">
+                                            <i class="bi bi-check-circle me-1"></i>Desbloqueado
+                                        </span>
+                                        <span class="badge bg-primary">${achievement.points} pts</span>
+                                    </div>
+                                ` : `
+                                    <div class="mt-2">
+                                        <span class="badge bg-secondary">Bloqueado</span>
+                                    </div>
+                                `}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Add link to full gamification page
+            container.innerHTML += `
+                <div class="col-12 text-center mt-4">
+                    <a href="gamification.html" class="btn btn-primary">
+                        <i class="bi bi-trophy me-2"></i>Ver Todos los Logros (${gamificationData.achievements.length})
+                    </a>
+                </div>
+            `;
         }
 
         function saveProfile() {
@@ -427,6 +560,21 @@
             showToast('Perfil actualizado exitosamente', 'success');
         }
     </script>
+
+    <style>
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+    </style>
+
 </body>
 
 </html>
