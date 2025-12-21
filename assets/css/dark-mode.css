@@ -474,6 +474,88 @@ body {
     color: #94a3b8;
 }
 
+/* Botones de filtros rápidos en búsqueda */
+[data-theme="dark"] .btn-outline-secondary {
+    background-color: transparent !important;
+    border-color: #334155 !important;
+    color: #cbd5e1 !important;
+}
+
+[data-theme="dark"] .btn-outline-secondary:hover,
+[data-theme="dark"] .btn-outline-secondary.active {
+    background-color: #334155 !important;
+    border-color: #475569 !important;
+    color: #f1f5f9 !important;
+}
+
+/* Chips de filtros activos */
+[data-theme="dark"] .badge-secondary {
+    background-color: #334155 !important;
+    color: #cbd5e1 !important;
+    border: 1px solid #475569 !important;
+}
+
+/* Labels y títulos de filtros */
+[data-theme="dark"] label,
+[data-theme="dark"] .form-label {
+    color: #f1f5f9 !important;
+}
+
+/* Sección de filtros guardados */
+[data-theme="dark"] .saved-filters-list,
+[data-theme="dark"] .filter-item {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+    color: #f1f5f9 !important;
+}
+
+/* Contador de resultados */
+[data-theme="dark"] .results-count {
+    color: #cbd5e1 !important;
+}
+
+/* Cards de resultados de búsqueda */
+[data-theme="dark"] .transaction-card,
+[data-theme="dark"] .result-card {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+}
+
+[data-theme="dark"] .transaction-card:hover,
+[data-theme="dark"] .result-card:hover {
+    background-color: #334155 !important;
+}
+
+/* Texto dentro de resultados */
+[data-theme="dark"] .transaction-card h5,
+[data-theme="dark"] .transaction-card h6,
+[data-theme="dark"] .result-card h5,
+[data-theme="dark"] .result-card h6 {
+    color: #f1f5f9 !important;
+}
+
+[data-theme="dark"] .transaction-card .text-muted,
+[data-theme="dark"] .result-card .text-muted {
+    color: #94a3b8 !important;
+}
+
+/* Separador de secciones */
+[data-theme="dark"] hr {
+    border-color: #334155 !important;
+    opacity: 1;
+}
+
+/* Mensajes de "no hay resultados" */
+[data-theme="dark"] .no-results,
+[data-theme="dark"] .empty-state {
+    color: #94a3b8 !important;
+}
+
+[data-theme="dark"] .empty-state i {
+    color: #64748b !important;
+}
+
+
 /* Mejoras generales para inputs en oscuro */
 [data-theme="dark"] input[type="search"],
 [data-theme="dark"] input[type="text"],
