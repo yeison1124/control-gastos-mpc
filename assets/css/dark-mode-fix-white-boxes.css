@@ -1,0 +1,129 @@
+/* ============================================
+   FIX DEFINITIVO PARA CUADROS BLANCOS EN MODO OSCURO
+   ============================================ */
+
+/* Override completo para TODAS las cards, divs y contenedores */
+[data-theme="dark"] .card,
+[data-theme="dark"] .card-body,
+[data-theme="dark"] div.card,
+[data-theme="dark"] div.card-body {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+    color: #f1f5f9 !important;
+}
+
+/* Forzar fondo oscuro en TODOS los contenedores de Bootstrap */
+[data-theme="dark"] .container,
+[data-theme="dark"] .container-fluid,
+[data-theme="dark"] .row>div,
+[data-theme="dark"] .col,
+[data-theme="dark"] .col-1,
+[data-theme="dark"] .col-2,
+[data-theme="dark"] .col-3,
+[data-theme="dark"] .col-4,
+[data-theme="dark"] .col-5,
+[data-theme="dark"] .col-6,
+[data-theme="dark"] .col-7,
+[data-theme="dark"] .col-8,
+[data-theme="dark"] .col-9,
+[data-theme="dark"] .col-10,
+[data-theme="dark"] .col-11,
+[data-theme="dark"] .col-12,
+[data-theme="dark"] [class*="col-"] {
+    color: #f1f5f9;
+}
+
+/* Eliminar fondos blancos específicos */
+[data-theme="dark"] .bg-white {
+    background-color: #1e293b !important;
+}
+
+[data-theme="dark"] .bg-light {
+    background-color: #334155 !important;
+}
+
+/* Asegurar que todo el texto sea visible */
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] h5,
+[data-theme="dark"] h6 {
+    color: #f1f5f9 !important;
+}
+
+[data-theme="dark"] p {
+    color: #cbd5e1;
+}
+
+/* Cards específicas con todas las variantes */
+[data-theme="dark"] .card.text-center,
+[data-theme="dark"] .card.h-100,
+[data-theme="dark"] .card.mb-3,
+[data-theme="dark"] .card.mb-4,
+[data-theme="dark"] div[class*="card"] {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+}
+
+/* Cualquier div que tenga clase que empiece con card */
+[data-theme="dark"] [class^="card"],
+[data-theme="dark"] [class*=" card"] {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+}
+
+/* Override para elementos de Bootstrap que suelen tener fondo blanco */
+[data-theme="dark"] .list-group,
+[data-theme="dark"] .list-group-item {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+    color: #f1f5f9 !important;
+}
+
+/* Panels, wells, y contenedores genéricos */
+[data-theme="dark"] .panel,
+[data-theme="dark"] .well,
+[data-theme="dark"] .jumbotron {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+    color: #f1f5f9 !important;
+}
+
+/* Asegurar que NINGÚN div tenga fondo blanco */
+[data-theme="dark"] div {
+    background-color: inherit;
+}
+
+/* Específico para stats/metrics boxes */
+[data-theme="dark"] .stat-box,
+[data-theme="dark"] .metric-box,
+[data-theme="dark"] .stats-card,
+[data-theme="dark"] .stat-card,
+[data-theme="dark"] .metric-card:not([style*="linear-gradient"]) {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+}
+
+/* Botones de Bootstrap */
+[data-theme="dark"] .btn-light {
+    background-color: #334155 !important;
+    border-color: #475569 !important;
+    color: #f1f5f9 !important;
+}
+
+[data-theme="dark"] .btn-light:hover {
+    background-color: #475569 !important;
+}
+
+[data-theme="dark"] .btn-white {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+    color: #f1f5f9 !important;
+}
+
+/* Asegurar visibilidad de iconos */
+[data-theme="dark"] .bi,
+[data-theme="dark"] i {
+    color: inherit;
+}
