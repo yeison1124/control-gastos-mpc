@@ -442,33 +442,67 @@ body {
 
 /* Mejoras generales para inputs en oscuro */
 [data-theme="dark"] input[type="search"],
-[data-theme="dark"] input[type="text"] {
-    background-color: #0f172a;
-    border-color: #334155;
-    color: #f1f5f9;
+[data-theme="dark"] input[type="text"],
+[data-theme="dark"] input[type="email"],
+[data-theme="dark"] input[type="password"],
+[data-theme="dark"] input[type="number"],
+[data-theme="dark"] input[type="date"],
+[data-theme="dark"] input[type="time"],
+[data-theme="dark"] input[type="datetime-local"],
+[data-theme="dark"] input[type="tel"],
+[data-theme="dark"] input[type="url"],
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+    background-color: #0f172a !important;
+    border-color: #334155 !important;
+    color: #f1f5f9 !important;
 }
 
 [data-theme="dark"] input[type="search"]::placeholder,
-[data-theme="dark"] input[type="text"]::placeholder {
-    color: #64748b;
+[data-theme="dark"] input[type="text"]::placeholder,
+[data-theme="dark"] input[type="email"]::placeholder,
+[data-theme="dark"] input[type="password"]::placeholder,
+[data-theme="dark"] input[type="number"]::placeholder,
+[data-theme="dark"] input[type="tel"]::placeholder,
+[data-theme="dark"] input[type="url"]::placeholder,
+[data-theme="dark"] textarea::placeholder {
+    color: #64748b !important;
 }
 
 [data-theme="dark"] input[type="search"]:focus,
-[data-theme="dark"] input[type="text"]:focus {
-    background-color: #1e293b;
-    border-color: #5f5ae7;
-    box-shadow: 0 0 0 3px rgba(95, 90, 231, 0.1);
+[data-theme="dark"] input[type="text"]:focus,
+[data-theme="dark"] input[type="email"]:focus,
+[data-theme="dark"] input[type="password"]:focus,
+[data-theme="dark"] input[type="number"]:focus,
+[data-theme="dark"] input[type="date"]:focus,
+[data-theme="dark"] input[type="time"]:focus,
+[data-theme="dark"] input[type="datetime-local"]:focus,
+[data-theme="dark"] input[type="tel"]:focus,
+[data-theme="dark"] input[type="url"]:focus,
+[data-theme="dark"] textarea:focus,
+[data-theme="dark"] select:focus {
+    background-color: #1e293b !important;
+    border-color: #5f5ae7 !important;
+    box-shadow: 0 0 0 3px rgba(95, 90, 231, 0.1) !important;
+    color: #f1f5f9 !important;
 }
 
 /* Select menus en modo oscuro */
+[data-theme="dark"] select,
+[data-theme="dark"] .form-select {
+    background-color: #0f172a !important;
+    border-color: #334155 !important;
+    color: #f1f5f9 !important;
+}
+
 [data-theme="dark"] select option {
-    background-color: #1e293b;
-    color: #f1f5f9;
+    background-color: #1e293b !important;
+    color: #f1f5f9 !important;
 }
 
 [data-theme="dark"] optgroup {
-    background-color: #0f172a;
-    color: #cbd5e1;
+    background-color: #0f172a !important;
+    color: #cbd5e1 !important;
     font-weight: 600;
 }
 
