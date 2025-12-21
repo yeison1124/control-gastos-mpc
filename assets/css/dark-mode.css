@@ -7,18 +7,18 @@
     --bg-primary: #ffffff;
     --bg-secondary: #f8f9fa;
     --bg-tertiary: #e9ecef;
-    
+
     --text-primary: #212529;
     --text-secondary: #6c757d;
     --text-tertiary: #adb5bd;
-    
+
     --border-color: #dee2e6;
     --shadow-color: rgba(0, 0, 0, 0.1);
-    
+
     --card-bg: #ffffff;
     --sidebar-bg: #ffffff;
     --navbar-bg: #ffffff;
-    
+
     /* Accent Colors (same for both modes) */
     --primary: #6366f1;
     --primary-dark: #4f46e5;
@@ -33,14 +33,14 @@
     --bg-primary: #0f172a;
     --bg-secondary: #1e293b;
     --bg-tertiary: #334155;
-    
+
     --text-primary: #f1f5f9;
     --text-secondary: #cbd5e1;
     --text-tertiary: #94a3b8;
-    
+
     --border-color: #334155;
     --shadow-color: rgba(0, 0, 0, 0.3);
-    
+
     --card-bg: #1e293b;
     --sidebar-bg: #0f172a;
     --navbar-bg: #1e293b;
@@ -128,11 +128,11 @@ body {
     color: var(--text-primary);
 }
 
-.table-striped > tbody > tr:nth-of-type(odd) > * {
+.table-striped>tbody>tr:nth-of-type(odd)>* {
     background-color: var(--bg-secondary);
 }
 
-.table-hover > tbody > tr:hover > * {
+.table-hover>tbody>tr:hover>* {
     background-color: var(--bg-tertiary);
 }
 
@@ -309,4 +309,236 @@ body {
         --text-secondary: #6c757d;
         --card-bg: #ffffff;
     }
+}
+
+/* ============================================
+   MEJORAS ESPECÍFICAS PARA MODO OSCURO
+   ============================================ */
+
+/* Página de Recurrentes */
+[data-theme="dark"] .recurring-card,
+[data-theme="dark"] .frequency-badge {
+    background-color: #1e293b;
+    border-color: #334155;
+    color: #f1f5f9;
+}
+
+[data-theme="dark"] .recurring-card:hover {
+    background-color: #334155;
+    border-color: #475569;
+}
+
+[data-theme="dark"] .frequency-badge {
+    background-color: #334155 !important;
+    color: #cbd5e1 !important;
+    border-color: #475569 !important;
+}
+
+/* Página de Gamificación (Logros) */
+[data-theme="dark"] .achievement-card {
+    background-color: #1e293b;
+    border-color: #334155;
+}
+
+[data-theme="dark"] .achievement-card.unlocked {
+    background: linear-gradient(135deg, #1e3a2f 0%, #1e4235 100%);
+    border-color: #16a34a;
+}
+
+[data-theme="dark"] .achievement-card.locked {
+    background-color: #0f172a;
+    border-color: #1e293b;
+    opacity: 0.6;
+}
+
+[data-theme="dark"] .achievement-icon {
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    box-shadow: 0 5px 15px rgba(251, 191, 36, 0.4);
+}
+
+[data-theme="dark"] .achievement-card.locked .achievement-icon {
+    background: #334155;
+    color: #64748b;
+}
+
+[data-theme="dark"] .streak-card {
+    background: linear-gradient(135deg, #991b1b 0%, #7f1d1d 100%);
+    color: #fef2f2;
+}
+
+[data-theme="dark"] .challenge-card {
+    background-color: #1e293b;
+    border-color: #334155;
+}
+
+[data-theme="dark"] .challenge-card:hover {
+    background-color: #334155;
+}
+
+[data-theme="dark"] .level-progress {
+    background-color: #0f172a;
+    border: 1px solid #334155;
+}
+
+[data-theme="dark"] .level-progress-fill {
+    background: linear-gradient(90deg, #16a34a 0%, #15803d 100%);
+}
+
+[data-theme="dark"] .gamification-header {
+    background: linear-gradient(135deg, #92400e 0%, #78350f 100%);
+}
+
+[data-theme="dark"] .stat-box {
+    background-color: #1e293b;
+    border-color: #334155;
+}
+
+[data-theme="dark"] .stat-box:hover {
+    background-color: #334155;
+    border-color: #475569;
+}
+
+[data-theme="dark"] .level-badge {
+    background-color: rgba(251, 191, 36, 0.2);
+    border: 1px solid #fbbf24;
+}
+
+[data-theme="dark"] .points-label {
+    background-color: #422006;
+    color: #fbbf24;
+    border: 1px solid #78350f;
+}
+
+/* Página de Búsqueda */
+[data-theme="dark"] .search-result-card {
+    background-color: #1e293b;
+    border-color: #334155;
+}
+
+[data-theme="dark"] .search-result-card:hover {
+    background-color: #334155;
+    border-color: #475569;
+}
+
+[data-theme="dark"] .search-filter-chip {
+    background-color: #334155;
+    color: #cbd5e1;
+    border-color: #475569;
+}
+
+[data-theme="dark"] .search-filter-chip.active {
+    background-color: #5f5ae7;
+    color: #ffffff;
+}
+
+[data-theme="dark"] .search-highlight {
+    background-color: #422006;
+    color: #fbbf24;
+}
+
+[data-theme="dark"] .search-no-results {
+    color: #94a3b8;
+}
+
+/* Mejoras generales para inputs en oscuro */
+[data-theme="dark"] input[type="search"],
+[data-theme="dark"] input[type="text"] {
+    background-color: #0f172a;
+    border-color: #334155;
+    color: #f1f5f9;
+}
+
+[data-theme="dark"] input[type="search"]::placeholder,
+[data-theme="dark"] input[type="text"]::placeholder {
+    color: #64748b;
+}
+
+[data-theme="dark"] input[type="search"]:focus,
+[data-theme="dark"] input[type="text"]:focus {
+    background-color: #1e293b;
+    border-color: #5f5ae7;
+    box-shadow: 0 0 0 3px rgba(95, 90, 231, 0.1);
+}
+
+/* Select menus en modo oscuro */
+[data-theme="dark"] select option {
+    background-color: #1e293b;
+    color: #f1f5f9;
+}
+
+[data-theme="dark"] optgroup {
+    background-color: #0f172a;
+    color: #cbd5e1;
+    font-weight: 600;
+}
+
+/* Tabs en modo oscuro */
+[data-theme="dark"] .nav-tabs {
+    border-bottom-color: #334155;
+}
+
+[data-theme="dark"] .nav-tabs .nav-link {
+    color: #cbd5e1;
+    border-color: transparent;
+}
+
+[data-theme="dark"] .nav-tabs .nav-link:hover {
+    color: #f1f5f9;
+    background-color: #334155;
+}
+
+[data-theme="dark"] .nav-tabs .nav-link.active {
+    background-color: #1e293b;
+    border-color: #334155 #334155 #1e293b;
+    color: #f1f5f9;
+}
+
+/* Botones de acción en modo oscuro */
+[data-theme="dark"] .btn-outline-primary {
+    color: #818cf8;
+    border-color: #5f5ae7;
+}
+
+[data-theme="dark"] .btn-outline-primary:hover {
+    background-color: #5f5ae7;
+    color: #ffffff;
+}
+
+/* Toast/Alerts en modo oscuro */
+[data-theme="dark"] .toast,
+[data-theme="dark"] .alert {
+    background-color: #1e293b;
+    border-color: #334155;
+    color: #f1f5f9;
+}
+
+/* Small text más visible */
+[data-theme="dark"] small,
+[data-theme="dark"] .small {
+    color: #94a3b8;
+}
+
+/* Iconos más visibles en modo oscuro */
+[data-theme="dark"] i.bi {
+    opacity: 0.9;
+}
+
+[data-theme="dark"] .text-success {
+    color: #4ade80 !important;
+}
+
+[data-theme="dark"] .text-danger {
+    color: #f87171 !important;
+}
+
+[data-theme="dark"] .text-warning {
+    color: #fbbf24 !important;
+}
+
+[data-theme="dark"] .text-info {
+    color: #60a5fa !important;
+}
+
+[data-theme="dark"] .text-primary {
+    color: #818cf8 !important;
 }
