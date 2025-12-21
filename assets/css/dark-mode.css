@@ -334,6 +334,40 @@ body {
     border-color: #475569 !important;
 }
 
+/* Stats cards en recurrentes - FIX para cuadros blancos */
+[data-theme="dark"] .stat-card,
+[data-theme="dark"] .metric-box,
+[data-theme="dark"] .stats-card {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+    color: #f1f5f9 !important;
+}
+
+[data-theme="dark"] .stat-card h3,
+[data-theme="dark"] .stat-card h4,
+[data-theme="dark"] .metric-box h3,
+[data-theme="dark"] .metric-box h4,
+[data-theme="dark"] .stats-card h3,
+[data-theme="dark"] .stats-card h4 {
+    color: #f1f5f9 !important;
+}
+
+[data-theme="dark"] .stat-card small,
+[data-theme="dark"] .metric-box small,
+[data-theme="dark"] .stats-card small,
+[data-theme="dark"] .stat-card .text-muted,
+[data-theme="dark"] .metric-box .text-muted,
+[data-theme="dark"] .stats-card .text-muted {
+    color: #94a3b8 !important;
+}
+
+[data-theme="dark"] .stat-card i,
+[data-theme="dark"] .metric-box i,
+[data-theme="dark"] .stats-card i {
+    opacity: 0.8;
+}
+
+
 /* Página de Gamificación (Logros) */
 [data-theme="dark"] .achievement-card {
     background-color: #1e293b;
