@@ -1,0 +1,114 @@
+/* ============================================
+   MEJORAS DE CONTRASTE PARA MODO CLARO
+   ============================================ */
+
+/* Asegurar que los botones tengan buen contraste en modo claro */
+body:not(.dark-mode) .btn-primary,
+body:not(.dark-mode) .btn-success,
+body:not(.dark-mode) .btn-danger,
+body:not(.dark-mode) .btn-warning,
+body:not(.dark-mode) .btn-info {
+    color: #ffffff !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Metric cards con mejor contraste */
+body:not(.dark-mode) .metric-card {
+    color: #ffffff !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+body:not(.dark-mode) .metric-card h3,
+body:not(.dark-mode) .metric-card p,
+body:not(.dark-mode) .metric-card .change {
+    color: #ffffff !important;
+}
+
+/* Cards con fondo de color */
+body:not(.dark-mode) .bg-primary .text-white,
+body:not(.dark-mode) .bg-success .text-white,
+body:not(.dark-mode) .bg-danger .text-white,
+body:not(.dark-mode) .bg-warning .text-white,
+body:not(.dark-mode) .bg-info .text-white {
+    color: #ffffff !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+/* Asegurar que los gradientes tengan texto visible */
+body:not(.dark-mode) [style*="linear-gradient"] {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Mejora de legibilidad en elementos con fondo oscuro */
+body:not(.dark-mode) .card[style*="background: linear-gradient"],
+body:not(.dark-mode) .card[style*="background:linear-gradient"] {
+    color: #ffffff !important;
+}
+
+/* Bootstrap overrides para modo claro */
+body:not(.dark-mode) .btn-primary {
+    background: linear-gradient(135deg, #5f5ae7 0%, #4338ca 100%) !important;
+    border: none;
+}
+
+body:not(.dark-mode) .btn-success {
+    background: linear-gradient(135deg, #16a34a 0%, #15803d 100%) !important;
+    border: none;
+}
+
+body:not(.dark-mode) .btn-danger {
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;
+    border: none;
+}
+
+body:not(.dark-mode) .btn-warning {
+    background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%) !important;
+    border: none;
+    color: #ffffff !important;
+}
+
+body:not(.dark-mode) .btn-info {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+    border: none;
+}
+
+/* Text utilities para fondo oscuro */
+body:not(.dark-mode) .text-white {
+    color: #ffffff !important;
+}
+
+/* Mejorar contraste de badges en modo claro */
+body:not(.dark-mode) .badge.bg-primary,
+body:not(.dark-mode) .badge-primary {
+    background-color: #5f5ae7 !important;
+    color: #ffffff !important;
+    border-color: #4338ca !important;
+}
+
+body:not(.dark-mode) .badge.bg-success,
+body:not(.dark-mode) .badge-success {
+    background-color: #16a34a !important;
+    color: #ffffff !important;
+    border-color: #15803d !important;
+}
+
+body:not(.dark-mode) .badge.bg-danger,
+body:not(.dark-mode) .badge-danger {
+    background-color: #dc2626 !important;
+    color: #ffffff !important;
+    border-color: #b91c1c !important;
+}
+
+body:not(.dark-mode) .badge.bg-warning,
+body:not(.dark-mode) .badge-warning {
+    background-color: #ea580c !important;
+    color: #ffffff !important;
+    border-color: #c2410c !important;
+}
+
+body:not(.dark-mode) .badge.bg-info,
+body:not(.dark-mode) .badge-info {
+    background-color: #2563eb !important;
+    color: #ffffff !important;
+    border-color: #1d4ed8 !important;
+}

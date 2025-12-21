@@ -32,6 +32,12 @@
     --text-light: #94a3b8;
     --text-lighter: #cbd5e1;
 
+    /* Texto en botones y cards - Se adapta al modo */
+    --text-on-primary: #ffffff;
+    --text-on-success: #ffffff;
+    --text-on-danger: #ffffff;
+    --text-on-warning: #ffffff;
+
     /* Sidebar */
     --sidebar-width: 260px;
     --sidebar-bg: #1e293b;
@@ -202,7 +208,7 @@ h6 {
 /* Tarjetas de métricas */
 .metric-card {
     background: linear-gradient(135deg, var(--card-color, #6366f1) 0%, var(--card-color-dark, #4f46e5) 100%);
-    color: white;
+    color: var(--text-on-primary);
     border: none;
     padding: var(--spacing-xl);
     position: relative;
@@ -286,7 +292,7 @@ h6 {
 
 .btn-primary {
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-    color: white;
+    color: var(--text-on-primary);
 }
 
 .btn-primary:hover {
@@ -295,12 +301,12 @@ h6 {
 
 .btn-success {
     background: linear-gradient(135deg, var(--success-color) 0%, #16a34a 100%);
-    color: white;
+    color: var(--text-on-success);
 }
 
 .btn-danger {
     background: linear-gradient(135deg, var(--danger-color) 0%, #dc2626 100%);
-    color: white;
+    color: var(--text-on-danger);
 }
 
 .btn-outline {
@@ -311,7 +317,7 @@ h6 {
 
 .btn-outline:hover {
     background: var(--primary-color);
-    color: white;
+    color: var(--text-on-primary);
 }
 
 .btn-icon {
