@@ -91,9 +91,7 @@
 }
 
 /* Asegurar que NINGÚN div tenga fondo blanco */
-[data-theme="dark"] div {
-    background-color: inherit;
-}
+/* LA REGLA DE INHERIT FUE ELIMINADA POR CAUSAR PROBLEMAS VISUALES */
 
 /* Específico para stats/metrics boxes */
 [data-theme="dark"] .stat-box,
@@ -103,6 +101,16 @@
 [data-theme="dark"] .metric-card:not([style*="linear-gradient"]) {
     background-color: #1e293b !important;
     border-color: #334155 !important;
+}
+
+/* FIX: Asegurar transparencia en elementos dentro de metric-cards con gradiente */
+[data-theme="dark"] .metric-card[style*="--card-color"] div,
+[data-theme="dark"] .metric-card[style*="--card-color"] p,
+[data-theme="dark"] .metric-card[style*="--card-color"] h3,
+[data-theme="dark"] .metric-card[style*="--card-color"] span,
+[data-theme="dark"] .metric-card[style*="--card-color"] i {
+    background-color: transparent !important;
+    background: transparent !important;
 }
 
 /* Botones de Bootstrap */
