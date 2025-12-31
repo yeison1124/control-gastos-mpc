@@ -692,3 +692,27 @@ body {
 [data-theme="dark"] .text-primary {
     color: #818cf8 !important;
 }
+/* ============================================
+   SEARCH PAGE - FILTER PANEL FIX
+   ============================================ */
+
+/* Fix para labels en modo oscuro en la página de búsqueda */
+[data-theme="dark"] .filter-panel {
+    background: #1e293b !important;
+}
+
+[data-theme="dark"] .filter-panel .form-label {
+    color: #f1f5f9 !important;
+}
+
+[data-theme="dark"] .filter-section {
+    border-bottom-color: #334155 !important;
+}
+
+[data-theme="dark"] .filter-panel h6 {
+    color: #f1f5f9 !important;
+}
+
+[data-theme="dark"] .small.text-muted {
+    color: #cbd5e1 !important;
+}
