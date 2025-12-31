@@ -534,7 +534,8 @@
                     options: {
                         data: {
                             full_name: fullName
-                        }
+                        },
+                        emailRedirectTo: window.location.origin + '/dashboard.html'
                     }
                 });
 
@@ -565,16 +566,29 @@
                 }
 
                 // Registro exitoso
-                showToast('¡Cuenta creada exitosamente! Revisa tu email para confirmar tu cuenta.', 'success');
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 2500);
+                console.log('Usuario registrado:', data);
+
+                // Verificar si necesita confirmación de email
+                if (data.user && !data.session) {
+                    // Requiere confirmación de email
+                    showToast('¡Cuenta creada! Revisa tu email para confirmar tu cuenta.', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 3000);
+                } else {
+                    // No requiere confirmación, login automático
+                    showToast('¡Cuenta creada exitosamente! Redirigiendo...', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1500);
+                }
 
             } catch (error) {
                 console.error('Error en registro:', error);
                 showToast('No se pudo crear la cuenta. Intenta de nuevo.', 'error');
             }
         }
+
 
 
 
