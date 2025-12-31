@@ -377,6 +377,7 @@
             }
 
             try {
+                // Intentar registrar el usuario
                 const { data, error } = await supabase.auth.signUp({
                     email: email,
                     password: password,
@@ -387,21 +388,44 @@
                     }
                 });
 
+                // Verificar si hay error
                 if (error) {
+                    // Verificar si el error es por correo ya registrado
+                    if (error.message.includes('already registered') ||
+                        error.message.includes('User already registered') ||
+                        error.message.includes('duplicate') ||
+                        error.status === 422) {
+                        showToast('Este correo electrónico ya está registrado. Por favor inicia sesión o usa otro correo.', 'warning');
+                        return;
+                    }
+
+                    // Otros errores
                     showToast('No se pudo crear la cuenta. Por favor verifica tus datos e intenta de nuevo.', 'error');
+                    console.error('Error de registro:', error);
                     return;
                 }
 
-                showToast('¡Cuenta creada! Revisa tu email para confirmar.', 'success');
+                // Verificar si el usuario ya existe (Supabase puede retornar data sin error)
+                if (data?.user?.identities && data.user.identities.length === 0) {
+                    showToast('Este correo electrónico ya está registrado. Por favor inicia sesión.', 'warning');
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 2000);
+                    return;
+                }
+
+                // Registro exitoso
+                showToast('¡Cuenta creada exitosamente! Revisa tu email para confirmar tu cuenta.', 'success');
                 setTimeout(() => {
                     window.location.href = 'index.html';
-                }, 2000);
+                }, 2500);
 
             } catch (error) {
                 console.error('Error en registro:', error);
                 showToast('No se pudo crear la cuenta. Intenta de nuevo.', 'error');
             }
         }
+
 
 
 
