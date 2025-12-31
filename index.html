@@ -189,6 +189,125 @@
             background: rgba(255, 255, 255, 0.3);
             transform: scale(1.1);
         }
+
+        /* Mejorar visibilidad de botones de toggle password */
+        .btn-light {
+            background-color: #f1f5f9 !important;
+            border-color: #e2e8f0 !important;
+            color: #475569 !important;
+        }
+
+        .btn-light:hover {
+            background-color: #e2e8f0 !important;
+        }
+
+        [data-theme="dark"] .btn-light {
+            background-color: #475569 !important;
+            border-color: #64748b !important;
+            color: #f1f5f9 !important;
+        }
+
+        [data-theme="dark"] .btn-light:hover {
+            background-color: #64748b !important;
+        }
+
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        .toast-notification {
+            background: white;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 300px;
+            max-width: 400px;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        [data-theme="dark"] .toast-notification {
+            background: #1e293b;
+            color: #f1f5f9;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .toast-notification.success {
+            border-left: 4px solid #22c55e;
+        }
+
+        .toast-notification.error {
+            border-left: 4px solid #ef4444;
+        }
+
+        .toast-notification.warning {
+            border-left: 4px solid #f59e0b;
+        }
+
+        .toast-notification.info {
+            border-left: 4px solid #3b82f6;
+        }
+
+        .toast-icon {
+            font-size: 1.5rem;
+        }
+
+        .toast-notification.success .toast-icon {
+            color: #22c55e;
+        }
+
+        .toast-notification.error .toast-icon {
+            color: #ef4444;
+        }
+
+        .toast-notification.warning .toast-icon {
+            color: #f59e0b;
+        }
+
+        .toast-notification.info .toast-icon {
+            color: #3b82f6;
+        }
+
+        .toast-message {
+            flex: 1;
+            font-size: 0.95rem;
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .toast-close:hover {
+            color: #475569;
+        }
     </style>
 </head>
 
@@ -196,6 +315,9 @@
     <button class="theme-toggle" id="theme-toggle">
         <i class="bi bi-moon-fill"></i>
     </button>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
 
     <div class="auth-container">
         <div class="auth-card">
@@ -279,8 +401,39 @@
         }
 
         // Utilidades
-        function showMessage(message) {
-            alert(message);
+        function showMessage(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            if (!container) {
+                alert(message);
+                return;
+            }
+
+            const icons = {
+                success: 'bi-check-circle-fill',
+                error: 'bi-x-circle-fill',
+                warning: 'bi-exclamation-triangle-fill',
+                info: 'bi-info-circle-fill'
+            };
+
+            const toast = document.createElement('div');
+            toast.className = `toast-notification ${type}`;
+            toast.innerHTML = `
+                <i class="bi ${icons[type]} toast-icon"></i>
+                <div class="toast-message">${message}</div>
+                <button class="toast-close" onclick="this.parentElement.remove()">
+                    <i class="bi bi-x"></i>
+                </button>
+            `;
+
+            container.appendChild(toast);
+
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                if (toast.parentElement) {
+                    toast.style.animation = 'slideIn 0.3s ease-out reverse';
+                    setTimeout(() => toast.remove(), 300);
+                }
+            }, 5000);
         }
 
         function togglePass() {
@@ -330,7 +483,7 @@
         // Login
         async function processLogin(email, password) {
             if (!appSupabase) {
-                showMessage('Sistema no listo. Espera un momento.');
+                showMessage('Sistema no listo. Espera un momento.', 'warning');
                 return;
             }
 
@@ -341,18 +494,18 @@
                 });
 
                 if (error) {
-                    showMessage('Email o contraseña incorrectos. Por favor intenta de nuevo.');
+                    showMessage('Email o contraseña incorrectos. Por favor intenta de nuevo.', 'error');
                     return;
                 }
 
-                showMessage('¡Bienvenido!');
+                showMessage('¡Bienvenido!', 'success');
                 setTimeout(() => {
                     window.location.href = 'dashboard.html';
                 }, 500);
 
             } catch (error) {
                 console.error('Error:', error);
-                showMessage('No se pudo iniciar sesión. Intenta de nuevo.');
+                showMessage('No se pudo iniciar sesión. Intenta de nuevo.', 'error');
             }
         }
 
@@ -365,7 +518,7 @@
             const ready = await initSupabaseClient();
 
             if (!ready) {
-                showMessage('Error al cargar. Recarga la página.');
+                showMessage('Error al cargar. Recarga la página.', 'error');
                 return;
             }
 
@@ -390,7 +543,7 @@
                     const password = document.getElementById('password').value;
 
                     if (!email || !password) {
-                        showMessage('Completa todos los campos');
+                        showMessage('Completa todos los campos', 'warning');
                         return;
                     }
 
