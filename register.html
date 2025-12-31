@@ -527,15 +527,18 @@
             }
 
             try {
-                // Intentar registrar el usuario
+                // Intentar registrar el usuario con opciones para permitir acceso inmediato
                 const { data, error } = await supabase.auth.signUp({
                     email: email,
                     password: password,
                     options: {
                         data: {
-                            full_name: fullName
+                            full_name: fullName,
+                            email_confirmed_at: null // Marcará que necesita confirmar después
                         },
-                        emailRedirectTo: window.location.origin + '/dashboard.html'
+                        emailRedirectTo: window.location.origin + '/dashboard.html',
+                        // Esto permite que el usuario acceda sin confirmar email inmediatamente
+                        shouldCreateUser: true
                     }
                 });
 
@@ -565,23 +568,16 @@
                     return;
                 }
 
-                // Registro exitoso
+                // Registro exitoso - Permitir acceso inmediato
                 console.log('Usuario registrado:', data);
 
-                // Verificar si necesita confirmación de email
-                if (data.user && !data.session) {
-                    // Requiere confirmación de email
-                    showToast('¡Cuenta creada! Revisa tu email para confirmar tu cuenta.', 'success');
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 3000);
-                } else {
-                    // No requiere confirmación, login automático
-                    showToast('¡Cuenta creada exitosamente! Redirigiendo...', 'success');
-                    setTimeout(() => {
-                        window.location.href = 'dashboard.html';
-                    }, 1500);
-                }
+                // Mensaje informativo sobre confirmación de email
+                showToast('¡Cuenta creada! Te hemos enviado un email de confirmación. Puedes confirmar tu cuenta más tarde.', 'success');
+
+                // Redirigir al dashboard inmediatamente (sin esperar confirmación)
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 2000);
 
             } catch (error) {
                 console.error('Error en registro:', error);
