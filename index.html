@@ -494,18 +494,45 @@
                 });
 
                 if (error) {
-                    showMessage('Email o contraseña incorrectos. Por favor intenta de nuevo.', 'error');
+                    console.error('Error de login:', error);
+
+                    // Errores específicos
+                    if (error.message.includes('Email not confirmed')) {
+                        showMessage('Tu cuenta no está confirmada. Revisa tu email para confirmar tu cuenta.', 'warning');
+                        return;
+                    }
+
+                    if (error.message.includes('Invalid login credentials')) {
+                        showMessage('Email o contraseña incorrectos.', 'error');
+                        return;
+                    }
+
+                    if (error.message.includes('Email') || error.message.includes('email')) {
+                        showMessage('Verifica tu email y contraseña.', 'error');
+                        return;
+                    }
+
+                    // Error genérico
+                    showMessage('No se pudo iniciar sesión. Verifica tus credenciales.', 'error');
+                    console.log('Mensaje de error:', error.message);
                     return;
                 }
 
+                // Login exitoso
                 showMessage('¡Bienvenido!', 'success');
+
+                // Guardar sesión
+                if (data.session) {
+                    localStorage.setItem('session', JSON.stringify(data.session));
+                }
+
                 setTimeout(() => {
                     window.location.href = 'dashboard.html';
                 }, 500);
 
             } catch (error) {
-                console.error('Error:', error);
-                showMessage('No se pudo iniciar sesión. Intenta de nuevo.', 'error');
+                console.error('Exception en login:', error);
+                showMessage('Error del sistema. Intenta de nuevo.', 'error');
             }
         }
 
