@@ -716,3 +716,29 @@ body {
 [data-theme="dark"] .small.text-muted {
     color: #cbd5e1 !important;
 }
+
+/* Fix para botones de filtro rápido en modo oscuro */
+[data-theme="dark"] .quick-filter {
+    background: #1e293b !important;
+    border-color: #334155 !important;
+    color: #f1f5f9 !important;
+}
+
+[data-theme="dark"] .quick-filter:hover {
+    border-color: #6366f1 !important;
+    background: #334155 !important;
+}
+
+[data-theme="dark"] .quick-filter.active {
+    background: #6366f1 !important;
+    border-color: #6366f1 !important;
+    color: white !important;
+}
+
+[data-theme="dark"] .quick-filter small {
+    color: #cbd5e1 !important;
+}
+
+[data-theme="dark"] .quick-filter.active small {
+    color: white !important;
+}
