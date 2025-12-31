@@ -234,11 +234,7 @@
                 <button type="submit" class="btn-login">Iniciar Sesión</button>
             </form>
 
-            <div class="divider"><span>o</span></div>
 
-            <button class="social-btn" id="facebookBtn">
-                <i class="bi bi-facebook me-2 text-primary"></i> Continuar con Facebook
-            </button>
 
             <div class="text-center mt-4 small">
                 ¿No tienes una cuenta? <a href="register.html" class="auth-link text-dark fw-bold">Regístrate aquí</a>
@@ -360,28 +356,7 @@
             }
         }
 
-        // Facebook
-        async function processFacebookLogin() {
-            if (!appSupabase) {
-                showMessage('Sistema no listo');
-                return;
-            }
 
-            try {
-                const { data, error } = await appSupabase.auth.signInWithOAuth({
-                    provider: 'facebook',
-                    options: {
-                        redirectTo: window.location.origin + '/dashboard.html'
-                    }
-                });
-
-                if (error) throw error;
-
-            } catch (error) {
-                console.error('Error:', error);
-                showMessage('No se pudo iniciar sesión con Facebook. Intenta de nuevo.');
-            }
-        }
 
         // Init
         async function startApplication() {
@@ -435,11 +410,7 @@
                 passBtn.addEventListener('click', togglePass);
             }
 
-            // Facebook button
-            const fbBtn = document.getElementById('facebookBtn');
-            if (fbBtn) {
-                fbBtn.addEventListener('click', processFacebookLogin);
-            }
+
         }
 
         // Start

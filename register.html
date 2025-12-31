@@ -260,11 +260,7 @@
                 <button type="submit" class="btn-register">Crear Cuenta</button>
             </form>
 
-            <div class="divider"><span>o</span></div>
 
-            <button class="social-btn" onclick="handleFacebookRegister()">
-                <i class="bi bi-facebook me-2 text-primary"></i> Continuar con Facebook
-            </button>
 
             <div class="text-center mt-4 small">
                 ¿Ya tienes cuenta? <a href="index.html" class="auth-link text-dark fw-bold">Inicia sesión</a>
@@ -407,27 +403,7 @@
             }
         }
 
-        async function handleFacebookRegister() {
-            if (!supabase) {
-                showToast('Sistema no inicializado', 'error');
-                return;
-            }
 
-            try {
-                const { data, error } = await supabase.auth.signInWithOAuth({
-                    provider: 'facebook',
-                    options: {
-                        redirectTo: window.location.origin + '/dashboard.html'
-                    }
-                });
-
-                if (error) throw error;
-
-            } catch (error) {
-                console.error('Error OAuth:', error);
-                showToast('No se pudo iniciar sesión con Facebook. Intenta de nuevo.', 'error');
-            }
-        }
 
         // ============================================
         // INICIALIZACIÓN
