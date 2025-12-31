@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIAGNÓSTICO COMPLETO - Registro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+            font-family: monospace;
+            background: #1a1a1a;
+            color: #00ff00;
+        }
+
+        .test {
+            border: 1px solid #333;
+            padding: 15px;
+            margin: 10px 0;
+            background: #000;
+        }
+
+        .success {
+            color: #00ff00;
+            font-weight: bold;
+        }
+
+        .error {
+            color: #ff0000;
+            font-weight: bold;
+        }
+
+        .warning {
+            color: #ffaa00;
+            font-weight: bold;
+        }
+
+        .info {
+            color: #00aaff;
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: #ffffff;
+            border-bottom: 2px solid #00ff00;
+            padding-bottom: 10px;
+        }
+
+        pre {
+            background: #111;
+            border: 1px solid #333;
+            padding: 10px;
+            overflow-x: auto;
+        }
+
+        button {
+            background: #00ff00;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background: #00cc00;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🔍 DIAGNÓSTICO COMPLETO DEL SISTEMA DE REGISTRO</h1>
+    <p class="info">Este script va a probar CADA componente del sistema paso por paso.</p>
+
+    <button onclick="runAllTests()">▶ EJECUTAR TODOS LOS TESTS</button>
+    <button onclick="clearResults()">🗑 Limpiar Resultados</button>
+    <button onclick="testRegistration()">📝 Probar Registro Real</button>
+
+    <div id="results"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        const SUPABASE_URL = 'https://zczvobqrmucwrbrlksye.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpjenZvYnFybXVjd3Jicmxrc3llIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUwNTcyMjAsImV4cCI6MjA4MDYzMzIyMH0.AhRbPtGRUlvW5_Yj-CTKhMFp0w1BvSIUVAO2ucFKbuM';
+
+        let supabase = null;
+        const results = document.getElementById('results');
+
+        function log(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `test ${type}`;
+            div.innerHTML = message;
+            results.appendChild(div);
+            console.log(`[${type.toUpperCase()}] ${message}`);
+        }
+
+        function clearResults() {
+            results.innerHTML = '';
+        }
+
+        // TEST 1: Verificar CDN de Supabase
+        async function test1_SupabaseCDN() {
+            log('<h3>TEST #1: Verificando CDN de Supabase</h3>');
+
+            if (typeof window.supabase === 'undefined') {
+                log('❌ ERROR: window.supabase no está definido', 'error');
+                log('El script de Supabase no cargó desde el CDN', 'error');
+                return false;
+            }
+
+            log('✅ window.supabase está definido', 'success');
+
+            if (typeof window.supabase.createClient !== 'function') {
+                log('❌ ERROR: createClient no es una función', 'error');
+                return false;
+            }
+
+            log('✅ createClient está disponible', 'success');
+            return true;
+        }
+
+        // TEST 2: Inicializar Cliente Supabase
+        async function test2_InitSupabase() {
+            log('<h3>TEST #2: Inicializando Cliente Supabase</h3>');
+
+            try {
+                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+                log('✅ Cliente Supabase creado exitosamente', 'success');
+                log(`URL: ${SUPABASE_URL}`, 'info');
+                log(`Key: ${SUPABASE_KEY.substring(0, 50)}...`, 'info');
+                return true;
+            } catch (error) {
+                log(`❌ ERROR al crear cliente: ${error.message}`, 'error');
+                log(`<pre>${JSON.stringify(error, null, 2)}</pre>`, 'error');
+                return false;
+            }
+        }
+
+        // TEST 3: Conectar con Supabase
+        async function test3_ConnectSupabase() {
+            log('<h3>TEST #3: Conectando con Supabase</h3>');
+
+            try {
+                const { data, error } = await supabase.auth.getSession();
+
+                if (error) {
+                    log(`⚠ WARNING: ${error.message}`, 'warning');
+                } else {
+                    log('✅ Conexión establecida con Supabase Auth', 'success');
+                    log(`Session: ${data.session ? 'Existe' : 'No existe'}`, 'info');
+                }
+
+                return true;
+            } catch (error) {
+                log(`❌ ERROR de conexión: ${error.message}`, 'error');
+                return false;
+            }
+        }
+
+        // TEST 4: Verificar Configuración de Auth
+        async function test4_AuthSettings() {
+            log('<h3>TEST #4: Verificando Configuración de Auth</h3>');
+
+            try {
+                // Intentar obtener configuración pública
+                const response = await fetch(`${SUPABASE_URL}/auth/v1/settings`, {
+                    headers: {
+                        'apikey': SUPABASE_KEY
+                    }
+                });
+
+                if (response.ok) {
+                    const settings = await response.json();
+                    log('✅ Configuración de Auth obtenida', 'success');
+                    log(`<pre>${JSON.stringify(settings, null, 2)}</pre>`, 'info');
+                } else {
+                    log(`⚠ No se pudo obtener configuración: ${response.status}`, 'warning');
+                }
+
+                return true;
+            } catch (error) {
+                log(`❌ ERROR: ${error.message}`, 'error');
+                return false;
+            }
+        }
+
+        // TEST 5: Probar SignUp con Email de Prueba
+        async function test5_TestSignUp() {
+            log('<h3>TEST #5: Probando SignUp (Email de Prueba)</h3>');
+
+            const testEmail = `test_${Date.now()}@diagnostico.com`;
+            const testPassword = 'Test123456';
+
+            log(`Email de prueba: ${testEmail}`, 'info');
+            log(`Password: ${testPassword}`, 'info');
+
+            try {
+                const { data, error } = await supabase.auth.signUp({
+                    email: testEmail,
+                    password: testPassword,
+                    options: {
+                        data: {
+                            full_name: 'Usuario de Prueba'
+                        }
+                    }
+                });
+
+                if (error) {
+                    log(`❌ ERROR en SignUp: ${error.message}`, 'error');
+                    log(`Status: ${error.status}`, 'error');
+                    log(`Code: ${error.code}`, 'error');
+                    log(`<pre>${JSON.stringify(error, null, 2)}</pre>`, 'error');
+                    return false;
+                }
+
+                log('✅ SignUp exitoso!', 'success');
+                log(`User ID: ${data.user?.id}`, 'info');
+                log(`Email: ${data.user?.email}`, 'info');
+                log(`Confirmed: ${data.user?.confirmed_at ? 'SÍ' : 'NO'}`, 'info');
+                log(`Session creada: ${data.session ? 'SÍ' : 'NO'}`, 'info');
+
+                if (data.user?.identities) {
+                    log(`Identities: ${data.user.identities.length}`, 'info');
+                }
+
+                log(`<pre>${JSON.stringify(data, null, 2)}</pre>`, 'info');
+
+                // Intentar cerrar sesión
+                await supabase.auth.signOut();
+                log('✅ SignOut exitoso', 'success');
+
+                return true;
+            } catch (error) {
+                log(`❌ EXCEPTION: ${error.message}`, 'error');
+                log(`<pre>${JSON.stringify(error, null, 2)}</pre>`, 'error');
+                return false;
+            }
+        }
+
+        // TEST 6: Verificar Políticas RLS
+        async function test6_CheckRLS() {
+            log('<h3>TEST #6: Verificando Políticas RLS</h3>');
+
+            try {
+                // Intentar leer tabla profiles
+                const { data, error } = await supabase
+                    .from('profiles')
+                    .select('*')
+                    .limit(1);
+
+                if (error) {
+                    if (error.code === '42P01') {
+                        log('⚠ WARNING: Tabla "profiles" no existe', 'warning');
+                    } else if (error.code === 'PGRST116') {
+                        log('⚠ WARNING: No hay datos o no hay permisos', 'warning');
+                    } else {
+                        log(`Error: ${error.message} (${error.code})`, 'warning');
+                    }
+                } else {
+                    log('✅ Tabla "profiles" es accesible', 'success');
+                    log(`Registros encontrados: ${data?.length || 0}`, 'info');
+                }
+            } catch (error) {
+                log(`❌ ERROR: ${error.message}`, 'error');
+            }
+        }
+
+        // TEST 7: Verificar Email Confirmations
+        async function test7_EmailSettings() {
+            log('<h3>TEST #7: Configuración de Email</h3>');
+            log('⚠ IMPORTANTE: Verifica en Supabase Dashboard:', 'warning');
+            log('1. Authentication → Settings → Email Auth', 'info');
+            log('2. "Enable email confirmations" debe estar DESMARCADO', 'info');
+            log('3. Site URL debe ser: https://control-gastos-mpc.vercel.app', 'info');
+            log('4. Redirect URLs debe incluir: /dashboard.html', 'info');
+        }
+
+        // TEST COMPLETO
+        async function runAllTests() {
+            clearResults();
+            log('<h2>🚀 INICIANDO BATERÍA DE TESTS COMPLETA</h2>');
+            log(`Fecha: ${new Date().toLocaleString()}`, 'info');
+            log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'info');
+
+            const test1 = await test1_SupabaseCDN();
+            if (!test1) {
+                log('<h2>❌ TESTS DETENIDOS: CDN de Supabase no carga</h2>', 'error');
+                return;
+            }
+
+            const test2 = await test2_InitSupabase();
+            if (!test2) {
+                log('<h2>❌ TESTS DETENIDOS: No se pudo inicializar Supabase</h2>', 'error');
+                return;
+            }
+
+            await test3_ConnectSupabase();
+            await test4_AuthSettings();
+            await test5_TestSignUp();
+            await test6_CheckRLS();
+            await test7_EmailSettings();
+
+            log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'info');
+            log('<h2>✅ BATERÍA DE TESTS COMPLETADA</h2>');
+            log('Revisa los resultados arriba para identificar los problemas.', 'info');
+        }
+
+        // Registro Real
+        async function testRegistration() {
+            log('<h3>📝 REGISTRO REAL - Ingresa tus datos</h3>');
+
+            const email = prompt('Email:');
+            const password = prompt('Password (mínimo 6 caracteres):');
+            const fullName = prompt('Nombre completo:');
+
+            if (!email || !password || !fullName) {
+                log('❌ Cancelado o datos incompletos', 'error');
+                return;
+            }
+
+            if (password.length < 6) {
+                log('❌ La contraseña debe tener al menos 6 caracteres', 'error');
+                return;
+            }
+
+            log(`Intentando registrar: ${email}`, 'info');
+
+            try {
+                const { data, error } = await supabase.auth.signUp({
+                    email: email,
+                    password: password,
+                    options: {
+                        data: {
+                            full_name: fullName
+                        },
+                        emailRedirectTo: window.location.origin + '/dashboard.html'
+                    }
+                });
+
+                if (error) {
+                    log(`❌ ERROR: ${error.message}`, 'error');
+                    log(`<pre>${JSON.stringify(error, null, 2)}</pre>`, 'error');
+                    return;
+                }
+
+                log('✅ ¡REGISTRO EXITOSO!', 'success');
+                log(`User ID: ${data.user?.id}`, 'success');
+                log(`Email: ${data.user?.email}`, 'success');
+                log(`<pre>${JSON.stringify(data, null, 2)}</pre>`, 'info');
+
+                if (data.session) {
+                    log('✅ Session creada - Redirigiendo a dashboard...', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 2000);
+                } else {
+                    log('⚠ No hay session - Verifica tu email para confirmar', 'warning');
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 3000);
+                }
+            } catch (error) {
+                log(`❌ EXCEPTION: ${error.message}`, 'error');
+                log(`<pre>${JSON.stringify(error, null, 2)}</pre>`, 'error');
+            }
+        }
+
+        // Auto-ejecutar al cargar
+        window.addEventListener('load', () => {
+            log('<p class="info">Página lista. Click en "EJECUTAR TODOS LOS TESTS" para comenzar.</p>');
+        });
+    </script>
+</body>
+
+</html>
