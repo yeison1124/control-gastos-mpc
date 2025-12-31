@@ -33,7 +33,7 @@ function initEventListeners() {
         btn.addEventListener('click', function () {
             document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
             this.classList.add('active');
-            
+
             const period = this.getAttribute('data-period');
             currentPeriod = period === 'all' ? 'all' : parseInt(period);
             loadAnalytics();
@@ -161,7 +161,7 @@ function updateTrendBadge(id, value) {
     const numValue = parseFloat(value);
     const icon = numValue >= 0 ? 'arrow-up' : 'arrow-down';
     const className = numValue >= 0 ? 'trend-up' : 'trend-down';
-    
+
     badge.className = `stat-badge ${className}`;
     badge.innerHTML = `<i class="bi bi-${icon}"></i> ${Math.abs(numValue)}%`;
 }
@@ -277,7 +277,7 @@ function createIncomeExpensesChart(type = 'bar') {
                         mode: 'x'
                     },
                     pan: {
-                        enabled (true,
+                        enabled: true,
                         mode: 'x'
                     }
                 }
@@ -410,7 +410,7 @@ function createTrendChart() {
     if (!canvas) return;
 
     const expenses = allTransactions.filter(t => t.type === 'expense');
-    
+
     // Group by day
     const dailyExpenses = {};
     expenses.forEach(t => {
@@ -561,7 +561,7 @@ function calculateTrendLine(data) {
 
 function renderTopCategories(expenses) {
     const container = document.getElementById('top-categories');
-    
+
     const categoryTotals = {};
     const categoryColors = {};
     const categoryIcons = {};
@@ -612,14 +612,14 @@ function renderTopCategories(expenses) {
 
 function renderCategoryDetails(expenses) {
     const container = document.getElementById('category-details');
-    
+
     const categoryData = {};
     expenses.forEach(t => {
         const catName = t.categories?.name || 'Sin categoría';
         if (!categoryData[catName]) {
-            categoryData[catName] = { 
-                total: 0, 
-                count: 0, 
+            categoryData[catName] = {
+                total: 0,
+                count: 0,
                 color: t.categories?.color || '#6b7280',
                 icon: t.categories?.icon || 'wallet'
             };
