@@ -55,18 +55,60 @@ http://localhost:3000/dashboard.html (para desarrollo)
 Para permitir que usuarios no confirmados accedan a sus datos:
 
 ```sql
--- Política para permitir acceso a usuarios autenticados (confirmados o no)
-CREATE POLICY "Users can access their own data"
+-- Política para perfiles (usa 'id' en lugar de 'user_id')
+DROP POLICY IF EXISTS "Users can access their own profile" ON profiles;
+CREATE POLICY "Users can access their own profile"
 ON profiles
 FOR ALL
-USING (auth.uid() = user_id);
+USING (auth.uid() = id);
 
--- Política para transacciones
+-- Política para transacciones (usa 'user_id')
+DROP POLICY IF EXISTS "Users can manage their transactions" ON transactions;
 CREATE POLICY "Users can manage their transactions"
 ON transactions
 FOR ALL
 USING (auth.uid() = user_id);
+
+-- Política para categorías
+DROP POLICY IF EXISTS "Users can manage their categories" ON categories;
+CREATE POLICY "Users can manage their categories"
+ON categories
+FOR ALL
+USING (auth.uid() = user_id);
+
+-- Política para cuentas
+DROP POLICY IF EXISTS "Users can manage their accounts" ON accounts;
+CREATE POLICY "Users can manage their accounts"
+ON accounts
+FOR ALL
+USING (auth.uid() = user_id);
+
+-- Política para presupuestos
+DROP POLICY IF EXISTS "Users can manage their budgets" ON budgets;
+CREATE POLICY "Users can manage their budgets"
+ON budgets
+FOR ALL
+USING (auth.uid() = user_id);
+
+-- Política para metas
+DROP POLICY IF EXISTS "Users can manage their goals" ON goals;
+CREATE POLICY "Users can manage their goals"
+ON goals
+FOR ALL
+USING (auth.uid() = user_id);
+
+-- Política para notificaciones
+DROP POLICY IF EXISTS "Users can manage their notifications" ON notifications;
+CREATE POLICY "Users can manage their notifications"
+ON notifications
+FOR ALL
+USING (auth.uid() = user_id);
 ```
+
+**NOTA IMPORTANTE:** 
+- La tabla `profiles` usa `id` (que referencia a `auth.users`)
+- Todas las demás tablas usan `user_id` (que también referencia a `auth.users`)
+
 
 ### 6. Verificar Configuración
 
